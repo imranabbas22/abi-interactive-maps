@@ -1,0 +1,11 @@
+# Cloudflare Pages configuration
+# Deploy with: npx wrangler pages deploy .next
+
+name = "abi-interactive-maps"
+compatibility_date = "2025-06-09"
+
+# Pages-specific
+pages_build_output_dir = ".next"
+
+[env.production]
+# Production environment

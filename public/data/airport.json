@@ -1,0 +1,205 @@
+{
+    "mapImage": "airport.png",
+    "mapName": "Airport",
+    "pageCategories": [
+        "Maps"
+    ],
+    "defaultSort": "",
+    "description": "Airport map - Season 5",
+    "coordinateOrder": "xy",
+    "mapBounds": [
+        [
+            0,
+            0
+        ],
+        [
+            957,
+            892
+        ]
+    ],
+    "origin": "top-left",
+    "useMarkerClustering": false,
+    "categories": [
+        {
+            "id": "1",
+            "listId": 1,
+            "name": "Player Spawn",
+            "color": "#00fa91",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Spawnicon.png"
+        },
+        {
+            "id": "2",
+            "listId": 2,
+            "name": "Extraction Point",
+            "color": "#fa0000",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Extracticon.png"
+        },
+        {
+            "id": "3",
+            "listId": 3,
+            "name": "Key Rooms",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Keysico.png"
+        },
+        {
+            "id": "4",
+            "listId": 4,
+            "name": "Safe",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Safeico.png"
+        },
+        {
+            "id": "5",
+            "listId": 5,
+            "name": "Air Drop",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Airdropi.png"
+        },
+        {
+            "id": "6",
+            "listId": 6,
+            "name": "Weapon Box",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Weaponboxico.png"
+        },
+        {
+            "id": "7",
+            "listId": 7,
+            "name": "Duffle Bag",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Dufflebagico.png"
+        },
+        {
+            "id": "8",
+            "listId": 8,
+            "name": "Military Supply Case",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Mstoragecase.png"
+        },
+        {
+            "id": "9",
+            "listId": 9,
+            "name": "Red Loot Spawn",
+            "color": "#ff0000",
+            "symbol": "\u2605",
+            "symbolColor": "#ff0000",
+            "icon": ""
+        },
+        {
+            "id": "10",
+            "listId": 10,
+            "name": "Gold Loot Spawn",
+            "color": "#ffd700",
+            "symbol": "\u2605",
+            "symbolColor": "#ffd700",
+            "icon": ""
+        },
+        {
+            "id": "11",
+            "listId": 11,
+            "name": "Document Case",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Documentcaseico.png"
+        },
+        {
+            "id": "12",
+            "listId": 12,
+            "name": "Filing Cabinet",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Filingcabinetico.png"
+        },
+        {
+            "id": "13",
+            "listId": 13,
+            "name": "Computer",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Computerico.png"
+        },
+        {
+            "id": "14",
+            "listId": 14,
+            "name": "Toolbox",
+            "color": "#ff9900",
+            "symbol": "\u2692",
+            "symbolColor": "#000",
+            "icon": "File:Toolboxico.png"
+        },
+        {
+            "id": "15",
+            "listId": 15,
+            "name": "Ammo Box",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Ammoboxico.png"
+        },
+        {
+            "id": "16",
+            "listId": 16,
+            "name": "Grenade Box",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Grenadeboxico.png"
+        },
+        {
+            "id": "17",
+            "listId": 17,
+            "name": "Jacket",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Jacketico.png"
+        },
+        {
+            "id": "18",
+            "listId": 18,
+            "name": "Suitcase",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Suitcaseico.png"
+        },
+        {
+            "id": "19",
+            "listId": 19,
+            "name": "Medical",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Medicalico.png"
+        },
+        {
+            "id": "20",
+            "listId": 20,
+            "name": "Cash Register",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Cashierico.png"
+        }
+    ],
+    "markers": []
+}
