@@ -87,18 +87,16 @@ main{padding-top:72px;padding-bottom:40px}
 .skill-card:hover .clr-btn{opacity:0.6}
 .skill-card:hover .clr-btn:hover{opacity:1;color:#ff6b6b}
 
-/* Comparison bar inside card */
-.compact-comp{margin-top:5px;padding-top:4px;border-top:1px solid rgba(255,255,255,0.04);display:none}
-.compact-comp.show{display:block}
-.comp-row{display:flex;align-items:center;gap:4px;margin-bottom:2px}
-.comp-row .clbl{font-size:9px;color:var(--tmuted);width:24px;flex-shrink:0;text-align:right}
+/* Comparison bar inside card — single active level, animated, space reserved */
+.compact-comp{margin-top:5px;padding-top:4px;border-top:1px solid rgba(255,255,255,0.04);min-height:20px;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s}
+.compact-comp.show{opacity:1;visibility:visible}
+.comp-row{display:flex;align-items:center;gap:4px;height:14px}
+.comp-row .clbl{font-size:9px;color:var(--tmuted);width:24px;flex-shrink:0;text-align:right;font-weight:500}
 .comp-row .cbar{flex:1;height:4px;background:rgba(255,255,255,0.04);border-radius:2px;overflow:hidden}
-.comp-row .cbar .cfill{height:100%;border-radius:2px;transition:width .5s}
-.cfill.l0{background:rgba(255,255,255,0.08);width:15%}
-.cfill.l1{background:rgba(212,175,55,0.25);width:35%}
-.cfill.l2{background:rgba(212,175,55,0.45);width:60%}
-.cfill.l3{background:linear-gradient(90deg,var(--primary),var(--accent));width:100%}
-.comp-row .cval{font-size:9px;font-weight:600;color:var(--text);width:30px;text-align:right;flex-shrink:0}
+.comp-row .cbar .cfill{height:100%;border-radius:2px;width:0;transition:width .6s cubic-bezier(.22,1,.36,1)}
+.comp-row .cbar .cfill.animate{width:var(--tw,100%)}
+.cfill{background:linear-gradient(90deg,var(--primary),var(--accent))}
+.comp-row .cval{font-size:9px;font-weight:600;color:var(--primary);width:40px;text-align:right;flex-shrink:0}
 
 /* ===== SUMMARY PANEL — animated stats ===== */
 .summary-panel{position:fixed;top:0;right:0;width:380px;height:100vh;background:rgba(10,10,10,0.97);backdrop-filter:blur(24px);border-left:1px solid var(--border);z-index:100;padding:24px 20px;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1)}
@@ -261,6 +259,14 @@ function rCats(){
       <div class="skill-grid">${skills.map(s => rCard(s)).join('')}</div>
     </div>`;
   }).join('');
+  // Animate all level bars from width:0 → target
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.compact-comp.show .cfill').forEach(bar => {
+        bar.classList.add('animate');
+      });
+    });
+  });
 }
 
 function rCard(s){
@@ -283,15 +289,14 @@ function rCard(s){
 }
 
 function rComp(s,lvl){
+  // Only show the active level row — single animated bar
+  const pct = lvl === 1 ? 35 : lvl === 2 ? 65 : 100;
   return `<div class="compact-comp show">
-    ${[0,1,2,3].filter(l=>l===0||l<=lvl).map(l => {
-      const pct = l===0?15:l===1?35:l===2?60:100;
-      return `<div class="comp-row">
-        <span class="clbl">${l}pt</span>
-        <div class="cbar"><div class="cfill l${l}" style="width:${pct}%"></div></div>
-        <span class="cval" style="color:${l===0?'var(--tmuted)':'var(--primary)'}">${l===0?s.b.replace(/^[^:]*/,'').trim():s.l[l-1].v}</span>
-      </div>`;
-    }).join('')}
+    <div class="comp-row">
+      <span class="clbl">Lv.${lvl}</span>
+      <div class="cbar"><div class="cfill" style="--tw:${pct}%"></div></div>
+      <span class="cval">${s.l[lvl-1].v}</span>
+    </div>
   </div>`;
 }
 
