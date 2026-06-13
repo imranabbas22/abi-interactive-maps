@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# airport raw frames (large video frames, 79MB+ mp4)
+public/maps/airport-raw/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

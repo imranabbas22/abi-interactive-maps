@@ -133,18 +133,33 @@ export default function MapView({
 
         // Popup
         if (marker.popup?.title) {
-          const editBtn = editMode
-            ? `<button onclick="window.__editMarker('${marker.id}')" style="margin-top:6px;font-size:11px;padding:2px 8px;background:#3b82f6;border:none;border-radius:4px;color:white;cursor:pointer">Edit</button>`
+          const editBtnHtml = editMode
+            ? `<button class="edit-marker-btn" style="margin-top:6px;font-size:11px;padding:2px 8px;background:#3b82f6;border:none;border-radius:4px;color:white;cursor:pointer">Edit</button>`
             : "";
           leafletMarker.bindPopup(
             `<div style="font-family:sans-serif;min-width:140px">
               <strong style="color:#f1f5f9">${marker.popup.title}</strong>
               ${marker.level ? `<span style="display:inline-block;margin-left:6px;font-size:10px;padding:1px 5px;background:#374151;border-radius:3px;color:#9ca3af">${marker.level}</span>` : ""}
               ${marker.popup.description ? `<p style="margin:4px 0 0;font-size:12px;color:#94a3b8">${marker.popup.description}</p>` : ""}
-              ${editBtn}
+              ${editBtnHtml}
             </div>`,
             { closeButton: true, className: editMode ? "marker-popup-edit" : "" }
           );
+
+          // Wire edit button via popupopen event (no inline onclick — avoids XSS)
+          if (editMode && onMarkerEdit) {
+            leafletMarker.on("popupopen", () => {
+              const popupEl = leafletMarker.getPopup()?.getElement();
+              const btn: HTMLElement | null | undefined = popupEl?.querySelector(".edit-marker-btn");
+              if (btn && !btn.dataset.listenerAttached) {
+                btn.dataset.listenerAttached = "true";
+                btn.addEventListener("click", (e) => {
+                  e.stopPropagation();
+                  onMarkerEdit(marker.id);
+                });
+              }
+            });
+          }
         }
 
         // Drag events
