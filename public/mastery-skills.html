@@ -208,24 +208,24 @@ main{padding-top:72px;padding-bottom:40px}
 <script>
 // ===== DATA =====
 const S = [
-  {n:'Sleight of Hand',c:'Combat',i:'🔫',b:'3.0s reload',l:[{d:'2.5s reload',v:'2.5s'},{d:'2.0s reload',v:'2.0s'},{d:'1.5s reload',v:'1.5s'}]},
-  {n:'Quick Seal',c:'Combat',i:'🩹',b:'120s heal',l:[{d:'60s heal',v:'60s'},{d:'40s heal',v:'40s'},{d:'15s heal',v:'15s'}]},
-  {n:'Veteran',c:'Combat',i:'💪',b:'Full sway when hit',l:[{d:'Sway -20%',v:'-20%'},{d:'Sway -40%',v:'-40%'},{d:'Sway -60%',v:'-60%'}]},
-  {n:'Iron Arm',c:'Combat',i:'🏋️',b:'Normal upper stam',l:[{d:'Recovery +10%',v:'+10%'},{d:'Recovery +20%',v:'+20%'},{d:'Recovery +35%',v:'+35%'}]},
-  {n:'Focus Puller',c:'Combat',i:'🎯',b:'Normal lean speed',l:[{d:'Lean +15%',v:'+15%'},{d:'Lean +25%',v:'+25%'},{d:'Lean +40%',v:'+40%'}]},
-  {n:'Jump Weapon Ctrl',c:'Combat',i:'🤸',b:'Full jump spread',l:[{d:'Spread -20%',v:'-20%'},{d:'Spread -40%',v:'-40%'},{d:'Spread -60%',v:'-60%'}]},
-  {n:'Battlefield Heal',c:'Survival',i:'🚑',b:'Normal rescue',l:[{d:'Rescue +15%',v:'+15%'},{d:'Rescue +25%',v:'+25%'},{d:'Rescue +40%, heal parts',v:'+40%'}]},
-  {n:'Parkour',c:'Survival',i:'🦘',b:'100% fall dmg',l:[{d:'Fall -20%',v:'-20%'},{d:'Fall -40%',v:'-40%'},{d:'Fall -60%, hi jump',v:'-60%'}]},
-  {n:'Stay Alive',c:'Survival',i:'❤️',b:'Normal downed',l:[{d:'Move +10% HP+15%',v:'+10%'},{d:'Move +20% HP+30%',v:'+20%'},{d:'Move +30% HP+50%',v:'+30%'}]},
-  {n:'Marathon',c:'Survival',i:'🏃',b:'Normal low stam',l:[{d:'Stam +10%',v:'+10%'},{d:'Stam +20%',v:'+20%'},{d:'Stam +35%',v:'+35%'}]},
-  {n:'Fire-Retardant',c:'Survival',i:'🔥',b:'Full burn dmg',l:[{d:'Burn -10%',v:'-10%'},{d:'Burn -20%',v:'-20%'},{d:'Burn -40%',v:'-40%'}]},
-  {n:'Emergency Evasion',c:'Survival',i:'💨',b:'No hit boost',l:[{d:'+15% 2s',v:'2s'},{d:'+20% 3s',v:'3s'},{d:'+25% 4s',v:'4s'}]},
-  {n:'Porter',c:'Utility',i:'📦',b:'Base carry',l:[{d:'+2kg',v:'+2kg'},{d:'+5kg',v:'+5kg'},{d:'+10kg',v:'+10kg'}]},
-  {n:'Pharmacist',c:'Utility',i:'💊',b:'Normal duration',l:[{d:'Duration +10%',v:'+10%'},{d:'Duration +20%',v:'+20%'},{d:'Duration +35%',v:'+35%'}]},
-  {n:'Heavy Motor',c:'Utility',i:'⛑️',b:'Full armor penalty',l:[{d:'Penalty -10%',v:'-10%'},{d:'Penalty -20%',v:'-20%'},{d:'Penalty -35%',v:'-35%'}]},
-  {n:'Effective Looting',c:'Utility',i:'🔍',b:'Search all',l:[{d:'6% skip',v:'6%'},{d:'12% skip',v:'12%'},{d:'20% skip',v:'20%'}]},
-  {n:"Vinson's Friend I",c:'Utility',i:'🔄',b:'No weapon return',l:[{d:'3% retrieve',v:'3%'},{d:'6% retrieve',v:'6%'},{d:'10% retrieve',v:'10%'}]},
-  {n:"Vinson's Friend II",c:'Utility',i:'🔄',b:'No armor return',l:[{d:'3% retrieve',v:'3%'},{d:'6% retrieve',v:'6%'},{d:'10% retrieve',v:'10%'}]}
+  {n:'Sleight of Hand',c:'Combat',img:'image1.png',b:'3.0s reload',l:[{d:'2.5s reload',v:'2.5s'},{d:'2.0s reload',v:'2.0s'},{d:'1.5s reload',v:'1.5s'}]},
+  {n:'Quick Seal',c:'Combat',img:'image2.png',b:'120s heal',l:[{d:'60s heal',v:'60s'},{d:'40s heal',v:'40s'},{d:'15s heal',v:'15s'}]},
+  {n:'Veteran',c:'Combat',img:'image3.png',b:'Full sway when hit',l:[{d:'Sway -20%',v:'-20%'},{d:'Sway -40%',v:'-40%'},{d:'Sway -60%',v:'-60%'}]},
+  {n:'Iron Arm',c:'Combat',img:'image4.png',b:'Normal upper stam',l:[{d:'Recovery +10%',v:'+10%'},{d:'Recovery +20%',v:'+20%'},{d:'Recovery +35%',v:'+35%'}]},
+  {n:'Focus Puller',c:'Combat',img:'image5.png',b:'Normal lean speed',l:[{d:'Lean +15%',v:'+15%'},{d:'Lean +25%',v:'+25%'},{d:'Lean +40%',v:'+40%'}]},
+  {n:'Jump Weapon Ctrl',c:'Combat',img:'image6.png',b:'Full jump spread',l:[{d:'Spread -20%',v:'-20%'},{d:'Spread -40%',v:'-40%'},{d:'Spread -60%',v:'-60%'}]},
+  {n:'Battlefield Heal',c:'Survival',img:'image7.png',b:'Normal rescue',l:[{d:'Rescue +15%',v:'+15%'},{d:'Rescue +25%',v:'+25%'},{d:'Rescue +40%, heal parts',v:'+40%'}]},
+  {n:'Parkour',c:'Survival',img:'image8.png',b:'100% fall dmg',l:[{d:'Fall -20%',v:'-20%'},{d:'Fall -40%',v:'-40%'},{d:'Fall -60%, hi jump',v:'-60%'}]},
+  {n:'Stay Alive',c:'Survival',img:'image9.png',b:'Normal downed',l:[{d:'Move +10% HP+15%',v:'+10%'},{d:'Move +20% HP+30%',v:'+20%'},{d:'Move +30% HP+50%',v:'+30%'}]},
+  {n:'Marathon',c:'Survival',img:'image10.png',b:'Normal low stam',l:[{d:'Stam +10%',v:'+10%'},{d:'Stam +20%',v:'+20%'},{d:'Stam +35%',v:'+35%'}]},
+  {n:'Fire-Retardant',c:'Survival',img:'image11.png',b:'Full burn dmg',l:[{d:'Burn -10%',v:'-10%'},{d:'Burn -20%',v:'-20%'},{d:'Burn -40%',v:'-40%'}]},
+  {n:'Emergency Evasion',c:'Survival',img:'image12.png',b:'No hit boost',l:[{d:'+15% 2s',v:'2s'},{d:'+20% 3s',v:'3s'},{d:'+25% 4s',v:'4s'}]},
+  {n:'Porter',c:'Utility',img:'image13.png',b:'Base carry',l:[{d:'+2kg',v:'+2kg'},{d:'+5kg',v:'+5kg'},{d:'+10kg',v:'+10kg'}]},
+  {n:'Pharmacist',c:'Utility',img:'image14.png',b:'Normal duration',l:[{d:'Duration +10%',v:'+10%'},{d:'Duration +20%',v:'+20%'},{d:'Duration +35%',v:'+35%'}]},
+  {n:'Heavy Motor',c:'Utility',img:'image15.png',b:'Full armor penalty',l:[{d:'Penalty -10%',v:'-10%'},{d:'Penalty -20%',v:'-20%'},{d:'Penalty -35%',v:'-35%'}]},
+  {n:'Effective Looting',c:'Utility',img:'image16.png',b:'Search all',l:[{d:'6% skip',v:'6%'},{d:'12% skip',v:'12%'},{d:'20% skip',v:'20%'}]},
+  {n:"Vinson's Friend I",c:'Utility',img:'image17.png',b:'No weapon return',l:[{d:'3% retrieve',v:'3%'},{d:'6% retrieve',v:'6%'},{d:'10% retrieve',v:'10%'}]},
+  {n:"Vinson's Friend II",c:'Utility',img:'image18.png',b:'No armor return',l:[{d:'3% retrieve',v:'3%'},{d:'6% retrieve',v:'6%'},{d:'10% retrieve',v:'10%'}]}
 ];
 const CATS = ['Combat','Survival','Utility'];
 const CICONS = {Combat:'⚔️',Survival:'🛡️',Utility:'🎒'};
@@ -273,7 +273,7 @@ function rCard(s){
   const lvl = A[s.n]||0;
   return `<div class="skill-card ${lvl>0?'invested':''}">
     <div class="top">
-      <div class="icon-wrap">${s.i}</div>
+      <div class="icon-wrap"><img src="/skill-icons/${s.img}" alt="${s.n}" style="width:22px;height:22px;object-fit:contain"></div>
       <div class="info"><h3 title="${s.n}">${s.n}</h3><div class="desc">${lvl>0?s.l[lvl-1].d:s.b}</div></div>
       ${lvl>0?`<span class="bonus-tag l${lvl}">${s.l[lvl-1].v}</span>`:''}
     </div>
@@ -373,7 +373,7 @@ function rSummary(){
   html += `<div class="invested-list"><div class="ilabel">Invested Skills (${invested.length})</div>`;
   invested.forEach(s => {
     const l = A[s.n];
-    html += `<div class="iskill"><span>${s.i}</span><span class="iname">${s.n}</span><span class="ibadge lv${l}">Lv.${l} ${s.l[l-1].v}</span></div>`;
+    html += `<div class="iskill"><img src="/skill-icons/${s.img}" alt="" style="width:16px;height:16px;object-fit:contain;flex-shrink:0"><span class="iname">${s.n}</span><span class="ibadge lv${l}">Lv.${l} ${s.l[l-1].v}</span></div>`;
   });
   html += `</div>`;
 
