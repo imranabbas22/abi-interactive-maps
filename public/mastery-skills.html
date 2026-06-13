@@ -383,6 +383,9 @@ function rSummary(){
   });
   html += `</div>`;
 
+  // Add build guide after invested skills
+  html += buildGuide(invested, stats);
+
   el.innerHTML = html;
 
   // Animate bars after render
@@ -391,6 +394,162 @@ function rSummary(){
       bar.style.width = bar.dataset.width + '%';
     });
   });
+}
+
+function buildGuide(invested, stats){
+  const u = used();
+  const pts = { combat:0, survival:0, utility:0 };
+  const names = [];
+
+  for (const [name, lvl] of Object.entries(A)) {
+    const s = S.find(x => x.n === name);
+    if (!s) continue;
+    names.push(name);
+    if (s.c === 'Combat') pts.combat += lvl;
+    else if (s.c === 'Survival') pts.survival += lvl;
+    else if (s.c === 'Utility') pts.utility += lvl;
+  }
+
+  const total = pts.combat + pts.survival + pts.utility;
+  if (total === 0) return '';
+
+  const cPct = Math.round(pts.combat/total*100);
+  const sPct = Math.round(pts.survival/total*100);
+  const uPct = Math.round(pts.utility/total*100);
+
+  // Determine archetype
+  const archetypes = [];
+  const advices = [];
+
+  // 1. Detect spread
+  const investedCount = invested.length;
+  const maxedCount = Object.values(A).filter(v => v === 3).length;
+
+  if (investedCount >= 10) {
+    archetypes.push({ icon:'🔀', name:'Jack of All Trades', desc:'Max flexibility — you can handle any situation but excel at none. Great for solo learning the game.' });
+  } else if (maxedCount >= 3 && investedCount <= 5) {
+    archetypes.push({ icon:'🎯', name:'Focused Specialist', desc:'Deep investment in key skills. Your operator has sharp, defined strengths.' });
+  }
+
+  // 2. Category dominance
+  const dominant = cPct > sPct && cPct > uPct ? 'combat' : sPct > cPct && sPct > uPct ? 'survival' : uPct > cPct && uPct > sPct ? 'utility' : 'balanced';
+
+  if (dominant === 'combat') {
+    archetypes.push({ icon:'⚔️', name:'Combat Veteran', desc:'Heavy combat focus. You win fights through superior gunplay — faster reloads, steadier aim, quicker leans.' });
+  } else if (dominant === 'survival') {
+    archetypes.push({ icon:'👻', name:'Ghost Operator', desc:'Survival focus. You outlast opponents — better escapes, fall control, downed recovery, and damage mitigation.' });
+  } else if (dominant === 'utility') {
+    archetypes.push({ icon:'💰', name:'Loot Specialist', desc:'Utility focus. Maximum raid profit — carry more, search faster, keep gear on death, longer lasting meds.' });
+  }
+
+  // 3. Specific combo detection
+  const has = (n) => (A[n]||0) >= 2;
+  const hasAny = (arr) => arr.some(n => (A[n]||0) > 0);
+  const comboScore = (arr) => arr.reduce((s,n) => s + (A[n]||0), 0);
+
+  // Rat combo: Parkour + Stay Alive + Emergency Evasion + Quick Seal
+  const ratScore = comboScore(['Parkour','Stay Alive','Emergency Evasion','Quick Seal']);
+  if (ratScore >= 6) {
+    archetypes.push({ icon:'🐀', name:'Rat Build', desc:'Escape artist. You survive by avoiding fights — heal fast, flee danger, survive falls, and slip away when hit.' });
+  }
+
+  // Sniper: Focus Puller + Veteran + Marathon + Jump Weapon Ctrl
+  const sniperScore = comboScore(['Focus Puller','Veteran','Marathon','Jump Weapon Ctrl']);
+  if (sniperScore >= 6) {
+    archetypes.push({ icon:'🎯', name:"Sniper's Nest", desc:'Precision platform. Quick peeks, steady aim under fire, stamina to reposition, and stable jump shots.' });
+  }
+
+  // Medic: Battlefield Heal + Quick Seal + Pharmacist + Stay Alive
+  const medicScore = comboScore(['Battlefield Heal','Quick Seal','Pharmacist','Stay Alive']);
+  if (medicScore >= 6) {
+    archetypes.push({ icon:'🏥', name:'Field Medic', desc:'Team lifeline. You keep squadmates alive — fast revives, quick self-heals, longer meds, and durable downed state.' });
+  }
+
+  // Juggernaut: Heavy Motor + Fire-Retardant + Iron Arm + Sleight of Hand
+  const juggScore = comboScore(['Heavy Motor','Fire-Retardant','Iron Arm','Sleight of Hand']);
+  if (juggScore >= 6) {
+    archetypes.push({ icon:'🛡️', name:'Juggernaut', desc:'Heavy assault. Move fast in heavy armor, resist burns, recover stamina quickly, and reload under pressure.' });
+  }
+
+  // Loot goblin: Porter + Effective Looting + Pharmacist
+  const lootScore = comboScore(['Porter','Effective Looting','Pharmacist']);
+  if (lootScore >= 5) {
+    archetypes.push({ icon:'💎', name:'Loot Goblin', desc:'Maximum profit. Carry extra loot, skip container searches, and keep meds active longer.' });
+  }
+
+  // Insurance: Vinson's Friend I + II
+  if ((A["Vinson's Friend I"]||0) + (A["Vinson's Friend II"]||0) >= 4) {
+    archetypes.push({ icon:'🔄', name:'Insured Operator', desc:'Death is a setback, not a disaster. High chance to retrieve weapons AND armor on failed extracts.' });
+  }
+
+  // Speed: Emergency Evasion + Marathon + Parkour
+  const speedScore = comboScore(['Emergency Evasion','Marathon','Parkour']);
+  if (speedScore >= 6) {
+    archetypes.push({ icon:'💨', name:'Speed Demon', desc:'Unmatched mobility. Burst speed after hits, sustained sprint stamina, and fall immunity.' });
+  }
+
+  // 4. Top stats insight
+  const statEntries = Object.entries(stats).sort((a,b) => b[1]-a[1]);
+  const topStat = statEntries[0];
+  const statLabels = { combat:'Combat Speed', survive:'Survivability', mobility:'Mobility', looting:'Looting Power', recovery:'Raid Recovery' };
+  const statIcons = { combat:'⚡', survive:'❤️', mobility:'🏃', looting:'💰', recovery:'🔄' };
+
+  if (topStat && topStat[1] > 0) {
+    advices.push(`Strongest stat: ${statIcons[topStat[0]]} ${statLabels[topStat[0]]} (${Math.min(topStat[1],100)}%). This is your tactical edge.`);
+  }
+
+  // Category breakdown advice
+  if (dominant === 'balanced' && investedCount <= 6) {
+    advices.push('Balanced across categories. You can adapt to any raid — identify your win condition and lean into it.');
+  }
+
+  // Build archetype description
+  const primary = archetypes[0];
+  const secondary = archetypes.length > 1 ? archetypes[1] : null;
+
+  let guideHtml = `<div class="summary-section" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
+    <h3>${primary ? primary.icon : '📋'} Build Analysis</h3>`;
+
+  if (primary) {
+    guideHtml += `<div style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.12);border-radius:8px;padding:10px;margin-bottom:8px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:2px">${primary.icon} ${primary.name}</div>
+      <div style="font-size:11px;color:var(--tsec);line-height:1.5">${primary.desc}</div>
+    </div>`;
+  }
+  if (secondary) {
+    guideHtml += `<div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:600;margin-bottom:1px">Also detected: ${secondary.icon} ${secondary.name}</div>
+      <div style="font-size:10px;color:var(--tsec)">${secondary.desc}</div>
+    </div>`;
+  }
+
+  // Show additional tags
+  if (archetypes.length > 2) {
+    const extras = archetypes.slice(2).map(a => `${a.icon}${a.name}`).join(' · ');
+    guideHtml += `<div style="font-size:10px;color:var(--tmuted);margin-bottom:6px">${extras}</div>`;
+  }
+
+  // Advice
+  advices.forEach(a => {
+    guideHtml += `<div style="font-size:11px;color:var(--tsec);line-height:1.5;padding:2px 0">💡 ${a}</div>`;
+  });
+
+  // Category pie bar
+  if (total > 0) {
+    guideHtml += `<div style="display:flex;height:4px;border-radius:2px;overflow:hidden;margin-top:8px">
+      <div style="flex:${cPct};background:#FF6B35;min-width:${cPct>0?'2px':'0'}"></div>
+      <div style="flex:${sPct};background:#22C55E;min-width:${sPct>0?'2px':'0'}"></div>
+      <div style="flex:${uPct};background:#3B82F6;min-width:${uPct>0?'2px':'0'}"></div>
+    </div>
+    <div style="display:flex;font-size:9px;color:var(--tmuted);margin-top:3px;justify-content:space-between">
+      <span>⚔️ Combat ${cPct}%</span>
+      <span>🛡️ Survival ${sPct}%</span>
+      <span>🎒 Utility ${uPct}%</span>
+    </div>`;
+  }
+
+  guideHtml += `</div>`;
+  return guideHtml;
 }
 
 function calcStats(){
