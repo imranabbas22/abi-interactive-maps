@@ -65,7 +65,8 @@ main{padding-top:72px;padding-bottom:40px}
 .skill-card:hover{border-color:rgba(212,175,55,0.18)}
 .skill-card.invested{border-color:rgba(212,175,55,0.3);background:rgba(212,175,55,0.04)}
 .skill-card .top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
-.skill-card .icon-wrap{width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.skill-card .icon-wrap{width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.skill-card .icon-wrap img{width:28px;height:28px;object-fit:contain}
 .skill-card .info{flex:1;min-width:0}
 .skill-card h3{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .skill-card .desc{font-size:10px;color:var(--tsec);line-height:1.3;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -87,16 +88,17 @@ main{padding-top:72px;padding-bottom:40px}
 .skill-card:hover .clr-btn{opacity:0.6}
 .skill-card:hover .clr-btn:hover{opacity:1;color:#ff6b6b}
 
-/* Comparison bar inside card — single active level, animated, space reserved */
-.compact-comp{margin-top:5px;padding-top:4px;border-top:1px solid rgba(255,255,255,0.04);min-height:20px;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s}
-.compact-comp.show{opacity:1;visibility:visible}
-.comp-row{display:flex;align-items:center;gap:4px;height:14px}
-.comp-row .clbl{font-size:9px;color:var(--tmuted);width:24px;flex-shrink:0;text-align:right;font-weight:500}
-.comp-row .cbar{flex:1;height:4px;background:rgba(255,255,255,0.04);border-radius:2px;overflow:hidden}
-.comp-row .cbar .cfill{height:100%;border-radius:2px;width:0;transition:width .6s cubic-bezier(.22,1,.36,1)}
-.comp-row .cbar .cfill.animate{width:var(--tw,100%)}
+/* Comparison bar — always visible space reserved, shows base → bonus */
+.comp-bar-wrap{margin-top:5px;padding-top:4px;border-top:1px solid rgba(255,255,255,0.04);min-height:20px;height:20px}
+.comp-bar-wrap .comp-row{display:flex;align-items:center;gap:4px;height:14px}
+.comp-bar-wrap .comp-row .clbl{font-size:9px;color:var(--tmuted);width:22px;flex-shrink:0;text-align:right;font-weight:500}
+.comp-bar-wrap .comp-row .cbar{flex:1;height:4px;background:rgba(255,255,255,0.04);border-radius:2px;overflow:hidden;position:relative}
+.comp-bar-wrap .comp-row .cbar .cfill{height:100%;border-radius:2px;width:0;transition:width .6s cubic-bezier(.22,1,.36,1)}
+.comp-bar-wrap .comp-row .cbar .cfill.animate{width:var(--tw,100%)}
 .cfill{background:linear-gradient(90deg,var(--primary),var(--accent))}
-.comp-row .cval{font-size:9px;font-weight:600;color:var(--primary);width:40px;text-align:right;flex-shrink:0}
+.comp-bar-wrap .comp-row .cval{font-size:9px;font-weight:600;width:36px;text-align:right;flex-shrink:0}
+.comp-bar-wrap .comp-row .cval.base{color:var(--tmuted)}
+.comp-bar-wrap .comp-row .cval.bonus{color:var(--primary)}
 
 /* ===== SUMMARY PANEL — animated stats ===== */
 .summary-panel{position:fixed;top:0;right:0;width:380px;height:100vh;background:rgba(10,10,10,0.97);backdrop-filter:blur(24px);border-left:1px solid var(--border);z-index:100;padding:24px 20px;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1)}
@@ -262,7 +264,7 @@ function rCats(){
   // Animate all level bars from width:0 → target
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      document.querySelectorAll('.compact-comp.show .cfill').forEach(bar => {
+      document.querySelectorAll('.comp-bar-wrap .cfill[style*="--tw"]').forEach(bar => {
         bar.classList.add('animate');
       });
     });
@@ -284,20 +286,26 @@ function rCard(s){
       }).join('')}</div>
       <button class="clr-btn" onclick="clearSk('${s.n}')" style="display:${lvl>0?'':'none'}">✕</button>
     </div>
-    ${lvl>0?rComp(s,lvl):''}
+    ${rCompBar(s, lvl)}
   </div>`;
 }
 
-function rComp(s,lvl){
-  // Only show the active level row — single animated bar
+function rCompBar(s, lvl){
+  // Always rendered to reserve space — shows base (0pt) vs bonus (Lv.X)
+  if (lvl === 0) {
+    return `<div class="comp-bar-wrap"><div class="comp-row">
+      <span class="clbl"></span>
+      <div class="cbar"><div class="cfill" style="width:8%"></div></div>
+      <span class="cval base">${s.b.replace(/^[^:]*/,'').trim()}</span>
+    </div></div>`;
+  }
   const pct = lvl === 1 ? 35 : lvl === 2 ? 65 : 100;
-  return `<div class="compact-comp show">
-    <div class="comp-row">
-      <span class="clbl">Lv.${lvl}</span>
-      <div class="cbar"><div class="cfill" style="--tw:${pct}%"></div></div>
-      <span class="cval">${s.l[lvl-1].v}</span>
-    </div>
-  </div>`;
+  const baseVal = s.b.replace(/^[^:]*:\s*/,'').trim();
+  return `<div class="comp-bar-wrap"><div class="comp-row">
+    <span class="clbl">Lv.${lvl}</span>
+    <div class="cbar"><div class="cfill" style="--tw:${pct}%"></div></div>
+    <span class="cval bonus">${s.l[lvl-1].v}</span>
+  </div><div style="font-size:8px;color:var(--tmuted);line-height:1;margin-top:-1px;padding-left:22px">0pt: ${baseVal}</div></div>`;
 }
 
 function rTracker(){
