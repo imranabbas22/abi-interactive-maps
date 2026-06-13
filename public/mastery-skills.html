@@ -188,6 +188,7 @@ main{padding-top:72px;padding-bottom:40px}
     </div>
 
     <div class="presets" id="presetContainer"></div>
+  <div id="mainGuide" style="max-width:700px;margin:10px auto 0"></div>
   </section>
 
   <div class="cat-row" id="catRow"></div>
@@ -249,7 +250,7 @@ function skillByName(n){return S.find(s=>s.n===n)}
 
 // ===== RENDER =====
 function r(){
-  rCats(); rTracker(); rPresets(); rSummary();
+  rCats(); rTracker(); rPresets(); rSummary(); rMainGuide();
 }
 
 function rCats(){
@@ -550,6 +551,15 @@ function buildGuide(invested, stats){
 
   guideHtml += `</div>`;
   return guideHtml;
+}
+
+function rMainGuide(){
+  const el = document.getElementById('mainGuide');
+  const u = used();
+  if (u === 0) { el.innerHTML = ''; return; }
+  const invested = S.filter(s => (A[s.n]||0) > 0);
+  const stats = calcStats();
+  el.innerHTML = buildGuide(invested, stats);
 }
 
 function calcStats(){
