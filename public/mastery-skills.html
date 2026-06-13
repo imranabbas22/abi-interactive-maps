@@ -13,8 +13,6 @@
 :root{--primary:#D4AF37;--accent:#C9A961;--bg:#0a0a0a;--surface:#141414;--elevated:#1c1c1c;--text:#ededed;--tsec:#9ca3af;--tmuted:#6b7280;--border:rgba(255,255,255,0.05);--glass:rgba(255,255,255,0.03);--l1:rgba(212,175,55,0.15);--l2:rgba(212,175,55,0.30);--l3:rgba(212,175,55,0.50)}
 body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 .glass{background:var(--glass);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.glass-card{background:rgba(255,255,255,0.03);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:16px}
-.glass-card:hover{border-color:rgba(212,175,55,0.2)}
 .text-gradient{background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .t-primary{color:var(--primary)}.t-sec{color:var(--tsec)}.t-muted{color:var(--tmuted)}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-weight:600;font-size:13px;border:none;cursor:pointer;transition:all .2s}
@@ -23,111 +21,130 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg)
 .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--tsec)}
 .btn-outline:hover{border-color:rgba(212,175,55,0.3);color:var(--text)}
 .btn-sm{padding:5px 12px;font-size:11px;border-radius:7px}
-.btn-active,.preset-btn.active{border-color:rgba(212,175,55,0.4);background:rgba(212,175,55,0.1);color:var(--primary)}
-nav{position:fixed;top:0;left:0;right:0;z-index:50}
-.nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.preset-btn.active{border-color:rgba(212,175,55,0.4);background:rgba(212,175,55,0.1);color:var(--primary)}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;height:64px}
+.nav-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
 .nav-links{display:flex;align-items:center;gap:24px}
 .nav-link{color:var(--tsec);font-size:14px;font-weight:500;transition:color .2s}
 .nav-link:hover{color:var(--primary)}
 .nav-logo{font-weight:700;font-size:20px;display:flex;align-items:center;gap:8px}
-main{padding-top:80px;padding-bottom:40px}
-.hero{text-align:center;padding:48px 24px 32px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:rgba(212,175,55,0.06);border-radius:50%;filter:blur(120px);pointer-events:none}
-.hero h1{font-size:44px;font-weight:800;margin-bottom:6px}
-.hero p{color:var(--tsec);max-width:620px;margin:0 auto;font-size:15px;line-height:1.6}
-.container{max-width:1280px;margin:0 auto;padding:0 24px}
+main{padding-top:72px;padding-bottom:40px}
+
+/* Hero */
+.hero{text-align:center;padding:28px 24px 16px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:500px;height:500px;background:rgba(212,175,55,0.06);border-radius:50%;filter:blur(120px);pointer-events:none}
+.hero h1{font-size:36px;font-weight:800;margin-bottom:4px}
+.hero p{color:var(--tsec);max-width:620px;margin:0 auto;font-size:14px;line-height:1.5}
 
 /* Point tracker */
-.point-tracker{display:flex;align-items:center;justify-content:center;gap:20px;padding:20px;margin:20px auto 0;max-width:500px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:16px}
-.point-ring{position:relative;width:72px;height:72px}
+.point-tracker{display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 24px;margin:14px auto 0;max-width:460px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:14px}
+.point-ring{position:relative;width:60px;height:60px;flex-shrink:0}
 .point-ring svg{transform:rotate(-90deg)}
 .point-ring .bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:6}
-.point-ring .fg{fill:none;stroke:url(#pg);stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .5s}
-.point-ring .center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800}
-.point-info{text-align:left}
-.point-info .label{font-size:12px;color:var(--tsec);text-transform:uppercase;letter-spacing:.5px}
-.point-info .status{font-size:14px;font-weight:600;margin-top:2px}
-.point-info .hint{font-size:11px;color:var(--tmuted);margin-top:1px}
+.point-ring .fg{fill:none;stroke:url(#pg);stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .6s ease}
+.point-ring .center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
+.point-info .label{font-size:10px;color:var(--tsec);text-transform:uppercase;letter-spacing:.5px}
+.point-info .status{font-size:14px;font-weight:600}
+.point-info .hint{font-size:11px;color:var(--tmuted)}
 
-/* Presets row */
-.presets{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:16px auto;max-width:700px}
-.preset-btn{padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:var(--tsec);font-size:12px;font-weight:500;cursor:pointer;transition:all .2s}
+/* Presets */
+.presets{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:12px auto;max-width:700px}
+.preset-btn{padding:6px 14px;border-radius:7px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:var(--tsec);font-size:11px;font-weight:500;cursor:pointer;transition:all .2s}
 .preset-btn:hover{border-color:rgba(212,175,55,0.3);color:var(--text);background:rgba(212,175,55,0.05)}
-.preset-btn.active{border-color:rgba(212,175,55,0.4);background:rgba(212,175,55,0.1);color:var(--primary)}
+.preset-btn.active{border-color:rgba(212,175,55,0.4);background:rgba(212,175,55,0.1);color:var(--primary);box-shadow:0 0 12px rgba(212,175,55,0.15)}
 
-/* Categories */
-.categories{display:flex;flex-direction:column;gap:36px;padding:32px 0}
-.section-title{font-size:20px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px}
-.skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+/* ===== 3-column layout ===== */
+.cat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding:20px 24px;max-width:1400px;margin:0 auto}
+.cat-col{min-width:0}
+.cat-header{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.cat-header span:last-child{font-size:11px;color:var(--tmuted);font-weight:400;margin-left:auto}
 
-/* Skill card */
-.skill-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:18px;transition:all .3s}
-.skill-card:hover{border-color:rgba(212,175,55,0.2)}
-.skill-card.invested{border-color:rgba(212,175,55,0.35);background:rgba(212,175,55,0.04)}
-.skill-card .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
-.skill-card .icon-wrap{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.skill-card .info{flex:1}
-.skill-card h3{font-size:15px;font-weight:600}
-.skill-card .cat-tag{font-size:10px;color:var(--tmuted);margin-top:1px}
-.skill-card .desc{font-size:13px;color:var(--tsec);line-height:1.5;margin-bottom:10px}
+/* Compact skill cards — 2 columns x 3 rows per category */
+.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.skill-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 12px;transition:all .25s;cursor:default}
+.skill-card:hover{border-color:rgba(212,175,55,0.18)}
+.skill-card.invested{border-color:rgba(212,175,55,0.3);background:rgba(212,175,55,0.04)}
+.skill-card .top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.skill-card .icon-wrap{width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.skill-card .info{flex:1;min-width:0}
+.skill-card h3{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.skill-card .desc{font-size:10px;color:var(--tsec);line-height:1.3;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.skill-card .bonus-tag{font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600;flex-shrink:0}
+.bonus-tag.l1{background:var(--l1);color:var(--primary)}
+.bonus-tag.l2{background:var(--l2);color:var(--primary)}
+.bonus-tag.l3{background:var(--l3);color:#000}
 
-/* Level dots */
-.level-dots{display:flex;align-items:center;gap:6px}
-.dot{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,0.1);background:transparent;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--tmuted)}
+/* Dots row */
+.level-dots{display:flex;align-items:center;gap:4px}
+.dot{width:22px;height:22px;border-radius:5px;border:1.5px solid rgba(255,255,255,0.1);background:transparent;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:var(--tmuted)}
 .dot:hover{border-color:rgba(212,175,55,0.3)}
-.dot.filled-1{border-color:rgba(212,175,55,0.4);background:var(--l1);color:var(--primary)}
-.dot.filled-2{border-color:rgba(212,175,55,0.5);background:var(--l2);color:var(--primary);font-weight:700}
+.dot.filled-1{border-color:rgba(212,175,55,0.35);background:var(--l1);color:var(--primary)}
+.dot.filled-2{border-color:rgba(212,175,55,0.45);background:var(--l2);color:var(--primary);font-weight:700}
 .dot.filled-3{border-color:var(--primary);background:var(--l3);color:#000;font-weight:800}
-.dot.active{border-color:var(--primary);box-shadow:0 0 12px rgba(212,175,55,0.3)}
-.dot.disabled{opacity:0.3;cursor:not-allowed}
-.bonus-text{font-size:11px;color:var(--primary);font-weight:500;min-width:60px;text-align:right}
+.dot.active{border-color:var(--primary);box-shadow:0 0 8px rgba(212,175,55,0.25)}
+.dot.disabled{opacity:0.25;cursor:not-allowed}
+.clr-btn{background:none;border:none;color:var(--tmuted);cursor:pointer;font-size:10px;padding:0 3px;line-height:1;opacity:0;transition:opacity .2s}
+.skill-card:hover .clr-btn{opacity:0.6}
+.skill-card:hover .clr-btn:hover{opacity:1;color:#ff6b6b}
 
-/* Comparison table */
-.comparison{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:14px;display:none}
-.comparison.show{display:block}
-.comparison h4{font-size:12px;color:var(--tsec);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
-.comp-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:12px}
-.comp-row .lbl{color:var(--tmuted);width:48px;flex-shrink:0}
-.comp-bar{flex:1;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden}
-.comp-bar .fill{height:100%;border-radius:3px;transition:width .5s}
-.comp-bar .fill.l0{background:rgba(255,255,255,0.1);width:20%}
-.comp-bar .fill.l1{background:rgba(212,175,55,0.3);width:45%}
-.comp-bar .fill.l2{background:rgba(212,175,55,0.5);width:70%}
-.comp-bar .fill.l3{background:linear-gradient(90deg,var(--primary),var(--accent));width:100%}
-.comp-row .val{color:var(--text);font-weight:600;width:70px;text-align:right;flex-shrink:0}
+/* Comparison bar inside card */
+.compact-comp{margin-top:5px;padding-top:4px;border-top:1px solid rgba(255,255,255,0.04);display:none}
+.compact-comp.show{display:block}
+.comp-row{display:flex;align-items:center;gap:4px;margin-bottom:2px}
+.comp-row .clbl{font-size:9px;color:var(--tmuted);width:24px;flex-shrink:0;text-align:right}
+.comp-row .cbar{flex:1;height:4px;background:rgba(255,255,255,0.04);border-radius:2px;overflow:hidden}
+.comp-row .cbar .cfill{height:100%;border-radius:2px;transition:width .5s}
+.cfill.l0{background:rgba(255,255,255,0.08);width:15%}
+.cfill.l1{background:rgba(212,175,55,0.25);width:35%}
+.cfill.l2{background:rgba(212,175,55,0.45);width:60%}
+.cfill.l3{background:linear-gradient(90deg,var(--primary),var(--accent));width:100%}
+.comp-row .cval{font-size:9px;font-weight:600;color:var(--text);width:30px;text-align:right;flex-shrink:0}
 
-/* Summary panel */
-.summary-panel{position:fixed;top:0;right:0;width:400px;height:100vh;background:rgba(10,10,10,0.97);backdrop-filter:blur(20px);border-left:1px solid var(--border);z-index:100;padding:24px;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1)}
+/* ===== SUMMARY PANEL — animated stats ===== */
+.summary-panel{position:fixed;top:0;right:0;width:380px;height:100vh;background:rgba(10,10,10,0.97);backdrop-filter:blur(24px);border-left:1px solid var(--border);z-index:100;padding:24px 20px;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1)}
 .summary-panel.open{transform:translateX(0)}
-.summary-panel h2{font-size:18px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.summary-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.summary-stat{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
-.summary-stat .val{font-weight:600;color:var(--primary)}
-.summary-section{margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
-.summary-section h3{font-size:12px;color:var(--tsec);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.summary-panel h2{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.s-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 
-/* Toggle button */
-.toggle-summary{position:fixed;bottom:24px;right:24px;z-index:90;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));color:#000;border:none;cursor:pointer;font-size:24px;box-shadow:0 4px 20px rgba(212,175,55,0.25);transition:all .2s;display:flex;align-items:center;justify-content:center}
+/* Stat bars in panel */
+.stat-bars{padding:4px 0 8px}
+.stat-bars .sbar-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.stat-bars .sbar-row .sicon{width:20px;text-align:center;font-size:16px;flex-shrink:0}
+.stat-bars .sbar-row .sinfo{flex:1}
+.stat-bars .sbar-row .sinfo .slabel{font-size:11px;font-weight:500;display:flex;justify-content:space-between}
+.stat-bars .sbar-row .sinfo .slabel .sval{font-weight:700;color:var(--primary)}
+.stat-bars .sbar-row .strack{height:6px;background:rgba(255,255,255,0.05);border-radius:3px;margin-top:3px;overflow:hidden}
+.stat-bars .sbar-row .strack .sfill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--accent));width:0;transition:width .8s cubic-bezier(.22,1,.36,1)}
+
+/* Skills invested list */
+.invested-list{margin-top:8px}
+.invested-list .ilabel{font-size:10px;color:var(--tsec);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.iskill{display:flex;align-items:center;gap:6px;padding:5px 8px;background:rgba(255,255,255,0.02);border-radius:6px;margin-bottom:3px;font-size:11px}
+.iskill .iname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.iskill .ibadge{font-size:9px;padding:1px 5px;border-radius:4px;font-weight:600;flex-shrink:0}
+.iskill .ibadge.lv1{background:var(--l1);color:var(--primary)}
+.iskill .ibadge.lv2{background:var(--l2);color:var(--primary)}
+.iskill .ibadge.lv3{background:var(--l3);color:#000}
+
+/* Toggle */
+.toggle-summary{position:fixed;bottom:24px;right:24px;z-index:90;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));color:#000;border:none;cursor:pointer;font-size:22px;box-shadow:0 4px 20px rgba(212,175,55,0.25);transition:all .2s;display:flex;align-items:center;justify-content:center}
 .toggle-summary:hover{transform:scale(1.05);box-shadow:0 6px 30px rgba(212,175,55,0.35)}
-.toggle-summary .badge{position:absolute;top:-4px;right:-4px;width:22px;height:22px;border-radius:50%;background:#ff4444;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.toggle-summary .badge{position:absolute;top:-3px;right:-3px;min-width:20px;height:20px;border-radius:10px;background:#ff4444;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;opacity:0;pointer-events:none;transition:opacity .3s}
 .overlay.show{opacity:1;pointer-events:auto}
-.summary-skill{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
-.summary-skill .sname{font-size:12px;font-weight:500}
-.summary-skill .slevel{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:600}
 
-::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:3px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.06);border-radius:2px}
 
+@media(max-width:1024px){.cat-row{grid-template-columns:1fr 1fr}}
 @media(max-width:768px){
-  .hero h1{font-size:28px}
-  .skill-grid{grid-template-columns:1fr}
+  .hero h1{font-size:24px}
+  .cat-row{grid-template-columns:1fr;padding:12px}
+  .skill-grid{grid-template-columns:1fr 1fr}
   .summary-panel{width:100vw}
   .nav-links{display:none}
-  .point-tracker{flex-direction:column;text-align:center}
-  .presets{gap:5px}
-  .preset-btn{padding:6px 10px;font-size:10px}
+  .point-tracker{flex-direction:row;padding:10px 16px}
 }
 </style>
 </head>
@@ -137,7 +154,7 @@ main{padding-top:80px;padding-bottom:40px}
 <nav class="glass">
   <div class="nav-inner">
     <a href="/" class="nav-logo">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="url(#pg)"/><path d="M16 6l10 6v8l-10 6-10-6v-8z" fill="#0a0a0a" stroke="#D4AF37" stroke-width="1.5"/><circle cx="16" cy="16" r="4" fill="#D4AF37"/></svg>
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="url(#pg)"/><path d="M16 6l10 6v8l-10 6-10-6v-8z" fill="#0a0a0a" stroke="#D4AF37" stroke-width="1.5"/><circle cx="16" cy="16" r="4" fill="#D4AF37"/></svg>
       ABI <span class="t-primary">Builder</span>
     </a>
     <div class="nav-links">
@@ -153,352 +170,277 @@ main{padding-top:80px;padding-bottom:40px}
 <main>
   <section class="hero">
     <h1>Mastery <span class="text-gradient">Skills</span></h1>
-    <p>You have <strong class="t-primary">12 skill points</strong> to distribute across 18 skills. Each skill can be upgraded up to 3 times. Choose wisely — every point shapes your operator's tactical capabilities.</p>
+    <p>You have <strong class="t-primary">12 skill points</strong> to distribute across 18 skills. Each upgraded up to 3 times.</p>
 
-    <!-- Point Tracker -->
     <div class="point-tracker">
       <div class="point-ring">
-        <svg width="72" height="72" viewBox="0 0 72 72">
-          <circle class="bg" cx="36" cy="36" r="30"/>
-          <circle class="fg" id="progressRing" cx="36" cy="36" r="30" stroke-dasharray="188.5" stroke-dashoffset="0"/>
+        <svg width="60" height="60" viewBox="0 0 60 60">
+          <circle class="bg" cx="30" cy="30" r="24"/>
+          <circle class="fg" id="progressRing" cx="30" cy="30" r="24" stroke-dasharray="150.8" stroke-dashoffset="0"/>
         </svg>
         <div class="center"><span id="ptsUsed">0</span></div>
       </div>
       <div class="point-info">
         <div class="label">Skill Points</div>
-        <div class="status"><span id="ptsDisplay">0</span> / 12 <span class="t-primary" id="ptsRemainDisplay" style="font-weight:400">(12 remaining)</span></div>
-        <div class="hint" id="ptsHint">Click dots on any skill to invest points</div>
+        <div class="status"><span id="ptsDisplay">0</span> / 12 <span class="t-muted" id="ptsRemain" style="font-weight:400;font-size:12px">(12 left)</span></div>
+        <div class="hint" id="ptsHint">Click 1 / 2 / 3 on any skill</div>
       </div>
     </div>
 
-    <!-- Presets -->
     <div class="presets" id="presetContainer"></div>
   </section>
 
-  <div class="container">
-    <div class="categories" id="skillCategories"></div>
-  </div>
+  <div class="cat-row" id="catRow"></div>
 </main>
 
 <button class="toggle-summary" id="toggleSummary" onclick="togglePanel()">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
   <span class="badge" id="skillCount">0</span>
 </button>
 <div class="overlay" id="overlay" onclick="togglePanel()"></div>
 
 <div class="summary-panel" id="summaryPanel">
-  <div class="summary-header">
-    <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> Skill Summary</h2>
-    <button onclick="clearAll()" class="btn btn-outline btn-sm">Reset</button>
+  <div class="s-hdr">
+    <h2><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> Build Stats</h2>
+    <button onclick="clearAll()" class="btn btn-outline btn-sm" style="font-size:10px;padding:4px 10px">Reset</button>
   </div>
-
-  <!-- Quick overview stats -->
-  <div id="summaryOverview"></div>
-
-  <!-- All invested skills -->
-  <div id="summarySkills"></div>
+  <div id="summaryContent"></div>
 </div>
 
 <script>
-// ===== SKILLS DATA with concrete numbers =====
-const SKILLS = [
-  // Combat & Weapon Handling
-  { id:'soh', cat:'Combat', name:'Sleight of Hand', icon:'🔫',
-    base:'Reload speed 3.0s',
-    levels:[{desc:'Reload 2.5s (+17% faster)',val:'2.5s'},{desc:'Reload 2.0s (+33% faster)',val:'2.0s'},{desc:'Reload 1.5s (+50% faster)',val:'1.5s'}] },
-  { id:'qs', cat:'Combat', name:'Quick Seal', icon:'🩹',
-    base:'Wounds heal in 120s',
-    levels:[{desc:'Heal in 60s (2x faster)',val:'60s'},{desc:'Heal in 40s (3x faster)',val:'40s'},{desc:'Heal in 15s (8x faster)',val:'15s'}] },
-  { id:'vet', cat:'Combat', name:'Veteran', icon:'💪',
-    base:'100% weapon sway when hit',
-    levels:[{desc:'Sway reduced ~20%',val:'-20%'},{desc:'Sway reduced ~40%',val:'-40%'},{desc:'Sway reduced ~60%',val:'-60%'}] },
-  { id:'iron', cat:'Combat', name:'Iron Arm', icon:'🏋️',
-    base:'Normal upper-body stam recovery',
-    levels:[{desc:'Recovery +10% faster',val:'+10%'},{desc:'Recovery +20% faster',val:'+20%'},{desc:'Recovery +35% faster',val:'+35%'}] },
-  { id:'focus', cat:'Combat', name:'Focus Puller', icon:'🎯',
-    base:'Normal lean/recenter speed',
-    levels:[{desc:'Lean speed +15%',val:'+15%'},{desc:'Lean speed +25%',val:'+25%'},{desc:'Lean speed +40%',val:'+40%'}] },
-  { id:'jwc', cat:'Combat', name:'Jump Weapon Control', icon:'🤸',
-    base:'Full spread while jumping',
-    levels:[{desc:'Jump spread -20%',val:'-20%'},{desc:'Jump spread -40%',val:'-40%'},{desc:'Jump spread -60%',val:'-60%'}] },
-  // Survival & Recovery
-  { id:'bheal', cat:'Survival', name:'Battlefield Healing', icon:'🚑',
-    base:'Rescue speed normal',
-    levels:[{desc:'Rescue +15% speed,+15% HP',val:'+15%'},{desc:'Rescue +25% speed,+25% HP',val:'+25%'},{desc:'Rescue +40%, heal broken parts',val:'+40%'}] },
-  { id:'park', cat:'Survival', name:'Parkour', icon:'🦘',
-    base:'100% fall damage taken',
-    levels:[{desc:'Fall dmg -20%',val:'-20%'},{desc:'Fall dmg -40%',val:'-40%'},{desc:'Fall dmg -60%, jump higher safely',val:'-60%'}] },
-  { id:'salive', cat:'Survival', name:'Stay Alive', icon:'❤️‍🩹',
-    base:'Normal downed state',
-    levels:[{desc:'Downed move +10%, HP +15%',val:'+10%'},{desc:'Downed move +20%, HP +30%',val:'+20%'},{desc:'Downed move +30%, HP +50%',val:'+30%'}] },
-  { id:'mara', cat:'Survival', name:'Marathon', icon:'🏃',
-    base:'Normal lower-body stam recovery',
-    levels:[{desc:'Stam recovery +10%',val:'+10%'},{desc:'Stam recovery +20%',val:'+20%'},{desc:'Stam recovery +35%',val:'+35%'}] },
-  { id:'frm', cat:'Survival', name:'Fire-Retardant Material', icon:'🔥',
-    base:'100% burn damage taken',
-    levels:[{desc:'Burn dmg -10%',val:'-10%'},{desc:'Burn dmg -20%',val:'-20%'},{desc:'Burn dmg -40%',val:'-40%'}] },
-  { id:'eev', cat:'Survival', name:'Emergency Evasion', icon:'💨',
-    base:'No speed boost on hit',
-    levels:[{desc:'+15% speed for 2s after hit',val:'2s'},{desc:'+20% speed for 3s after hit',val:'3s'},{desc:'+25% speed for 4s after hit',val:'4s'}] },
-  // Utility & Looting
-  { id:'port', cat:'Utility', name:'Porter', icon:'📦',
-    base:'Carry weight: base limit',
-    levels:[{desc:'+2 kg carry limit',val:'+2kg'},{desc:'+5 kg carry limit',val:'+5kg'},{desc:'+10 kg carry limit',val:'+10kg'}] },
-  { id:'pharm', cat:'Utility', name:'Pharmacist', icon:'💊',
-    base:'Medicine/stim normal duration',
-    levels:[{desc:'Duration +10%',val:'+10%'},{desc:'Duration +20%',val:'+20%'},{desc:'Duration +35%',val:'+35%'}] },
-  { id:'hmotor', cat:'Utility', name:'Heavy Motor', icon:'⛑️',
-    base:'Full armor move penalty',
-    levels:[{desc:'Penalty reduced 10%',val:'-10%'},{desc:'Penalty reduced 20%',val:'-20%'},{desc:'Penalty reduced 35%',val:'-35%'}] },
-  { id:'eloot', cat:'Utility', name:'Effective Looting', icon:'🔍',
-    base:'Must search all containers',
-    levels:[{desc:'6% skip search phase',val:'6%'},{desc:'12% skip search phase',val:'12%'},{desc:'20% skip search phase',val:'20%'}] },
-  { id:'vf1', cat:'Utility', name:"Vinson's Friend I", icon:'🔄',
-    base:'No weapon insurance return',
-    levels:[{desc:'3% retrieve weapons on death',val:'3%'},{desc:'6% retrieve weapons on death',val:'6%'},{desc:'10% retrieve weapons on death',val:'10%'}] },
-  { id:'vf2', cat:'Utility', name:"Vinson's Friend II", icon:'🔄',
-    base:'No armor insurance return',
-    levels:[{desc:'3% retrieve armor on death',val:'3%'},{desc:'6% retrieve armor on death',val:'6%'},{desc:'10% retrieve armor on death',val:'10%'}] },
+// ===== DATA =====
+const S = [
+  {n:'Sleight of Hand',c:'Combat',i:'🔫',b:'3.0s reload',l:[{d:'2.5s reload',v:'2.5s'},{d:'2.0s reload',v:'2.0s'},{d:'1.5s reload',v:'1.5s'}]},
+  {n:'Quick Seal',c:'Combat',i:'🩹',b:'120s heal',l:[{d:'60s heal',v:'60s'},{d:'40s heal',v:'40s'},{d:'15s heal',v:'15s'}]},
+  {n:'Veteran',c:'Combat',i:'💪',b:'Full sway when hit',l:[{d:'Sway -20%',v:'-20%'},{d:'Sway -40%',v:'-40%'},{d:'Sway -60%',v:'-60%'}]},
+  {n:'Iron Arm',c:'Combat',i:'🏋️',b:'Normal upper stam',l:[{d:'Recovery +10%',v:'+10%'},{d:'Recovery +20%',v:'+20%'},{d:'Recovery +35%',v:'+35%'}]},
+  {n:'Focus Puller',c:'Combat',i:'🎯',b:'Normal lean speed',l:[{d:'Lean +15%',v:'+15%'},{d:'Lean +25%',v:'+25%'},{d:'Lean +40%',v:'+40%'}]},
+  {n:'Jump Weapon Ctrl',c:'Combat',i:'🤸',b:'Full jump spread',l:[{d:'Spread -20%',v:'-20%'},{d:'Spread -40%',v:'-40%'},{d:'Spread -60%',v:'-60%'}]},
+  {n:'Battlefield Heal',c:'Survival',i:'🚑',b:'Normal rescue',l:[{d:'Rescue +15%',v:'+15%'},{d:'Rescue +25%',v:'+25%'},{d:'Rescue +40%, heal parts',v:'+40%'}]},
+  {n:'Parkour',c:'Survival',i:'🦘',b:'100% fall dmg',l:[{d:'Fall -20%',v:'-20%'},{d:'Fall -40%',v:'-40%'},{d:'Fall -60%, hi jump',v:'-60%'}]},
+  {n:'Stay Alive',c:'Survival',i:'❤️',b:'Normal downed',l:[{d:'Move +10% HP+15%',v:'+10%'},{d:'Move +20% HP+30%',v:'+20%'},{d:'Move +30% HP+50%',v:'+30%'}]},
+  {n:'Marathon',c:'Survival',i:'🏃',b:'Normal low stam',l:[{d:'Stam +10%',v:'+10%'},{d:'Stam +20%',v:'+20%'},{d:'Stam +35%',v:'+35%'}]},
+  {n:'Fire-Retardant',c:'Survival',i:'🔥',b:'Full burn dmg',l:[{d:'Burn -10%',v:'-10%'},{d:'Burn -20%',v:'-20%'},{d:'Burn -40%',v:'-40%'}]},
+  {n:'Emergency Evasion',c:'Survival',i:'💨',b:'No hit boost',l:[{d:'+15% 2s',v:'2s'},{d:'+20% 3s',v:'3s'},{d:'+25% 4s',v:'4s'}]},
+  {n:'Porter',c:'Utility',i:'📦',b:'Base carry',l:[{d:'+2kg',v:'+2kg'},{d:'+5kg',v:'+5kg'},{d:'+10kg',v:'+10kg'}]},
+  {n:'Pharmacist',c:'Utility',i:'💊',b:'Normal duration',l:[{d:'Duration +10%',v:'+10%'},{d:'Duration +20%',v:'+20%'},{d:'Duration +35%',v:'+35%'}]},
+  {n:'Heavy Motor',c:'Utility',i:'⛑️',b:'Full armor penalty',l:[{d:'Penalty -10%',v:'-10%'},{d:'Penalty -20%',v:'-20%'},{d:'Penalty -35%',v:'-35%'}]},
+  {n:'Effective Looting',c:'Utility',i:'🔍',b:'Search all',l:[{d:'6% skip',v:'6%'},{d:'12% skip',v:'12%'},{d:'20% skip',v:'20%'}]},
+  {n:"Vinson's Friend I",c:'Utility',i:'🔄',b:'No weapon return',l:[{d:'3% retrieve',v:'3%'},{d:'6% retrieve',v:'6%'},{d:'10% retrieve',v:'10%'}]},
+  {n:"Vinson's Friend II",c:'Utility',i:'🔄',b:'No armor return',l:[{d:'3% retrieve',v:'3%'},{d:'6% retrieve',v:'6%'},{d:'10% retrieve',v:'10%'}]}
 ];
+const CATS = ['Combat','Survival','Utility'];
+const CICONS = {Combat:'⚔️',Survival:'🛡️',Utility:'🎒'};
 
-const CAT_ORDER = ['Combat','Survival','Utility'];
-const CAT_ICONS = { Combat:'⚔️', Survival:'🛡️', Utility:'🎒' };
-
-// ===== PRESETS (12 points each) =====
 const PRESETS = [
-  {
-    name:'Rat Master', desc:'Stealth survivalist: slip in, grab loot, vanish',
-    pts:{'Quick Seal':3,'Parkour':3,'Stay Alive':2,'Porter':2,'Emergency Evasion':2}
-  },
-  {
-    name:'Spec Ops', desc:'Tactical operator: dominate firefights with max gunplay',
-    pts:{'Sleight of Hand':3,'Veteran':3,'Iron Arm':2,'Focus Puller':2,'Battlefield Healing':2}
-  },
-  {
-    name:'Robin Hood', desc:'Precision sniper: one shot, reposition, repeat',
-    pts:{'Focus Puller':3,'Veteran':3,'Marathon':3,'Parkour':2,'Jump Weapon Control':1}
-  },
-  {
-    name:'Loot Runner', desc:'Economic farmer: fill bags fast, protect profit',
-    pts:{'Porter':3,'Effective Looting':3,'Pharmacist':2,'Quick Seal':2,'Marathon':2}
-  },
-  {
-    name:'Medics', desc:'Squad medic: keep your team fighting through anything',
-    pts:{'Battlefield Healing':3,'Quick Seal':3,'Pharmacist':3,'Stay Alive':2,'Emergency Evasion':1}
-  },
-  {
-    name:'Juggernaut', desc:'Heavy assault: absorb damage and push through',
-    pts:{'Heavy Motor':3,'Fire-Retardant Material':3,'Iron Arm':2,'Marathon':2,'Sleight of Hand':2}
-  }
+  {n:'Rat Master',d:'Stealth survival',p:{'Quick Seal':3,'Parkour':3,'Stay Alive':2,'Porter':2,'Emergency Evasion':2}},
+  {n:'Spec Ops',d:'Tactical combat',p:{'Sleight of Hand':3,'Veteran':3,'Iron Arm':2,'Focus Puller':2,'Battlefield Heal':2}},
+  {n:'Robin Hood',d:'Precision sniper',p:{'Focus Puller':3,'Veteran':3,'Marathon':3,'Parkour':2,'Jump Weapon Ctrl':1}},
+  {n:'Loot Runner',d:'Economic farm',p:{'Porter':3,'Effective Looting':3,'Pharmacist':2,'Quick Seal':2,'Marathon':2}},
+  {n:'Medics',d:'Squad support',p:{'Battlefield Heal':3,'Quick Seal':3,'Pharmacist':3,'Stay Alive':2,'Emergency Evasion':1}},
+  {n:'Juggernaut',d:'Heavy assault',p:{'Heavy Motor':3,'Fire-Retardant':3,'Iron Arm':2,'Marathon':2,'Sleight of Hand':2}}
 ];
 
-let allocated = {};  // { skillName: level (0-3) }
-let activePreset = null;
-const MAX_PTS = 12;
-
-function usedPts() { return Object.values(allocated).reduce((a,b)=>a+b, 0); }
-function remainPts() { return MAX_PTS - usedPts(); }
+let A = {}, activePreset = null;
+const MAX = 12;
+function used(){return Object.values(A).reduce((a,b)=>a+b,0)}
+function rem(){return MAX-used()}
+function skillByName(n){return S.find(s=>s.n===n)}
 
 // ===== RENDER =====
-function renderAll() {
-  renderCategories();
-  renderTracker();
-  renderPresets();
-  renderSummary();
+function r(){
+  rCats(); rTracker(); rPresets(); rSummary();
 }
 
-function renderTracker() {
-  const used = usedPts();
-  const remain = remainPts();
-  document.getElementById('ptsUsed').textContent = used;
-  document.getElementById('ptsDisplay').textContent = used;
-  document.getElementById('ptsRemainDisplay').textContent = `(${remain} remaining)`;
-  document.getElementById('skillCount').textContent = Object.keys(allocated).filter(k=>allocated[k]>0).length;
-
-  // Progress ring
-  const circ = document.getElementById('progressRing');
-  const total = 188.5; // circumference
-  const offset = total - (used / MAX_PTS) * total;
-  circ.setAttribute('stroke-dashoffset', offset);
-
-  const hint = document.getElementById('ptsHint');
-  if (used === 0) hint.textContent = 'Click dots on any skill to invest points';
-  else if (remain === 0) hint.textContent = 'All points allocated! Click a level dot to redistribute';
-  else hint.textContent = `${used} points used · ${remain} left`;
-}
-
-function renderCategories() {
-  const el = document.getElementById('skillCategories');
-  el.innerHTML = CAT_ORDER.map(cat => {
-    const skills = SKILLS.filter(s => s.cat === cat);
-    return `<div>
-      <div class="section-title"><span>${CAT_ICONS[cat]}</span><span>${cat}</span>
-      <span class="t-muted" style="font-size:13px;font-weight:400;margin-left:auto">${skills.length} skills</span></div>
-      <div class="skill-grid">${skills.map(s => renderCard(s)).join('')}</div>
+function rCats(){
+  const el = document.getElementById('catRow');
+  el.innerHTML = CATS.map(cat => {
+    const skills = S.filter(s => s.c === cat);
+    return `<div class="cat-col">
+      <div class="cat-header">${CICONS[cat]} ${cat} <span>${skills.length} skills</span></div>
+      <div class="skill-grid">${skills.map(s => rCard(s)).join('')}</div>
     </div>`;
   }).join('');
 }
 
-function renderCard(s) {
-  const lvl = allocated[s.name] || 0;
-  const inv = lvl > 0;
-  const nextLvl = lvl; // current level
-  const showComp = lvl > 0;
-
-  return `<div class="skill-card ${inv?'invested':''}">
+function rCard(s){
+  const lvl = A[s.n]||0;
+  return `<div class="skill-card ${lvl>0?'invested':''}">
     <div class="top">
-      <div class="icon-wrap">${s.icon}</div>
-      <div class="info">
-        <h3>${s.name}</h3>
-        <div class="cat-tag">${s.cat} · ${lvl > 0 ? s.levels[lvl-1].desc : s.base}</div>
-      </div>
-      <div class="bonus-text">${lvl > 0 ? s.levels[lvl-1].val : ''}</div>
+      <div class="icon-wrap">${s.i}</div>
+      <div class="info"><h3 title="${s.n}">${s.n}</h3><div class="desc">${lvl>0?s.l[lvl-1].d:s.b}</div></div>
+      ${lvl>0?`<span class="bonus-tag l${lvl}">${s.l[lvl-1].v}</span>`:''}
     </div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
-      <div class="level-dots">
-        ${[1,2,3].map(l => {
-          const filled = lvl >= l;
-          const canClick = remainPts() > 0 || lvl >= l;
-          const isActive = l === lvl;
-          return `<button class="dot ${filled?`filled-${l}`:''} ${isActive?'active':''} ${!canClick && !filled?'disabled':''}"
-            onclick="event.stopPropagation();setLevel('${s.name}',${l})"
-            ${(!canClick && !filled) ? 'disabled' : ''}>${l}</button>`;
-        }).join('')}
-      </div>
-      <button onclick="event.stopPropagation();clearSkill('${s.name}')"
-        style="background:none;border:none;color:var(--tmuted);cursor:pointer;font-size:12px;padding:2px 6px;display:${lvl>0?'':'none'}"
-        title="Remove points">✕</button>
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div class="level-dots">${[1,2,3].map(l => {
+        const f = lvl >= l, can = rem()>0||lvl>=l;
+        return `<button class="dot ${f?`filled-${l}`:''} ${l===lvl?'active':''} ${!can&&!f?'disabled':''}" onclick="setL('${s.n}',${l})" ${!can&&!f?'disabled':''}>${l}</button>`;
+      }).join('')}</div>
+      <button class="clr-btn" onclick="clearSk('${s.n}')" style="display:${lvl>0?'':'none'}">✕</button>
     </div>
-    ${showComp ? renderComparison(s, lvl) : ''}
+    ${lvl>0?rComp(s,lvl):''}
   </div>`;
 }
 
-function renderComparison(s, lvl) {
-  return `<div class="comparison show">
-    <h4>Progression: 0 → ${lvl} pt${lvl>1?'s':''}</h4>
-    <div class="comp-row">
-      <span class="lbl">0 pts</span>
-      <div class="comp-bar"><div class="fill l0"></div></div>
-      <span class="val">${s.base.replace(/^[^:]*:\s*/,'') || s.base}</span>
-    </div>
-    ${[1,2,3].filter(l => l <= lvl).map(l => {
-      const pct = l === 1 ? 45 : l === 2 ? 70 : 100;
+function rComp(s,lvl){
+  return `<div class="compact-comp show">
+    ${[0,1,2,3].filter(l=>l===0||l<=lvl).map(l => {
+      const pct = l===0?15:l===1?35:l===2?60:100;
       return `<div class="comp-row">
-        <span class="lbl">${l} pt${l>1?'s':''}</span>
-        <div class="comp-bar"><div class="fill l${l}" style="width:${pct}%"></div></div>
-        <span class="val" style="color:var(--primary)">${s.levels[l-1].val}</span>
+        <span class="clbl">${l}pt</span>
+        <div class="cbar"><div class="cfill l${l}" style="width:${pct}%"></div></div>
+        <span class="cval" style="color:${l===0?'var(--tmuted)':'var(--primary)'}">${l===0?s.b.replace(/^[^:]*/,'').trim():s.l[l-1].v}</span>
       </div>`;
     }).join('')}
   </div>`;
 }
 
-function renderPresets() {
-  const el = document.getElementById('presetContainer');
-  el.innerHTML = PRESETS.map(p =>
-    `<button class="preset-btn ${activePreset===p.name?'active':''}" onclick="applyPreset('${p.name}')">
-      ${p.name}
-    </button>`
+function rTracker(){
+  const u = used(), r = rem();
+  document.getElementById('ptsUsed').textContent = u;
+  document.getElementById('ptsDisplay').textContent = u;
+  document.getElementById('ptsRemain').textContent = `(${r} left)`;
+  document.getElementById('skillCount').textContent = Object.keys(A).filter(k=>A[k]>0).length;
+  const circ = document.getElementById('progressRing');
+  circ.setAttribute('stroke-dashoffset', 150.8 - (u/MAX)*150.8);
+  document.getElementById('ptsHint').textContent = u===0?'Click 1 / 2 / 3 on any skill':r===0?'All points used! Click a lower level to free points':`${u} used · ${r} left`;
+}
+
+function rPresets(){
+  document.getElementById('presetContainer').innerHTML = PRESETS.map(p =>
+    `<button class="preset-btn ${activePreset===p.n?'active':''}" onclick="applyP('${p.n}')">${p.n}</button>`
   ).join('');
 }
 
-function renderSummary() {
-  const used = usedPts();
-  const remain = remainPts();
-  const invested = SKILLS.filter(s => (allocated[s.name]||0) > 0);
-
-  // Overview stats
-  const combat = invested.filter(s => s.cat==='Combat').length;
-  const surv = invested.filter(s => s.cat==='Survival').length;
-  const util = invested.filter(s => s.cat==='Utility').length;
-
-  let overviewHTML = `
-    <div class="summary-section">
-      <h3>Distribution</h3>
-      <div class="summary-stat"><span>Skills invested</span><span class="val">${invested.length} / 18</span></div>
-      <div class="summary-stat"><span>Points used</span><span class="val">${used} / ${MAX_PTS}</span></div>
-      <div class="summary-stat"><span>⚔️ Combat</span><span class="val">${combat} skills</span></div>
-      <div class="summary-stat"><span>🛡️ Survival</span><span class="val">${surv} skills</span></div>
-      <div class="summary-stat"><span>🎒 Utility</span><span class="val">${util} skills</span></div>
-    </div>
-    <div class="summary-section">
-      <h3>Key Bonuses</h3>
-  `;
-
-  // Show the top 5 biggest deltas
-  const deltas = SKILLS.filter(s => (allocated[s.name]||0) > 0)
-    .map(s => ({ name: s.name, icon: s.icon, lvl: allocated[s.name], val: s.levels[allocated[s.name]-1].val }))
-    .slice(0, 8);
-  
-  deltas.forEach(d => {
-    overviewHTML += `<div class="summary-stat"><span>${d.icon} ${d.name}</span><span class="val">Lv.${d.lvl} · ${d.val}</span></div>`;
-  });
-
-  if (deltas.length === 0) {
-    overviewHTML += `<div class="t-muted" style="font-size:13px">No skills invested yet. Start by clicking Lv.1-3 dots on any skill.</div>`;
+// ===== ANIMATED SUMMARY =====
+function rSummary(){
+  const u = used();
+  const el = document.getElementById('summaryContent');
+  if (u === 0) {
+    el.innerHTML = `<div style="text-align:center;padding:40px 0;color:var(--tmuted);font-size:13px">No points allocated yet<br><span style="font-size:11px">Click the Lv.1-3 dots on skills above</span></div>`;
+    return;
   }
 
-  overviewHTML += `</div>`;
-  document.getElementById('summaryOverview').innerHTML = overviewHTML;
+  const stats = calcStats();
+  const invested = S.filter(s => (A[s.n]||0) > 0);
 
-  // Invested skills list
-  const investedHTML = invested.length > 0 ? invested.map(s => {
-    const lvl = allocated[s.name];
-    return `<div class="summary-skill">
-      <span class="sname">${s.icon} ${s.name}</span>
-      <span class="slevel" style="background:${lvl===3?'var(--l3)':lvl===2?'var(--l2)':'var(--l1)'};color:${lvl===3?'#000':'var(--primary)'}">Lv.${lvl} · ${s.levels[lvl-1].val}</span>
+  // Stat bars
+  let html = `<div class="stat-bars">`;
+  const defs = [
+    {k:'combat',i:'⚡',l:'Combat Speed'},{k:'survive',i:'❤️',l:'Survivability'},
+    {k:'mobility',i:'🏃',l:'Mobility'},{k:'looting',i:'💰',l:'Looting Power'},{k:'recovery',i:'🔄',l:'Raid Recovery'}
+  ];
+  defs.forEach(d => {
+    const v = Math.min(stats[d.k], 100);
+    html += `<div class="sbar-row">
+      <div class="sicon">${d.i}</div>
+      <div class="sinfo">
+        <div class="slabel"><span>${d.l}</span><span class="sval">${v}%</span></div>
+        <div class="strack"><div class="sfill" data-width="${v}" style="width:0"></div></div>
+      </div>
     </div>`;
-  }).join('') : '<div class="t-muted" style="font-size:13px;text-align:center;padding:20px">No skills selected</div>';
+  });
+  html += `</div>`;
 
-  document.getElementById('summarySkills').innerHTML = `
-    <div class="summary-section"><h3>Invested Skills <span class="t-muted" style="font-weight:400;text-transform:none">(${invested.length})</span></h3>
-    ${investedHTML}</div>`;
+  // Distribution
+  const cCount = invested.filter(s=>s.c==='Combat').length;
+  const sCount = invested.filter(s=>s.c==='Survival').length;
+  const uCount = invested.filter(s=>s.c==='Utility').length;
+
+  html += `<div style="display:flex;gap:6px;margin-bottom:12px">
+    <div style="flex:1;background:rgba(255,255,255,0.02);border-radius:8px;padding:8px;text-align:center;font-size:11px">
+      <div class="t-primary" style="font-weight:700;font-size:16px">${u}</div>
+      <div class="t-muted" style="font-size:9px">Points</div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.02);border-radius:8px;padding:8px;text-align:center;font-size:11px">
+      <div class="t-primary" style="font-weight:700;font-size:16px">${invested.length}</div>
+      <div class="t-muted" style="font-size:9px">Skills</div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.02);border-radius:8px;padding:8px;text-align:center;font-size:10px">
+      <div style="font-weight:600">⚔️${cCount}</div>
+      <div style="font-weight:600">🛡️${sCount}</div>
+      <div style="font-weight:600">🎒${uCount}</div>
+      <div class="t-muted" style="font-size:8px">per cat</div>
+    </div>
+  </div>`;
+
+  // Invested skills
+  html += `<div class="invested-list"><div class="ilabel">Invested Skills (${invested.length})</div>`;
+  invested.forEach(s => {
+    const l = A[s.n];
+    html += `<div class="iskill"><span>${s.i}</span><span class="iname">${s.n}</span><span class="ibadge lv${l}">Lv.${l} ${s.l[l-1].v}</span></div>`;
+  });
+  html += `</div>`;
+
+  el.innerHTML = html;
+
+  // Animate bars after render
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.sfill').forEach(bar => {
+      bar.style.width = bar.dataset.width + '%';
+    });
+  });
+}
+
+function calcStats(){
+  const a = {combat:0,survive:0,mobility:0,looting:0,recovery:0};
+  for (const [name, lvl] of Object.entries(A)) {
+    const l = lvl||0;
+    switch(name){
+      case 'Sleight of Hand': a.combat += l*12; break;
+      case 'Quick Seal': a.survive += l*10; a.recovery += l*8; break;
+      case 'Veteran': a.combat += l*8; a.survive += l*6; break;
+      case 'Iron Arm': a.mobility += l*10; a.combat += l*4; break;
+      case 'Focus Puller': a.combat += l*8; break;
+      case 'Jump Weapon Ctrl': a.combat += l*6; break;
+      case 'Battlefield Heal': a.survive += l*12; a.recovery += l*10; break;
+      case 'Parkour': a.mobility += l*12; a.survive += l*4; break;
+      case 'Stay Alive': a.survive += l*12; break;
+      case 'Marathon': a.mobility += l*12; break;
+      case 'Fire-Retardant': a.survive += l*8; break;
+      case 'Emergency Evasion': a.mobility += l*8; a.survive += l*5; break;
+      case 'Porter': a.looting += l*14; break;
+      case 'Pharmacist': a.recovery += l*12; a.survive += l*6; break;
+      case 'Heavy Motor': a.mobility += l*10; break;
+      case 'Effective Looting': a.looting += l*14; break;
+      case "Vinson's Friend I": a.recovery += l*10; break;
+      case "Vinson's Friend II": a.recovery += l*10; break;
+    }
+  }
+  return a;
 }
 
 // ===== ACTIONS =====
-function setLevel(name, level) {
-  const current = allocated[name] || 0;
-  const diff = level - current;
-
-  // If adding points, check we have enough remaining
-  if (diff > 0 && remainPts() < diff) return;
-
-  allocated[name] = level;
-  if (level === 0) delete allocated[name];
-  activePreset = null;
-  renderAll();
+function setL(name, level){
+  const cur = A[name]||0;
+  if (level - cur > 0 && rem() < (level - cur)) return;
+  A[name] = level;
+  if (level === 0) delete A[name];
+  activePreset = null; r();
 }
 
-function clearSkill(name) {
-  delete allocated[name];
-  activePreset = null;
-  renderAll();
-}
+function clearSk(name){ delete A[name]; activePreset=null; r(); }
+function clearAll(){ A={}; activePreset=null; r(); }
 
-function clearAll() {
-  allocated = {};
-  activePreset = null;
-  renderAll();
-}
-
-function applyPreset(name) {
-  const p = PRESETS.find(x => x.name === name);
+function applyP(name){
+  const p = PRESETS.find(x => x.n === name);
   if (!p) return;
   if (activePreset === name) { clearAll(); return; }
-  allocated = {};
-  for (const [sname, slevel] of Object.entries(p.pts)) {
-    allocated[sname] = slevel;
+  A = {};
+  for (const [sn, sl] of Object.entries(p.p)) {
+    const match = S.find(s => s.n === sn);
+    if (match) A[match.n] = sl;
   }
-  activePreset = name;
-  renderAll();
+  activePreset = name; r();
 }
 
-function togglePanel() {
+function togglePanel(){
   document.getElementById('summaryPanel').classList.toggle('open');
   document.getElementById('overlay').classList.toggle('show');
+  rSummary(); // refresh on open to animate
 }
 
-// ===== INIT =====
-renderAll();
+r();
 </script>
 </body>
 </html>
