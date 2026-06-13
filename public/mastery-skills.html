@@ -275,7 +275,7 @@ function rCard(s){
   const lvl = A[s.n]||0;
   return `<div class="skill-card ${lvl>0?'invested':''}">
       <div class="icon-wrap"><img src="/skill-icons/${s.img}" alt="${s.n}"></div>
-      <div class="info"><h3 title="${s.n}">${s.n}</h3><div class="desc">${lvl>0?s.l[lvl-1].d:s.b}</div>${lvl>0?`<span class="bonus-tag l${lvl}">${s.l[lvl-1].v}</span>`:''}</div>
+      <div class="info"><h3 title="${s.n}">${s.n}</h3><div class="desc">${lvl>0?s.l[lvl-1].d:s.b}</div><div style="min-height:18px">${lvl>0?`<span class="bonus-tag l${lvl}">${s.l[lvl-1].v}</span>`:''}</div></div>
     <div style="display:flex;align-items:center;justify-content:center;gap:4px">
       <div class="level-dots">${[1,2,3].map(l => {
         const f = lvl >= l, can = rem()>0||lvl>=l;
@@ -288,13 +288,14 @@ function rCard(s){
 }
 
 function rCompBar(s, lvl){
-  // Always rendered to reserve space — shows base (0pt) vs bonus (Lv.X)
+  // Always rendered — reserves full height so cards in grid rows align
   if (lvl === 0) {
+    const baseVal = s.b.replace(/^[^:]*:\s*/,'').trim();
     return `<div class="comp-bar-wrap"><div class="comp-row">
       <span class="clbl"></span>
       <div class="cbar"><div class="cfill" style="width:8%"></div></div>
-      <span class="cval base">${s.b.replace(/^[^:]*/,'').trim()}</span>
-    </div></div>`;
+      <span class="cval base">${baseVal}</span>
+    </div><div style="font-size:8px;color:var(--tmuted);line-height:1;margin-top:-1px;padding-left:22px;min-height:10px">0pt: ${baseVal}</div></div>`;
   }
   const pct = lvl === 1 ? 35 : lvl === 2 ? 65 : 100;
   const baseVal = s.b.replace(/^[^:]*:\s*/,'').trim();
