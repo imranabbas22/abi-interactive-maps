@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mastery Skills - ABI Builder</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+<style>
+/* ===== ABI Builder Theme ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+:root {
+  --primary: #D4AF37;
+  --primary-dark: #B8962E;
+  --accent: #C9A961;
+  --background: #0a0a0a;
+  --surface: #141414;
+  --surface-elevated: #1c1c1c;
+  --text: #ededed;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --border: rgba(255,255,255,0.05);
+  --glass: rgba(255,255,255,0.03);
+  --level-1: rgba(212,175,55,0.15);
+  --level-2: rgba(212,175,55,0.30);
+  --level-3: rgba(212,175,55,0.50);
+}
+body { font-family: 'Inter', system-ui, -apple-system, sans-serif !important; background: var(--background); color: var(--text); min-height: 100vh; }
+.font-display { font-family: 'Inter', system-ui, sans-serif; font-weight: 800; }
+a { color: inherit; text-decoration: none; }
+
+/* Glass */
+.glass { background: var(--glass); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+.glass-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 16px; }
+.glass-card:hover { border-color: rgba(250,189,0,0.2); }
+
+/* Text */
+.text-gradient { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.text-primary { color: var(--primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; transition: all 0.2s; }
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--accent)); color: #000; }
+.btn-primary:hover { box-shadow: 0 4px 20px rgba(250,189,0,0.3); transform: translateY(-1px); }
+.btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); }
+.btn-outline:hover { border-color: rgba(250,189,0,0.3); color: var(--text); }
+.btn-sm { padding: 6px 14px; font-size: 12px; border-radius: 8px; }
+.btn-active { background: rgba(250,189,0,0.15); border-color: rgba(250,189,0,0.3); color: var(--primary); }
+
+/* Layout */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; }
+.nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-link { color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+.nav-link:hover { color: var(--primary); }
+.nav-logo { font-weight: 700; font-size: 20px; display: flex; align-items: center; gap: 8px; }
+
+main { padding-top: 80px; }
+
+.hero { text-align: center; padding: 60px 24px 40px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: rgba(250,189,0,0.06); border-radius: 50%; filter: blur(120px); pointer-events: none; }
+.hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 8px; }
+.hero p { color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+/* Badge grid */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; max-width: 700px; margin: 24px auto 0; }
+.stat-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; }
+.stat-card .num { font-size: 28px; font-weight: 800; }
+.stat-card .label { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+/* Skills Layout */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+.section-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+
+.categories { display: flex; flex-direction: column; gap: 40px; padding: 40px 0; }
+
+.skill-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+
+.skill-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 14px; padding: 20px; transition: all 0.3s; position: relative; overflow: hidden; }
+.skill-card:hover { border-color: rgba(250,189,0,0.2); }
+.skill-card.selected { border-color: rgba(250,189,0,0.4); background: rgba(250,189,0,0.04); }
+.skill-card .icon-wrap { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 10px; }
+.skill-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.skill-card .desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; min-height: 36px; }
+
+/* Level selector */
+.level-selector { display: flex; gap: 6px; margin-top: 12px; }
+.level-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: var(--text-muted); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+.level-btn:hover { border-color: rgba(250,189,0,0.3); color: var(--text); }
+.level-btn.active-l1 { background: var(--level-1); border-color: rgba(250,189,0,0.3); color: var(--primary); }
+.level-btn.active-l2 { background: var(--level-2); border-color: rgba(250,189,0,0.5); color: var(--primary); }
+.level-btn.active-l3 { background: var(--level-3); border-color: rgba(250,189,0,0.7); color: #000; font-weight: 700; }
+
+/* Sidebar / Build Panel */
+.build-panel { position: fixed; top: 0; right: 0; width: 380px; height: 100vh; background: rgba(10,10,10,0.96); backdrop-filter: blur(20px); border-left: 1px solid var(--border); z-index: 100; padding: 24px; overflow-y: auto; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+.build-panel.open { transform: translateX(0); }
+.build-panel h2 { font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+
+.build-skill { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+.build-skill .name { font-size: 13px; font-weight: 500; }
+.build-skill .level-badge { font-size: 11px; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+.build-skill .remove-btn { width: 24px; height: 24px; border-radius: 6px; border: none; background: rgba(255,255,255,0.05); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: 0.2s; }
+.build-skill .remove-btn:hover { background: rgba(255,0,0,0.15); color: #ff4444; }
+
+/* Presets */
+.presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.preset-btn { padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); background: transparent; color: var(--text-secondary); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.preset-btn:hover { border-color: rgba(250,189,0,0.3); color: var(--text); background: rgba(250,189,0,0.05); }
+.preset-btn.active { border-color: rgba(250,189,0,0.4); background: rgba(250,189,0,0.1); color: var(--primary); }
+
+/* Toggle button */
+.toggle-build { position: fixed; bottom: 24px; right: 24px; z-index: 90; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #000; border: none; cursor: pointer; font-size: 24px; box-shadow: 0 4px 20px rgba(250,189,0,0.25); transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+.toggle-build:hover { transform: scale(1.05); box-shadow: 0 6px 30px rgba(250,189,0,0.35); }
+.toggle-build .badge { position: absolute; top: -4px; right: -4px; width: 22px; height: 22px; border-radius: 50%; background: #ff4444; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+
+/* Overlay */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.overlay.show { opacity: 1; pointer-events: auto; }
+
+/* Advantage bars */
+.advantage-section { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+.advantage-section h3 { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.adv-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.adv-bar .label { font-size: 12px; color: var(--text-secondary); width: 100px; flex-shrink: 0; }
+.adv-bar .track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+.adv-bar .fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 0.5s; }
+.adv-bar .val { font-size: 11px; color: var(--text-muted); width: 24px; text-align: right; }
+
+/* Empty state */
+.empty-build { text-align: center; padding: 40px 0; color: var(--text-muted); }
+.empty-build svg { margin-bottom: 12px; opacity: 0.3; }
+
+/* Tactical tips */
+.tactical-tip { background: rgba(250,189,0,0.04); border: 1px solid rgba(250,189,0,0.12); border-radius: 10px; padding: 14px; margin-top: 16px; font-size: 13px; line-height: 1.6; color: var(--text-secondary); }
+.tactical-tip strong { color: var(--primary); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 32px; }
+  .skill-grid { grid-template-columns: 1fr; }
+  .build-panel { width: 100vw; }
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="glass">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="url(#lg)"/><path d="M16 6l10 6v8l-10 6-10-6v-8z" fill="#0a0a0a" stroke="#FABD00" stroke-width="1.5"/><circle cx="16" cy="16" r="4" fill="#FABD00"/><defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#FABD00"/><stop offset="1" stop-color="#FF8C00"/></linearGradient></defs></svg>
+      ABI <span style="color:var(--primary)">Builder</span>
+    </a>
+    <div class="nav-links">
+      <a href="https://abibuilder.com" class="nav-link">Home</a>
+      <a href="https://abibuilder.com/builds" class="nav-link">Builds</a>
+      <a href="https://abibuilder.com/randomizer" class="nav-link">Randomizer</a>
+      <a href="https://abibuilder.com/guides" class="nav-link">Guides</a>
+      <a href="#" class="nav-link" style="color:var(--primary);font-weight:600">Mastery Skills</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Mastery <span class="text-gradient">Skills</span></h1>
+    <p>Choose your specialization. Every skill has 3 levels of mastery. Combine them to create your perfect operator build and see exactly how your loadout performs in the field.</p>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="num text-gradient">18</div><div class="label">Skills Total</div></div>
+      <div class="stat-card"><div class="num text-gradient">3</div><div class="label">Categories</div></div>
+      <div class="stat-card"><div class="num text-gradient">5</div><div class="label">Preset Builds</div></div>
+      <div class="stat-card"><div class="num text-gradient">3</div><div class="label">Levels Each</div></div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <div class="container">
+    <div class="categories" id="skillCategories"></div>
+  </div>
+</main>
+
+<!-- Build Panel Toggle -->
+<button class="toggle-build" id="toggleBuild" onclick="toggleBuildPanel()">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+  <span class="badge" id="skillCount">0</span>
+</button>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="toggleBuildPanel()"></div>
+
+<!-- Build Panel -->
+<div class="build-panel" id="buildPanel">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+    <h2>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+      Your Build
+    </h2>
+    <button onclick="clearBuild()" class="btn btn-outline btn-sm">Clear All</button>
+  </div>
+
+  <!-- Presets -->
+  <div class="presets" id="presetContainer"></div>
+
+  <!-- Selected Skills -->
+  <div id="buildContent">
+    <div class="empty-build">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>
+      <p>No skills selected yet</p>
+      <p style="font-size:12px;margin-top:4px">Click a skill card to add it to your build</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const CATEGORIES = [
+  {
+    id: 'combat',
+    name: 'Combat & Weapon Handling',
+    icon: '⚔️',
+    color: '#FF6B35',
+    skills: [
+      { name:'Sleight of Hand', levels:{1:'Slightly increases magazine loading speed',2:'Moderately increases magazine loading speed',3:'Significantly increases magazine loading speed'} },
+      { name:'Quick Seal', levels:{1:'Wounds heal after 60s',2:'Wounds heal after 40s',3:'Wounds heal after 15s'} },
+      { name:'Veteran', levels:{1:'Slightly reduces weapon sway when taking hits',2:'Moderately reduces weapon sway when taking hits',3:'Significantly reduces weapon sway when taking hits'} },
+      { name:'Iron Arm', levels:{1:'Marginally increases upper-body stamina recovery speed',2:'Slightly increases upper-body stamina recovery speed',3:'Moderately increases upper-body stamina recovery speed'} },
+      { name:'Focus Puller', levels:{1:'Somewhat increases leaning and recentering speed',2:'Slightly increases leaning and recentering speed',3:'Moderately increases leaning and recentering speed'} },
+      { name:'Jump Weapon Control', levels:{1:'Slightly increases weapon stability while jumping',2:'Moderately increases weapon stability while jumping',3:'Significantly increases weapon stability while jumping'} },
+    ]
+  },
+  {
+    id: 'survival',
+    name: 'Survival & Recovery',
+    icon: '🛡️',
+    color: '#22C55E',
+    skills: [
+      { name:'Battlefield Healing', levels:{1:'Slightly increases rescue speed and rescued player\'s HP',2:'Moderately increases rescue speed and rescued player\'s HP',3:'Effectively increases rescue speed and HP, heals broken parts'} },
+      { name:'Parkour', levels:{1:'Slightly reduces fall damage',2:'Moderately reduces fall damage',3:'Effectively reduces fall damage, jump from greater heights safely'} },
+      { name:'Stay Alive', levels:{1:'Slightly increases movement speed and HP when downed',2:'Moderately increases movement speed and HP when downed',3:'Significantly increases movement speed and HP when downed'} },
+      { name:'Marathon', levels:{1:'Marginally increases lower-body stamina recovery speed',2:'Slightly increases lower-body stamina recovery speed',3:'Moderately increases lower-body stamina recovery speed'} },
+      { name:'Fire-Retardant Material', levels:{1:'Reduces burn damage taken by 10%',2:'Reduces burn damage taken by 20%',3:'Reduces burn damage taken by 40%'} },
+      { name:'Emergency Evasion', levels:{1:'Slightly increases move speed briefly after taking damage',2:'Increases move speed briefly after taking damage',3:'Increases move speed longer after taking damage'} },
+    ]
+  },
+  {
+    id: 'utility',
+    name: 'Utility & Looting',
+    icon: '🎒',
+    color: '#3B82F6',
+    skills: [
+      { name:'Porter', levels:{1:'Increases weight limit by 2 kg',2:'Increases weight limit by 5 kg',3:'Increases weight limit by 10 kg'} },
+      { name:'Pharmacist', levels:{1:'Medicine and stimulants last 10% longer',2:'Medicine and stimulants last 20% longer',3:'Medicine and stimulants last 35% longer'} },
+      { name:'Heavy Motor', levels:{1:'Reduces armor/helmet move speed penalty by 10%',2:'Reduces armor/helmet move speed penalty by 20%',3:'Reduces armor/helmet move speed penalty by 35%'} },
+      { name:'Effective Looting', levels:{1:'6% chance to skip search on non-safe containers',2:'12% chance to skip search on non-safe containers',3:'20% chance to skip search on non-safe containers'} },
+      { name:'Vinson\'s Friend I', levels:{1:'3% chance to retrieve weapons on failed extract (Tactical Ops)',2:'6% chance to retrieve weapons on failed extract',3:'10% chance to retrieve weapons on failed extract'} },
+      { name:'Vinson\'s Friend II', levels:{1:'3% chance to retrieve armor on failed extract (Tactical Ops)',2:'6% chance to retrieve armor on failed extract',3:'10% chance to retrieve armor on failed extract'} },
+    ]
+  }
+];
+
+const PRESETS = [
+  {
+    name: 'Rat Master',
+    desc: 'Stealth survivalist — get in, grab loot, get out alive',
+    skills: { 'Quick Seal':3, 'Parkour':3, 'Stay Alive':3, 'Porter':3, 'Emergency Evasion':2, 'Vinson\'s Friend I':1, 'Vinson\'s Friend II':1 }
+  },
+  {
+    name: 'Spec Ops',
+    desc: 'Tactical combat operator — maximum gunplay efficiency',
+    skills: { 'Sleight of Hand':3, 'Veteran':3, 'Iron Arm':3, 'Focus Puller':2, 'Battlefield Healing':2, 'Marathon':2 }
+  },
+  {
+    name: 'Robin Hood',
+    desc: 'Precision sniper — one shot, one kill, reposition fast',
+    skills: { 'Focus Puller':3, 'Jump Weapon Control':2, 'Marathon':3, 'Parkour':2, 'Heavy Motor':2, 'Veteran':3 }
+  },
+  {
+    name: 'Loot Runner',
+    desc: 'Economic farming build — fill your bag fast and protect profit',
+    skills: { 'Porter':3, 'Effective Looting':3, 'Pharmacist':2, 'Quick Seal':2, 'Marathon':2, 'Iron Arm':1 }
+  },
+  {
+    name: 'Medics',
+    desc: 'Team support — keep squadmates fighting longer',
+    skills: { 'Battlefield Healing':3, 'Quick Seal':3, 'Pharmacist':3, 'Stay Alive':2, 'Emergency Evasion':1, 'Marathon':1 }
+  }
+];
+
+// ===== STATE =====
+// build = { skillName: level }
+let build = {};
+let activePreset = null;
+const MAX_SKILLS = 10;
+
+// ===== ICON MAP =====
+const ICONS = {
+  'Sleight of Hand':'🔫','Quick Seal':'🩹','Veteran':'💪','Iron Arm':'🏋️','Focus Puller':'🎯','Jump Weapon Control':'🤸',
+  'Battlefield Healing':'🚑','Parkour':'🦘','Stay Alive':'❤️‍🩹','Marathon':'🏃','Fire-Retardant Material':'🔥','Emergency Evasion':'💨',
+  'Porter':'📦','Pharmacist':'💊','Heavy Motor':'🛡️','Effective Looting':'🔍','Vinson\'s Friend I':'🔄','Vinson\'s Friend II':'🔄'
+};
+
+// ===== RENDER =====
+function renderCategories() {
+  const container = document.getElementById('skillCategories');
+  container.innerHTML = CATEGORIES.map(cat => `
+    <div>
+      <div class="section-title">
+        <span>${cat.icon}</span>
+        <span>${cat.name}</span>
+        <span style="font-size:13px;font-weight:400;color:var(--text-muted);margin-left:auto">${cat.skills.length} skills</span>
+      </div>
+      <div class="skill-grid">
+        ${cat.skills.map(s => renderSkillCard(s)).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderSkillCard(skill) {
+  const level = build[skill.name] || 0;
+  const selected = level > 0;
+  return `
+    <div class="skill-card ${selected?'selected':''}" data-name="${skill.name}" onclick="toggleSkill('${skill.name}')">
+      <div class="icon-wrap" style="background:rgba(255,255,255,0.05)">${ICONS[skill.name] || '⚡'}</div>
+      <h3>${skill.name}</h3>
+      <div class="desc">${skill.levels[level] || skill.levels[1]}</div>
+      <div class="level-selector" onclick="event.stopPropagation()">
+        ${[1,2,3].map(l => `
+          <button class="level-btn ${level===l?`active-l${l}`:''}" onclick="setLevel('${skill.name}',${l})">L${l}</button>
+        `).join('')}
+        ${selected ? `<button class="level-btn" onclick="removeSkill('${skill.name}')" style="width:auto;padding:0 8px;margin-left:4px;font-size:11px;color:var(--text-muted)">✕</button>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function renderBuildPanel() {
+  const content = document.getElementById('buildContent');
+  const count = Object.keys(build).length;
+  document.getElementById('skillCount').textContent = count;
+
+  if (count === 0) {
+    content.innerHTML = `
+      <div class="empty-build">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>
+        <p>No skills selected yet</p>
+        <p style="font-size:12px;margin-top:4px">Click a skill card to add it to your build</p>
+      </div>
+    `;
+    return;
+  }
+
+  const entries = Object.entries(build);
+  let html = '<div style="margin-bottom:12px;font-size:12px;color:var(--text-muted)">' + count + ' / ' + MAX_SKILLS + ' skills selected</div>';
+  html += entries.map(([name, lvl]) => `
+    <div class="build-skill">
+      <div>
+        <span class="name">${ICONS[name] || '⚡'} ${name}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="level-badge" style="background:${lvl===3?'var(--level-3)':lvl===2?'var(--level-2)':'var(--level-1)'};color:${lvl===3?'#000':'var(--primary)'}">Lv.${lvl}</span>
+        <button class="remove-btn" onclick="removeSkill('${name}')">✕</button>
+      </div>
+    </div>
+  `).join('');
+
+  // Tactical advantages
+  html += renderAdvantages();
+
+  content.innerHTML = html;
+}
+
+function renderAdvantages() {
+  const advs = calculateAdvantages();
+  let html = '<div class="advantage-section"><h3>Tactical Advantages</h3>';
+
+  const adDefs = [
+    { id:'combatSpeed', label:'Combat Speed', icon:'⚡' },
+    { id:'survivability', label:'Survivability', icon:'❤️' },
+    { id:'mobility', label:'Mobility', icon:'🏃' },
+    { id:'looting', label:'Looting Power', icon:'💰' },
+    { id:'recovery', label:'Raid Recovery', icon:'🔄' },
+  ];
+
+  adDefs.forEach(ad => {
+    const val = advs[ad.id] || 0;
+    const pct = Math.min(val, 100);
+    html += `
+      <div class="adv-bar">
+        <span class="label">${ad.icon} ${ad.label}</span>
+        <div class="track"><div class="fill" style="width:${pct}%"></div></div>
+        <span class="val">${pct}%</span>
+      </div>
+    `;
+  });
+
+  // Tactical tip
+  const tip = generateTip(advs);
+  if (tip) {
+    html += `<div class="tactical-tip"><strong>💡 Tactical Note:</strong> ${tip}</div>`;
+  }
+
+  html += '</div>';
+  return html;
+}
+
+function calculateAdvantages() {
+  const a = { combatSpeed:0, survivability:0, mobility:0, looting:0, recovery:0 };
+
+  for (const [name, lvl] of Object.entries(build)) {
+    const l = lvl || 0;
+    switch (name) {
+      case 'Sleight of Hand': a.combatSpeed += l * 12; break;
+      case 'Quick Seal': a.survivability += l * 10; a.recovery += l * 8; break;
+      case 'Veteran': a.combatSpeed += l * 8; a.survivability += l * 6; break;
+      case 'Iron Arm': a.mobility += l * 10; a.combatSpeed += l * 4; break;
+      case 'Focus Puller': a.combatSpeed += l * 8; break;
+      case 'Jump Weapon Control': a.combatSpeed += l * 6; break;
+      case 'Battlefield Healing': a.survivability += l * 12; a.recovery += l * 10; break;
+      case 'Parkour': a.mobility += l * 12; a.survivability += l * 4; break;
+      case 'Stay Alive': a.survivability += l * 12; break;
+      case 'Marathon': a.mobility += l * 12; break;
+      case 'Fire-Retardant Material': a.survivability += l * 8; break;
+      case 'Emergency Evasion': a.mobility += l * 8; a.survivability += l * 5; break;
+      case 'Porter': a.looting += l * 14; break;
+      case 'Pharmacist': a.recovery += l * 12; a.survivability += l * 6; break;
+      case 'Heavy Motor': a.mobility += l * 10; break;
+      case 'Effective Looting': a.looting += l * 14; break;
+      case "Vinson's Friend I": a.recovery += l * 10; break;
+      case "Vinson's Friend II": a.recovery += l * 10; break;
+    }
+  }
+
+  return a;
+}
+
+function generateTip(advs) {
+  const max = Object.entries(advs).sort((a,b) => b[1]-a[1]);
+  if (!max[0][1]) return null;
+
+  const tips = {
+    combatSpeed: 'Your build excels at fast gunplay. Great for aggressive room-clearing and CQB.',
+    survivability: 'You\'re built to take hits and keep fighting. Excellent for prolonged engagements.',
+    mobility: 'You move fast and efficiently. Ideal for rotation-heavy playstyles and flanking.',
+    looting: 'Your loot efficiency is high. Maximize profit per raid with this setup.',
+    recovery: 'You recover from setbacks quickly. Forgiving build for high-risk plays.'
+  };
+
+  const second = max[1]?.[1] > 10 ? max[1][0] : null;
+  let tip = tips[max[0][0]] || '';
+  if (second && tips[second]) {
+    tip += ' Secondary strength in ' + tips[second].toLowerCase().split('.')[0] + '.';
+  }
+  return tip;
+}
+
+function renderPresets() {
+  const container = document.getElementById('presetContainer');
+  container.innerHTML = PRESETS.map(p => `
+    <button class="preset-btn ${activePreset===p.name?'active':''}" onclick="applyPreset('${p.name}')">
+      ${p.name}
+    </button>
+  `).join('');
+}
+
+// ===== ACTIONS =====
+function toggleSkill(name) {
+  if (build[name]) {
+    removeSkill(name);
+  } else {
+    addSkill(name);
+  }
+}
+
+function addSkill(name, level) {
+  if (Object.keys(build).length >= MAX_SKILLS) {
+    return;
+  }
+  level = level || 1;
+  build[name] = level;
+  activePreset = null;
+  fullRender();
+}
+
+function removeSkill(name) {
+  delete build[name];
+  activePreset = null;
+  fullRender();
+}
+
+function setLevel(name, level) {
+  if (!build[name]) {
+    addSkill(name, level);
+    return;
+  }
+  build[name] = level;
+  fullRender();
+}
+
+function clearBuild() {
+  build = {};
+  activePreset = null;
+  fullRender();
+}
+
+function applyPreset(name) {
+  const preset = PRESETS.find(p => p.name === name);
+  if (!preset) return;
+
+  if (activePreset === name) {
+    clearBuild();
+    return;
+  }
+
+  build = {};
+  for (const [sname, slevel] of Object.entries(preset.skills)) {
+    build[sname] = slevel;
+  }
+  activePreset = name;
+  fullRender();
+}
+
+function toggleBuildPanel() {
+  const panel = document.getElementById('buildPanel');
+  const overlay = document.getElementById('overlay');
+  const isOpen = panel.classList.toggle('open');
+  overlay.classList.toggle('show', isOpen);
+}
+
+function fullRender() {
+  renderCategories();
+  renderBuildPanel();
+  renderPresets();
+}
+
+// ===== INIT =====
+renderCategories();
+renderBuildPanel();
+renderPresets();
+</script>
+
+</body>
+</html>
