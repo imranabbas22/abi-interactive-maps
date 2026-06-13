@@ -60,17 +60,17 @@ main{padding-top:72px;padding-bottom:40px}
 .cat-header span:last-child{font-size:11px;color:var(--tmuted);font-weight:400;margin-left:auto}
 
 /* Compact skill cards — 2 columns x 3 rows per category */
-.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.skill-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 12px;transition:all .25s;cursor:default}
+.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* Card: vertical layout with large centered icon */
+.skill-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px 12px 10px;transition:all .25s;cursor:default;text-align:center}
 .skill-card:hover{border-color:rgba(212,175,55,0.18)}
 .skill-card.invested{border-color:rgba(212,175,55,0.3);background:rgba(212,175,55,0.04)}
-.skill-card .top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
-.skill-card .icon-wrap{width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.skill-card .icon-wrap img{width:28px;height:28px;object-fit:contain}
-.skill-card .info{flex:1;min-width:0}
+.skill-card .icon-wrap{width:72px;height:72px;border-radius:12px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+.skill-card .icon-wrap img{width:64px;height:64px;object-fit:contain}
+.skill-card .info{text-align:center;margin-bottom:6px}
 .skill-card h3{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.skill-card .desc{font-size:10px;color:var(--tsec);line-height:1.3;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.skill-card .bonus-tag{font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600;flex-shrink:0}
+.skill-card .desc{font-size:10px;color:var(--tsec);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.skill-card .bonus-tag{font-size:10px;padding:1px 8px;border-radius:4px;font-weight:600;display:inline-block;margin-top:2px}
 .bonus-tag.l1{background:var(--l1);color:var(--primary)}
 .bonus-tag.l2{background:var(--l2);color:var(--primary)}
 .bonus-tag.l3{background:var(--l3);color:#000}
@@ -274,12 +274,9 @@ function rCats(){
 function rCard(s){
   const lvl = A[s.n]||0;
   return `<div class="skill-card ${lvl>0?'invested':''}">
-    <div class="top">
-      <div class="icon-wrap"><img src="/skill-icons/${s.img}" alt="${s.n}" style="width:22px;height:22px;object-fit:contain"></div>
-      <div class="info"><h3 title="${s.n}">${s.n}</h3><div class="desc">${lvl>0?s.l[lvl-1].d:s.b}</div></div>
-      ${lvl>0?`<span class="bonus-tag l${lvl}">${s.l[lvl-1].v}</span>`:''}
-    </div>
-    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div class="icon-wrap"><img src="/skill-icons/${s.img}" alt="${s.n}"></div>
+      <div class="info"><h3 title="${s.n}">${s.n}</h3><div class="desc">${lvl>0?s.l[lvl-1].d:s.b}</div>${lvl>0?`<span class="bonus-tag l${lvl}">${s.l[lvl-1].v}</span>`:''}</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:4px">
       <div class="level-dots">${[1,2,3].map(l => {
         const f = lvl >= l, can = rem()>0||lvl>=l;
         return `<button class="dot ${f?`filled-${l}`:''} ${l===lvl?'active':''} ${!can&&!f?'disabled':''}" onclick="setL('${s.n}',${l})" ${!can&&!f?'disabled':''}>${l}</button>`;
