@@ -5,7 +5,7 @@
         "Maps"
     ],
     "defaultSort": "",
-    "description": "Airport map - Season 5",
+    "description": "Airport - Interactive Map",
     "coordinateOrder": "xy",
     "mapBounds": [
         [
@@ -13,11 +13,11 @@
             0
         ],
         [
-            957,
-            892
+            1820,
+            1024
         ]
     ],
-    "origin": "top-left",
+    "origin": "bottom-left",
     "useMarkerClustering": false,
     "categories": [
         {
@@ -27,7 +27,7 @@
             "color": "#00fa91",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Spawnicon.png"
+            "icon": "File:Spawnicon.svg"
         },
         {
             "id": "2",
@@ -36,7 +36,7 @@
             "color": "#fa0000",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Extracticon.png"
+            "icon": "File:Extracticon.svg"
         },
         {
             "id": "3",
@@ -45,7 +45,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Keysico.png"
+            "icon": "File:Keysico.svg"
         },
         {
             "id": "4",
@@ -54,7 +54,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Safeico.png"
+            "icon": "File:Safeico.svg"
         },
         {
             "id": "5",
@@ -63,7 +63,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Airdropi.png"
+            "icon": "File:Airdropi.svg"
         },
         {
             "id": "6",
@@ -72,7 +72,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Weaponboxico.png"
+            "icon": "File:Weaponboxico.svg"
         },
         {
             "id": "7",
@@ -81,7 +81,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Dufflebagico.png"
+            "icon": "File:Dufflebagico.svg"
         },
         {
             "id": "8",
@@ -90,7 +90,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Mstoragecase.png"
+            "icon": "File:Mstoragecase.svg"
         },
         {
             "id": "9",
@@ -117,7 +117,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Documentcaseico.png"
+            "icon": "File:Documentcaseico.svg"
         },
         {
             "id": "12",
@@ -126,7 +126,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Filingcabinetico.png"
+            "icon": "File:Filingcabinetico.svg"
         },
         {
             "id": "13",
@@ -135,7 +135,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Computerico.png"
+            "icon": "File:Computerico.svg"
         },
         {
             "id": "14",
@@ -144,7 +144,7 @@
             "color": "#ff9900",
             "symbol": "\u2692",
             "symbolColor": "#000",
-            "icon": "File:Toolboxico.png"
+            "icon": "File:Toolboxico.svg"
         },
         {
             "id": "15",
@@ -153,7 +153,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Ammoboxico.png"
+            "icon": "File:Ammoboxico.svg"
         },
         {
             "id": "16",
@@ -162,7 +162,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Grenadeboxico.png"
+            "icon": "File:Grenadeboxico.svg"
         },
         {
             "id": "17",
@@ -171,7 +171,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Jacketico.png"
+            "icon": "File:Jacketico.svg"
         },
         {
             "id": "18",
@@ -180,7 +180,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Suitcaseico.png"
+            "icon": "File:Suitcaseico.svg"
         },
         {
             "id": "19",
@@ -189,7 +189,7 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Medicalico.png"
+            "icon": "File:Medicalico.svg"
         },
         {
             "id": "20",
@@ -198,8 +198,28 @@
             "color": "#fa005a",
             "symbol": "",
             "symbolColor": "",
-            "icon": "File:Cashierico.png"
+            "icon": "File:Cashierico.svg"
+        },
+        {
+            "id": "21",
+            "listId": 21,
+            "name": "SCAV SNIPER",
+            "color": "#00fa91",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Spawnicon.svg"
+        },
+        {
+            "id": "22",
+            "listId": 22,
+            "name": "Storage Case",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Mstoragecase.svg"
         }
     ],
-    "markers": []
+    "levels": [],
+    "markers": [],
+    "markerProgress": false
 }

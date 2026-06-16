@@ -1,41 +1,223 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+/* ── ABI Builder Theme ── */
+/* Matching abibuilder.com design system */
+
+@theme {
+  --color-background: #0A0A0A;
+  --color-surface: #141414;
+  --color-surface-elevated: #1C1C1C;
+  --color-primary: #D4AF37;
+  --color-accent: #C9A961;
+  --color-danger: #EF4444;
+  --color-success: #10B981;
+  --color-text-secondary: #9CA3AF;
+
+  --font-sans: var(--font-inter), "Inter Fallback", system-ui, sans-serif;
+  --font-display: var(--font-rajdhani), "Rajdhani Fallback", system-ui, sans-serif;
 }
 
+/* ── Body ── */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--color-background);
+  color: white;
+  overflow-x: hidden;
 }
 
-/* Leaflet overrides for dark theme */
+/* ── Utility: text gradient ── */
+.text-gradient {
+  background: linear-gradient(to right, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Glass morphism ── */
+.glass {
+  background: rgba(28, 28, 28, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-elevated {
+  background: rgba(28, 28, 28, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── Glow border hover ── */
+.glow-border-hover {
+  transition: all 0.3s ease;
+}
+.glow-border-hover:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
+}
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* ── Selection ── */
+::selection {
+  background-color: var(--color-primary);
+  color: #000;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Leaflet overrides ── */
 .leaflet-container {
-  background: #1a1a2e !important;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #0A0A0A 0px,
+      #0A0A0A 20px,
+      #0D0D0D 20px,
+      #0D0D0D 40px
+    ) !important;
+}
+
+/* Diagonal stripe overlay on the map area */
+.map-bg-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px,
+      transparent 60px,
+      rgba(212, 175, 55, 0.015) 60px,
+      rgba(212, 175, 55, 0.015) 61px
+    );
 }
 
 .leaflet-control-zoom a {
-  background: #1e293b !important;
+  background: rgba(28, 28, 28, 0.9) !important;
   color: #e2e8f0 !important;
-  border-color: #334155 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(8px);
 }
-
 .leaflet-control-zoom a:hover {
-  background: #334155 !important;
+  background: rgba(28, 28, 28, 1) !important;
+  color: var(--color-primary) !important;
 }
 
 .leaflet-popup-content-wrapper {
-  background: #1e293b !important;
+  background: rgba(28, 28, 28, 0.95) !important;
   color: #e2e8f0 !important;
-  border-radius: 8px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
 }
 
 .leaflet-popup-tip {
-  background: #1e293b !important;
+  background: rgba(28, 28, 28, 0.95) !important;
+  border: none !important;
 }
 
 .leaflet-popup-close-button {
-  color: #94a3b8 !important;
+  color: #9CA3AF !important;
+  font-size: 18px !important;
+  top: 8px !important;
+  right: 6px !important;
+}
+.leaflet-popup-close-button:hover {
+  color: var(--color-primary) !important;
+}
+
+/* Popup edit button */
+.edit-marker-btn {
+  margin-top: 6px;
+  font-size: 11px;
+  padding: 3px 10px;
+  background: linear-gradient(to right, var(--color-primary), var(--color-accent));
+  border: none;
+  border-radius: 6px;
+  color: #0A0A0A;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+.edit-marker-btn:hover {
+  opacity: 0.9;
+}
+
+/* ── Selection highlight: pulsing yellow box around selected markers ── */
+@keyframes marker-select-pulse {
+  0%, 100% {
+    outline-color: #EAB308;
+    box-shadow: 0 0 8px 2px rgba(234, 179, 8, 0.6), 0 0 20px 6px rgba(234, 179, 8, 0.2);
+  }
+  50% {
+    outline-color: #FEF08A;
+    box-shadow: 0 0 14px 4px rgba(234, 179, 8, 0.9), 0 0 30px 10px rgba(234, 179, 8, 0.4);
+  }
+}
+
+.marker-selected {
+  outline: 5px solid #EAB308 !important;
+  outline-offset: 4px !important;
+  border-radius: 4px !important;
+  background: rgba(234, 179, 8, 0.25) !important;
+  animation: marker-select-pulse 1.2s ease-in-out infinite !important;
+}
+
+.marker-selected-box {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 54px !important;
+  height: 54px !important;
+  outline: 5px solid #EAB308 !important;
+  outline-offset: 3px !important;
+  border-radius: 6px !important;
+  background: rgba(234, 179, 8, 0.2) !important;
+  animation: marker-select-pulse 1.2s ease-in-out infinite !important;
+}
+
+.marker-selected-box > div {
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 14px !important;
+}
+
+/* ── Marker hover tooltip ── */
+.marker-tooltip {
+  background: rgba(20, 20, 20, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #f1f5f9 !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  padding: 3px 8px !important;
+  border-radius: 5px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  font-family: var(--font-inter), system-ui, sans-serif !important;
+  white-space: nowrap !important;
+}
+.marker-tooltip::before {
+  border-top-color: rgba(20, 20, 20, 0.92) !important;
 }

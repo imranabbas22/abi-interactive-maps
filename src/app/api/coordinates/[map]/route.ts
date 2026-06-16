@@ -5,10 +5,12 @@ import armoryData from "@/../public/data/armory.json";
 import tvStationData from "@/../public/data/tv-station.json";
 import northridgeData from "@/../public/data/northbridge-converted.json";
 import airportData from "@/../public/data/airport.json";
+import valleyDistortionData from "@/../public/data/valley-distortion.json";
 
 const mapDataMap: Record<string, unknown> = {
   farm: farmData,
   valley: valleyData,
+  "valley-distortion": valleyDistortionData,
   armory: armoryData,
   "tv-station": tvStationData,
   northridge: northridgeData,

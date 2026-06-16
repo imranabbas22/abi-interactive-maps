@@ -1,0 +1,243 @@
+{
+    "mapImage": "valley-distortion.png",
+    "mapName": "Valley Distortion",
+    "pageCategories": [
+        "Maps"
+    ],
+    "defaultSort": "",
+    "description": "Valley Distortion - Interactive Map",
+    "coordinateOrder": "xy",
+    "mapBounds": [
+        [
+            0,
+            0
+        ],
+        [
+            2048,
+            1024
+        ]
+    ],
+    "origin": "bottom-left",
+    "useMarkerClustering": false,
+    "categories": [
+        {
+            "id": "7",
+            "listId": 1,
+            "name": "Player Spawn",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Spawnicon.svg"
+        },
+        {
+            "id": "23",
+            "listId": 2,
+            "name": "Player spawn (Lockdown)",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Soldier icon.svg"
+        },
+        {
+            "id": "6",
+            "listId": 3,
+            "name": "Extraction Point",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Extracticon.svg"
+        },
+        {
+            "id": "3",
+            "listId": 4,
+            "name": "Key Rooms",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Keysico.svg"
+        },
+        {
+            "id": "1",
+            "listId": 5,
+            "name": "Safe",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Safeico.svg"
+        },
+        {
+            "id": "2",
+            "listId": 6,
+            "name": "Air Drop",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Airdropi.svg"
+        },
+        {
+            "id": "21",
+            "listId": 7,
+            "name": "SCAV SNIPER",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Snipericon.svg"
+        },
+        {
+            "id": "8",
+            "listId": 8,
+            "name": "Military Supply Case",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Mstoragecase.svg"
+        },
+        {
+            "id": "4",
+            "listId": 9,
+            "name": "Weapon Box",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Weaponboxico.svg"
+        },
+        {
+            "id": "9",
+            "listId": 10,
+            "name": "Document Case",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Documentcaseico.svg"
+        },
+        {
+            "id": "10",
+            "listId": 11,
+            "name": "Filing Cabinet",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Filingcabinetico.svg"
+        },
+        {
+            "id": "11",
+            "listId": 12,
+            "name": "Storage Case",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Storagecase.svg"
+        },
+        {
+            "id": "12",
+            "listId": 13,
+            "name": "Computer",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Computerico.svg"
+        },
+        {
+            "id": "13",
+            "listId": 14,
+            "name": "Toolbox",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Toolboxico.svg"
+        },
+        {
+            "id": "14",
+            "listId": 15,
+            "name": "Ammo Box",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Ammoboxico.svg"
+        },
+        {
+            "id": "15",
+            "listId": 16,
+            "name": "Grenade Box",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Grenadeboxico.svg"
+        },
+        {
+            "id": "16",
+            "listId": 17,
+            "name": "Duffle Bag",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Dufflebagico.svg"
+        },
+        {
+            "id": "17",
+            "listId": 18,
+            "name": "Jacket",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Jacketico.svg"
+        },
+        {
+            "id": "18",
+            "listId": 19,
+            "name": "Suitcase",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Suitcaseico.svg"
+        },
+        {
+            "id": "5",
+            "listId": 20,
+            "name": "Medical",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Medicalico.svg"
+        },
+        {
+            "id": "20",
+            "listId": 21,
+            "name": "Cash Register",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Cashierico.svg"
+        },
+        {
+            "id": "22",
+            "listId": 22,
+            "name": "Interrogation",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Interrogation.svg"
+        },
+        {
+            "id": "24",
+            "listId": 24,
+            "name": "Gold Loot Spawn",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Cashierico.svg"
+        },
+        {
+            "id": "25",
+            "listId": 25,
+            "name": "Red Loot Spawn",
+            "color": "#fa005a",
+            "symbol": "",
+            "symbolColor": "",
+            "icon": "File:Cashierico.svg"
+        }
+    ],
+    "levels": [],
+    "markers": [],
+    "markerProgress": false
+}
