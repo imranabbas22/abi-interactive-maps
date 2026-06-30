@@ -7,21 +7,20 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--primary:#D4AF37;--accent:#C9A961;--bg:#0a0a0a;--surface:#141414;--elevated:#1c1c1c;--text:#ededed;--tsec:#9ca3af;--tmuted:#6b7280;--border:rgba(255,255,255,0.05);--glass:rgba(255,255,255,0.03);--l1:rgba(212,175,55,0.15);--l2:rgba(212,175,55,0.30);--l3:rgba(212,175,55,0.50)}
 body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 .glass{background:var(--glass);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
 .text-gradient{background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.t-primary{color:var(--primary)}.t-sec{color:var(--tsec)}.t-muted{color:var(--tmuted)}
+.t-primary{color:var(--primary)}.t-muted{color:var(--tmuted)}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-weight:600;font-size:13px;border:none;cursor:pointer;transition:all .2s}
 .btn-primary{background:linear-gradient(135deg,var(--primary),var(--accent));color:#000}
 .btn-primary:hover{box-shadow:0 4px 20px rgba(212,175,55,0.3);transform:translateY(-1px)}
 .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--tsec)}
 .btn-outline:hover{border-color:rgba(212,175,55,0.3);color:var(--text)}
 .btn-sm{padding:5px 12px;font-size:11px;border-radius:7px}
-.preset-btn.active{border-color:rgba(212,175,55,0.4);background:rgba(212,175,55,0.1);color:var(--primary)}
 nav{position:fixed;top:0;left:0;right:0;z-index:50;height:64px}
 .nav-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
 .nav-links{display:flex;align-items:center;gap:24px}
@@ -31,13 +30,50 @@ nav{position:fixed;top:0;left:0;right:0;z-index:50;height:64px}
 main{padding-top:72px;padding-bottom:40px}
 
 /* Hero */
-.hero{text-align:center;padding:28px 24px 16px;position:relative;overflow:hidden}
+.hero{padding:28px 0 16px;position:relative}
 .hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:500px;height:500px;background:rgba(212,175,55,0.06);border-radius:50%;filter:blur(120px);pointer-events:none}
 .hero h1{font-size:36px;font-weight:800;margin-bottom:4px}
-.hero p{color:var(--tsec);max-width:620px;margin:0 auto;font-size:14px;line-height:1.5}
+.hero p{color:var(--tsec);font-size:14px;line-height:1.5;max-width:620px}
+
+/* Hero split layout */
+.hero-split{display:grid;grid-template-columns:1fr 340px 380px;gap:40px;max-width:1480px;margin:0 auto;padding:0 40px;align-items:flex-start}
+.hero-left{min-width:0}
+.hero-middle{width:340px;background:rgba(255,255,255,0.018);border:1px solid var(--border);border-radius:18px;padding:18px 16px;min-height:120px}
+.hero-middle .section-title{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--tsec);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid rgba(212,175,55,0.15);text-align:center}
+.hero-middle .empty-state{text-align:center;padding:30px 0;color:var(--tmuted);font-size:12px}
+.hero-right{width:380px;flex-shrink:0;background:rgba(255,255,255,0.018);border:1px solid var(--border);border-radius:18px;padding:20px;transition:box-shadow .4s ease,border-color .4s ease}
+.hero-right.highlight{border-color:rgba(212,175,55,0.35);box-shadow:0 0 24px rgba(212,175,55,0.12),inset 0 0 24px rgba(212,175,55,0.04)}
+.hero-right .section-title{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--tsec);margin-bottom:0;padding-bottom:10px;border-bottom:1px solid rgba(212,175,55,0.15);text-align:center;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;user-select:none;transition:color .2s}
+.hero-right .section-title:hover{color:var(--primary)}
+.hero-right .section-title .toggle-icon{font-size:12px;transition:transform .3s cubic-bezier(.4,0,.2,1);display:inline-block}
+.hero-right .section-title .toggle-icon.open{transform:rotate(180deg)}
+.hero-right-content{overflow:hidden;max-height:600px;transition:max-height .4s cubic-bezier(.4,0,.2,1),opacity .3s ease;opacity:1}
+.hero-right.collapsed .hero-right-content{max-height:0;opacity:0;margin-top:0}
+
+/* Donut chart — SVG with absolute center text */
+.donut-wrap{position:relative;display:flex;justify-content:center;margin-bottom:12px}
+.donut-svg{width:120px;height:120px;transform:rotate(-90deg)}
+.donut-bg{fill:none;stroke:rgba(255,255,255,0.04);stroke-width:16}
+.donut-arc{fill:none;stroke-width:16;stroke-linecap:butt;transition:stroke-dashoffset .7s ease}
+.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;line-height:1}
+.donut-center .dc-pts{font-size:22px;font-weight:800;color:var(--primary);display:block}
+.donut-center .dc-label{font-size:10px;color:var(--tsec);display:block;margin-top:2px}
+.donut-legend{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.donut-legend span{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--tmuted)}
+.donut-legend .swatch{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+/* Right panel archetype card */
+.right-archetype{background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.12);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+.right-archetype .ar-name{font-size:13px;font-weight:700;color:var(--primary);margin-bottom:3px}
+.right-archetype .ar-desc{font-size:11px;color:var(--tsec);line-height:1.5}
+.right-secondary{border:1px solid var(--border);border-radius:10px;padding:8px 12px;margin-bottom:8px}
+.right-secondary .sec-name{font-size:11px;font-weight:600;margin-bottom:1px}
+.right-secondary .sec-desc{font-size:10px;color:var(--tsec);line-height:1.4}
+.right-tags{font-size:10px;color:var(--tmuted);margin-bottom:6px}
+.right-advice{font-size:11px;color:var(--tsec);line-height:1.5;padding:2px 0}
 
 /* Point tracker */
-.point-tracker{display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 24px;margin:14px auto 0;max-width:460px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:14px}
+.point-tracker{display:flex;align-items:center;gap:16px;padding:14px 24px;margin:14px 0 0;max-width:460px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:14px}
 .point-ring{position:relative;width:60px;height:60px;flex-shrink:0}
 .point-ring svg{transform:rotate(-90deg)}
 .point-ring .bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:6}
@@ -48,57 +84,52 @@ main{padding-top:72px;padding-bottom:40px}
 .point-info .hint{font-size:11px;color:var(--tmuted)}
 
 /* Presets */
-.presets{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:12px auto;max-width:700px}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;max-width:700px}
 .preset-btn{padding:6px 14px;border-radius:7px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:var(--tsec);font-size:11px;font-weight:500;cursor:pointer;transition:all .2s}
 .preset-btn:hover{border-color:rgba(212,175,55,0.3);color:var(--text);background:rgba(212,175,55,0.05)}
 .preset-btn.active{border-color:rgba(212,175,55,0.4);background:rgba(212,175,55,0.1);color:var(--primary);box-shadow:0 0 12px rgba(212,175,55,0.15)}
 
-/* ===== 3-column layout ===== */
-.cat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding:20px 24px;max-width:1400px;margin:0 auto}
-.cat-col{min-width:0}
-.cat-header{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.cat-header span:last-child{font-size:11px;color:var(--tmuted);font-weight:400;margin-left:auto}
+/* ===== 3-column layout — separated category panels ===== */
+.cat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;padding:24px 40px;max-width:1480px;margin:0 auto}
+.cat-col{background:rgba(255,255,255,0.018);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:18px 20px 14px;min-width:0}
+.cat-header{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid rgba(212,175,55,0.15);letter-spacing:1px;text-transform:uppercase;color:var(--text)}
+.cat-header .cat-icon{font-size:20px}
+.cat-header .cat-count{font-family:'Inter',sans-serif;font-size:10px;color:var(--tmuted);font-weight:400;letter-spacing:0;text-transform:none;margin-left:6px}
 
-/* Compact skill cards — 2 columns x 3 rows per category */
-.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-/* Card: vertical layout with large centered icon */
-.skill-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px 12px 10px;transition:all .25s;cursor:default;text-align:center}
-.skill-card:hover{border-color:rgba(212,175,55,0.18)}
+/* Skill cards — 2 columns x 3 rows per category */
+.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;grid-auto-rows:1fr}
+.skill-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:10px;padding:10px 9px 0;transition:border-color .25s,background .25s,box-shadow .25s;text-align:center;position:relative;min-width:0;display:flex;flex-direction:column}
+.skill-card:hover{border-color:rgba(212,175,55,0.2);background:rgba(212,175,55,0.03)}
 .skill-card.invested{border-color:rgba(212,175,55,0.3);background:rgba(212,175,55,0.04)}
-.skill-card .icon-wrap{width:72px;height:72px;border-radius:12px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
-.skill-card .icon-wrap img{width:64px;height:64px;object-fit:contain}
-.skill-card .info{text-align:center;margin-bottom:6px}
-.skill-card h3{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.skill-card .desc{font-size:10px;color:var(--tsec);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.skill-card .bonus-tag{font-size:10px;padding:1px 8px;border-radius:4px;font-weight:600;display:inline-block;margin-top:2px}
-.bonus-tag.l1{background:var(--l1);color:var(--primary)}
-.bonus-tag.l2{background:var(--l2);color:var(--primary)}
-.bonus-tag.l3{background:var(--l3);color:#000}
+.skill-card .icon-wrap{width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;margin:0 auto 4px;flex-shrink:0}
+.skill-card .icon-wrap img{width:40px;height:40px;object-fit:contain}
+.skill-card .info{text-align:center;margin-bottom:0;flex-shrink:0}
+.skill-card h3{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:0;line-height:1.3}
+
+/* Dots + clear row — fixed height */
+.dots-row{display:flex;align-items:center;justify-content:center;gap:4px;padding:3px 0;flex-shrink:0;min-height:24px}
 
 /* Dots row */
-.level-dots{display:flex;align-items:center;gap:4px}
-.dot{width:22px;height:22px;border-radius:5px;border:1.5px solid rgba(255,255,255,0.1);background:transparent;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:var(--tmuted)}
+.level-dots{display:flex;align-items:center;gap:3px}
+.dot{width:18px;height:18px;border-radius:4px;border:1.5px solid rgba(255,255,255,0.1);background:transparent;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:600;color:var(--tmuted)}
 .dot:hover{border-color:rgba(212,175,55,0.3)}
 .dot.filled-1{border-color:rgba(212,175,55,0.35);background:var(--l1);color:var(--primary)}
 .dot.filled-2{border-color:rgba(212,175,55,0.45);background:var(--l2);color:var(--primary);font-weight:700}
 .dot.filled-3{border-color:var(--primary);background:var(--l3);color:#000;font-weight:800}
 .dot.active{border-color:var(--primary);box-shadow:0 0 8px rgba(212,175,55,0.25)}
 .dot.disabled{opacity:0.25;cursor:not-allowed}
-.clr-btn{background:none;border:none;color:var(--tmuted);cursor:pointer;font-size:10px;padding:0 3px;line-height:1;opacity:0;transition:opacity .2s}
-.skill-card:hover .clr-btn{opacity:0.6}
-.skill-card:hover .clr-btn:hover{opacity:1;color:#ff6b6b}
+.skill-card .clear-top{position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;background:#ff4444;color:#fff;border:none;cursor:pointer;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;z-index:2;transition:transform .15s,box-shadow .15s}
+.skill-card.invested .clear-top{display:flex}
+.skill-card .clear-top:hover{transform:scale(1.15);box-shadow:0 0 10px rgba(255,68,68,0.5)}
 
-/* Comparison bar — always visible space reserved, shows base → bonus */
-.comp-bar-wrap{margin-top:5px;padding-top:4px;border-top:1px solid rgba(255,255,255,0.04);min-height:20px;height:20px}
-.comp-bar-wrap .comp-row{display:flex;align-items:center;gap:4px;height:14px}
-.comp-bar-wrap .comp-row .clbl{font-size:9px;color:var(--tmuted);width:22px;flex-shrink:0;text-align:right;font-weight:500}
-.comp-bar-wrap .comp-row .cbar{flex:1;height:4px;background:rgba(255,255,255,0.04);border-radius:2px;overflow:hidden;position:relative}
-.comp-bar-wrap .comp-row .cbar .cfill{height:100%;border-radius:2px;width:0;transition:width .6s cubic-bezier(.22,1,.36,1)}
-.comp-bar-wrap .comp-row .cbar .cfill.animate{width:var(--tw,100%)}
-.cfill{background:linear-gradient(90deg,var(--primary),var(--accent))}
-.comp-bar-wrap .comp-row .cval{font-size:9px;font-weight:600;width:36px;text-align:right;flex-shrink:0}
-.comp-bar-wrap .comp-row .cval.base{color:var(--tmuted)}
-.comp-bar-wrap .comp-row .cval.bonus{color:var(--primary)}
+/* ===== Per-level description lines — always visible ===== */
+.skill-desc{font-size:11px;color:var(--tsec);line-height:1.5;padding:6px 8px 6px;text-align:left;border-top:1px solid rgba(255,255,255,0.05);margin-top:5px;transition:background .3s,border-color .3s;flex-shrink:0}
+.skill-desc.invested{border-top-color:rgba(212,175,55,0.2);background:rgba(212,175,55,0.03)}
+.desc-line{padding:3px 4px;border-radius:3px;margin-bottom:2px;transition:background .25s,color .25s;line-height:1.5}
+.desc-line:last-child{margin-bottom:0}
+.desc-line .desc-lv{font-weight:700;color:var(--primary);margin-right:4px;font-size:10px;flex-shrink:0}
+.desc-line.active{background:rgba(212,175,55,0.12);color:var(--text)}
+.desc-line.active .desc-lv{color:#000;background:var(--primary);padding:0 4px;border-radius:3px}
 
 /* ===== SUMMARY PANEL — animated stats ===== */
 .summary-panel{position:fixed;top:0;right:0;width:380px;height:100vh;background:rgba(10,10,10,0.97);backdrop-filter:blur(24px);border-left:1px solid var(--border);z-index:100;padding:24px 20px;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1)}
@@ -137,10 +168,14 @@ main{padding-top:72px;padding-bottom:40px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.06);border-radius:2px}
 
-@media(max-width:1024px){.cat-row{grid-template-columns:1fr 1fr}}
+@media(max-width:1024px){.cat-row{grid-template-columns:1fr 1fr;max-width:900px;gap:32px}.hero-split{grid-template-columns:1fr 320px;gap:24px}.hero-middle{width:auto}.hero-right{width:auto}.hero-right.highlight{border-color:rgba(212,175,55,0.35);box-shadow:0 0 24px rgba(212,175,55,0.12),inset 0 0 24px rgba(212,175,55,0.04)}}
 @media(max-width:768px){
   .hero h1{font-size:24px}
-  .cat-row{grid-template-columns:1fr;padding:12px}
+  .hero-split{grid-template-columns:1fr;gap:16px;padding:0 16px}
+  .hero-left{margin-right:0}
+  .hero-middle{width:auto}
+  .hero-right{position:static;width:auto;height:auto}
+  .cat-row{grid-template-columns:1fr;padding:12px 16px;max-width:100%}
   .skill-grid{grid-template-columns:1fr 1fr}
   .summary-panel{width:100vw}
   .nav-links{display:none}
@@ -169,26 +204,41 @@ main{padding-top:72px;padding-bottom:40px}
 
 <main>
   <section class="hero">
-    <h1>Mastery <span class="text-gradient">Skills</span></h1>
-    <p>You have <strong class="t-primary">12 skill points</strong> to distribute across 18 skills. Each upgraded up to 3 times.</p>
+    <div class="hero-split">
+      <div class="hero-left">
+        <h1>Mastery <span class="text-gradient">Skills</span></h1>
+        <p>You have <strong class="t-primary">12 skill points</strong> to distribute across up to <strong class="t-primary">6 skills</strong>. Each upgraded up to 3 times.</p>
 
-    <div class="point-tracker">
-      <div class="point-ring">
-        <svg width="60" height="60" viewBox="0 0 60 60">
-          <circle class="bg" cx="30" cy="30" r="24"/>
-          <circle class="fg" id="progressRing" cx="30" cy="30" r="24" stroke-dasharray="150.8" stroke-dashoffset="0"/>
-        </svg>
-        <div class="center"><span id="ptsUsed">0</span></div>
+        <div class="point-tracker">
+          <div class="point-ring">
+            <svg width="60" height="60" viewBox="0 0 60 60">
+              <circle class="bg" cx="30" cy="30" r="24"/>
+              <circle class="fg" id="progressRing" cx="30" cy="30" r="24" stroke-dasharray="150.8" stroke-dashoffset="0"/>
+            </svg>
+            <div class="center"><span id="ptsUsed">0</span></div>
+          </div>
+          <div class="point-info">
+            <div class="label">Skill Points</div>
+            <div class="status"><span id="ptsDisplay">0</span> / 12 <span class="t-muted" id="ptsRemain" style="font-weight:400;font-size:12px">(12 left)</span></div>
+            <div class="hint" id="ptsHint">Click the dots below each skill to assign points</div>
+          </div>
+        </div>
+
+        <div class="presets" id="presetContainer"></div>
       </div>
-      <div class="point-info">
-        <div class="label">Skill Points</div>
-        <div class="status"><span id="ptsDisplay">0</span> / 12 <span class="t-muted" id="ptsRemain" style="font-weight:400;font-size:12px">(12 left)</span></div>
-        <div class="hint" id="ptsHint">Click 1 / 2 / 3 on any skill</div>
+      <div class="hero-middle" id="middleSummary">
+        <div class="section-title">Skill Summary</div>
+        <div class="empty-state">Allocate points to see your invested skills</div>
+      </div>
+      <div class="hero-right" id="mainGuide">
+        <div class="section-title" onclick="toggleBuildAnalysis()">
+          Build Analysis <span class="toggle-icon open">▼</span>
+        </div>
+        <div class="hero-right-content">
+          <div style="text-align:center;padding:30px 0;color:var(--tmuted);font-size:12px">Allocate points to see your build analysis</div>
+        </div>
       </div>
     </div>
-
-    <div class="presets" id="presetContainer"></div>
-  <div id="mainGuide" style="max-width:700px;margin:10px auto 0"></div>
   </section>
 
   <div class="cat-row" id="catRow"></div>
@@ -211,24 +261,24 @@ main{padding-top:72px;padding-bottom:40px}
 <script>
 // ===== DATA =====
 const S = [
-  {n:'Sleight of Hand',c:'Combat',img:'image1.png',b:'3.0s reload',l:[{d:'2.5s reload',v:'2.5s'},{d:'2.0s reload',v:'2.0s'},{d:'1.5s reload',v:'1.5s'}]},
-  {n:'Quick Seal',c:'Combat',img:'image2.png',b:'120s heal',l:[{d:'60s heal',v:'60s'},{d:'40s heal',v:'40s'},{d:'15s heal',v:'15s'}]},
-  {n:'Veteran',c:'Combat',img:'image3.png',b:'Full sway when hit',l:[{d:'Sway -20%',v:'-20%'},{d:'Sway -40%',v:'-40%'},{d:'Sway -60%',v:'-60%'}]},
-  {n:'Iron Arm',c:'Combat',img:'image4.png',b:'Normal upper stam',l:[{d:'Recovery +10%',v:'+10%'},{d:'Recovery +20%',v:'+20%'},{d:'Recovery +35%',v:'+35%'}]},
-  {n:'Focus Puller',c:'Combat',img:'image5.png',b:'Normal lean speed',l:[{d:'Lean +15%',v:'+15%'},{d:'Lean +25%',v:'+25%'},{d:'Lean +40%',v:'+40%'}]},
-  {n:'Jump Weapon Ctrl',c:'Combat',img:'image6.png',b:'Full jump spread',l:[{d:'Spread -20%',v:'-20%'},{d:'Spread -40%',v:'-40%'},{d:'Spread -60%',v:'-60%'}]},
-  {n:'Battlefield Heal',c:'Survival',img:'image7.png',b:'Normal rescue',l:[{d:'Rescue +15%',v:'+15%'},{d:'Rescue +25%',v:'+25%'},{d:'Rescue +40%, heal parts',v:'+40%'}]},
-  {n:'Parkour',c:'Survival',img:'image8.png',b:'100% fall dmg',l:[{d:'Fall -20%',v:'-20%'},{d:'Fall -40%',v:'-40%'},{d:'Fall -60%, hi jump',v:'-60%'}]},
-  {n:'Stay Alive',c:'Survival',img:'image9.png',b:'Normal downed',l:[{d:'Move +10% HP+15%',v:'+10%'},{d:'Move +20% HP+30%',v:'+20%'},{d:'Move +30% HP+50%',v:'+30%'}]},
-  {n:'Marathon',c:'Survival',img:'image10.png',b:'Normal low stam',l:[{d:'Stam +10%',v:'+10%'},{d:'Stam +20%',v:'+20%'},{d:'Stam +35%',v:'+35%'}]},
-  {n:'Fire-Retardant',c:'Survival',img:'image11.png',b:'Full burn dmg',l:[{d:'Burn -10%',v:'-10%'},{d:'Burn -20%',v:'-20%'},{d:'Burn -40%',v:'-40%'}]},
-  {n:'Emergency Evasion',c:'Survival',img:'image12.png',b:'No hit boost',l:[{d:'+15% 2s',v:'2s'},{d:'+20% 3s',v:'3s'},{d:'+25% 4s',v:'4s'}]},
-  {n:'Porter',c:'Utility',img:'image13.png',b:'Base carry',l:[{d:'+2kg',v:'+2kg'},{d:'+5kg',v:'+5kg'},{d:'+10kg',v:'+10kg'}]},
-  {n:'Pharmacist',c:'Utility',img:'image14.png',b:'Normal duration',l:[{d:'Duration +10%',v:'+10%'},{d:'Duration +20%',v:'+20%'},{d:'Duration +35%',v:'+35%'}]},
-  {n:'Heavy Motor',c:'Utility',img:'image15.png',b:'Full armor penalty',l:[{d:'Penalty -10%',v:'-10%'},{d:'Penalty -20%',v:'-20%'},{d:'Penalty -35%',v:'-35%'}]},
-  {n:'Effective Looting',c:'Utility',img:'image16.png',b:'Search all',l:[{d:'6% skip',v:'6%'},{d:'12% skip',v:'12%'},{d:'20% skip',v:'20%'}]},
-  {n:"Vinson's Friend I",c:'Utility',img:'image17.png',b:'No weapon return',l:[{d:'3% retrieve',v:'3%'},{d:'6% retrieve',v:'6%'},{d:'10% retrieve',v:'10%'}]},
-  {n:"Vinson's Friend II",c:'Utility',img:'image18.png',b:'No armor return',l:[{d:'3% retrieve',v:'3%'},{d:'6% retrieve',v:'6%'},{d:'10% retrieve',v:'10%'}]}
+  {n:'Sleight of Hand',c:'Combat',img:'image1.png',b:'3.0s reload', desc:'Lv. 1 Slightly increases magazine loading speed. Lv. 2 Moderately increases magazine loading speed. Lv. 3 Significantly increases magazine loading speed.',l:[{d:'Slightly increases magazine loading speed.',v:'2.5s'},{d:'Moderately increases magazine loading speed.',v:'2.0s'},{d:'Significantly increases magazine loading speed.',v:'1.5s'}]},
+  {n:'Quick Seal',c:'Combat',img:'image2.png',b:'120s heal', desc:'Lv. 1 Wounds heal after 60s. Lv. 2 Wounds heal after 40s. Lv. 3 Wounds heal after 15s.',l:[{d:'Wounds heal after 60s.',v:'60s'},{d:'Wounds heal after 40s.',v:'40s'},{d:'Wounds heal after 15s.',v:'15s'}]},
+  {n:'Veteran',c:'Combat',img:'image3.png',b:'Full sway when hit', desc:'Lv. 1 Slightly reduces weapon sway when taking hits. Lv. 2 Moderately reduces weapon sway when taking hits. Lv. 3 Significantly reduces weapon sway when taking hits.',l:[{d:'Slightly reduces weapon sway when taking hits.',v:'-20%'},{d:'Moderately reduces weapon sway when taking hits.',v:'-40%'},{d:'Significantly reduces weapon sway when taking hits.',v:'-60%'}]},
+  {n:'Iron Arm',c:'Combat',img:'image4.png',b:'Normal upper stam', desc:'Lv. 1 Marginally increases upper-body stamina recovery speed. Lv. 2 Slightly increases upper-body stamina recovery speed. Lv. 3 Moderately increases upper-body stamina recovery speed.',l:[{d:'Marginally increases upper-body stamina recovery.',v:'+10%'},{d:'Slightly increases upper-body stamina recovery.',v:'+20%'},{d:'Moderately increases upper-body stamina recovery.',v:'+35%'}]},
+  {n:'Focus Puller',c:'Combat',img:'image5.png',b:'Normal lean speed', desc:'Lv. 1 Somewhat increases leaning and recentering speed. Lv. 2 Slightly increases leaning and recentering speed. Lv. 3 Moderately increases leaning and recentering speed.',l:[{d:'Somewhat increases leaning/recentering speed.',v:'+15%'},{d:'Slightly increases leaning/recentering speed.',v:'+25%'},{d:'Moderately increases leaning/recentering speed.',v:'+40%'}]},
+  {n:'Jump Weapon Ctrl',c:'Combat',img:'image6.png',b:'Full jump spread', desc:'Lv. 1 Slightly increases weapon stability while jumping. Lv. 2 Moderately increases weapon stability while jumping. Lv. 3 Significantly increases weapon stability while jumping.',l:[{d:'Slightly increases weapon stability while jumping.',v:'-20%'},{d:'Moderately increases weapon stability while jumping.',v:'-40%'},{d:'Significantly increases weapon stability while jumping.',v:'-60%'}]},
+  {n:'Battlefield Heal',c:'Survival',img:'image7.png',b:'Normal rescue', desc:'Lv. 1 Slightly increases rescue speed and the rescued player\'s HP. Lv. 2 Moderately increases rescue speed and the rescued player\'s HP. Lv. 3 Effectively increases rescue speed and the rescued player\'s HP, and heals broken parts.',l:[{d:'Slightly increases rescue speed and rescued HP.',v:'+15%'},{d:'Moderately increases rescue speed and rescued HP.',v:'+25%'},{d:'Effectively increases rescue speed/HP, heals broken parts.',v:'+40%'}]},
+  {n:'Parkour',c:'Survival',img:'image8.png',b:'100% fall dmg', desc:'Lv. 1 Slightly reduces fall damage. Lv. 2 Moderately reduces fall damage. Lv. 3 Effectively reduces fall damage and allows jumping from greater heights without taking damage.',l:[{d:'Slightly reduces fall damage.',v:'-20%'},{d:'Moderately reduces fall damage.',v:'-40%'},{d:'Effectively reduces fall damage, allows higher jumps.',v:'-60%'}]},
+  {n:'Stay Alive',c:'Survival',img:'image9.png',b:'Normal downed', desc:'Lv. 1 Slightly increases movement speed and HP when downed. Lv. 2 Moderately increases movement speed and HP when downed. Lv. 3 Significantly increases movement speed and HP when downed.',l:[{d:'Slightly increases movement speed and HP when downed.',v:'+10%'},{d:'Moderately increases movement speed and HP when downed.',v:'+20%'},{d:'Significantly increases movement speed and HP when downed.',v:'+30%'}]},
+  {n:'Marathon',c:'Survival',img:'image10.png',b:'Normal low stam', desc:'Lv. 1 Marginally increases lower-body stamina recovery speed. Lv. 2 Slightly increases lower-body stamina recovery speed. Lv. 3 Moderately increases lower-body stamina recovery speed.',l:[{d:'Marginally increases lower-body stamina recovery.',v:'+10%'},{d:'Slightly increases lower-body stamina recovery.',v:'+20%'},{d:'Moderately increases lower-body stamina recovery.',v:'+35%'}]},
+  {n:'Fire-Retardant',c:'Survival',img:'image11.png',b:'Full burn dmg', desc:'Lv. 1 Reduces burn damage taken by 10%. Lv. 2 Reduces burn damage taken by 20%. Lv. 3 Reduces burn damage taken by 40%.',l:[{d:'Reduces burn damage taken by 10%.',v:'-10%'},{d:'Reduces burn damage taken by 20%.',v:'-20%'},{d:'Reduces burn damage taken by 40%.',v:'-40%'}]},
+  {n:'Emergency Evasion',c:'Survival',img:'image12.png',b:'No hit boost', desc:'Lv. 1 Slightly increases movement speed for a short period after taking damage. Lv. 2 Increases movement speed for a short period after taking damage. Lv. 3 Increases movement speed for a certain period after taking damage.',l:[{d:'Slightly increases movement speed briefly after damage.',v:'2s'},{d:'Increases movement speed briefly after damage.',v:'3s'},{d:'Increases movement speed for a period after damage.',v:'4s'}]},
+  {n:'Porter',c:'Utility',img:'image13.png',b:'Base carry', desc:'Lv. 1 Increases weight limit by 2 kg. Lv. 2 Increases weight limit by 5 kg. Lv. 3 Increases weight limit by 10 kg.',l:[{d:'Increases weight limit by 2 kg.',v:'+2kg'},{d:'Increases weight limit by 5 kg.',v:'+5kg'},{d:'Increases weight limit by 10 kg.',v:'+10kg'}]},
+  {n:'Pharmacist',c:'Utility',img:'image14.png',b:'Normal duration', desc:'Lv. 1 Increases duration of medicine and stimulants by 10%. Lv. 2 Increases duration of medicine and stimulants by 20%. Lv. 3 Increases duration of medicine and stimulants by 35%.',l:[{d:'Increases medicine/stimulant duration by 10%.',v:'+10%'},{d:'Increases medicine/stimulant duration by 20%.',v:'+20%'},{d:'Increases medicine/stimulant duration by 35%.',v:'+35%'}]},
+  {n:'Heavy Motor',c:'Utility',img:'image15.png',b:'Full armor penalty', desc:'Lv. 1 Reduces movement speed reduction from helmets and armor by 10%. Lv. 2 Reduces movement speed reduction from helmets and armor by 20%. Lv. 3 Reduces movement speed reduction from helmets and armor by 35%.',l:[{d:'Reduces armor movement penalty by 10%.',v:'-10%'},{d:'Reduces armor movement penalty by 20%.',v:'-20%'},{d:'Reduces armor movement penalty by 35%.',v:'-35%'}]},
+  {n:'Effective Looting',c:'Utility',img:'image16.png',b:'Search all', desc:'Lv. 1 When searching non-safe/loot containers, 6% chance to skip search phase. Lv. 2 When searching non-safe/loot containers, 12% chance to skip search phase. Lv. 3 When searching non-safe/loot containers, 20% chance to skip search phase.',l:[{d:'6% chance to skip search phase on containers.',v:'6%'},{d:'12% chance to skip search phase on containers.',v:'12%'},{d:'20% chance to skip search phase on containers.',v:'20%'}]},
+  {n:"Vinson's Friend I",c:'Utility',img:'image17.png',b:'No weapon return', desc:'Lv. 1 If you fail to extract, 3% chance to retrieve weapons (Tactical Ops only). Lv. 2 If you fail to extract, 6% chance to retrieve weapons (Tactical Ops only). Lv. 3 If you fail to extract, 10% chance to retrieve weapons (Tactical Ops only).',l:[{d:'3% chance to retrieve weapons on failed extract.',v:'3%'},{d:'6% chance to retrieve weapons on failed extract.',v:'6%'},{d:'10% chance to retrieve weapons on failed extract.',v:'10%'}]},
+  {n:"Vinson's Friend II",c:'Utility',img:'image18.png',b:'No armor return', desc:'Lv. 1 If you fail to extract, 3% chance to retrieve armor (Tactical Ops only). Lv. 2 If you fail to extract, 6% chance to retrieve armor (Tactical Ops only). Lv. 3 If you fail to extract, 10% chance to retrieve armor (Tactical Ops only).',l:[{d:'3% chance to retrieve armor on failed extract.',v:'3%'},{d:'6% chance to retrieve armor on failed extract.',v:'6%'},{d:'10% chance to retrieve armor on failed extract.',v:'10%'}]}
 ];
 const CATS = ['Combat','Survival','Utility'];
 const CICONS = {Combat:'⚔️',Survival:'🛡️',Utility:'🎒'};
@@ -244,13 +294,13 @@ const PRESETS = [
 
 let A = {}, activePreset = null;
 const MAX = 12;
+const MAX_SKILLS = 6;
 function used(){return Object.values(A).reduce((a,b)=>a+b,0)}
 function rem(){return MAX-used()}
-function skillByName(n){return S.find(s=>s.n===n)}
-
+function uniqueSkillsCount(){return Object.values(A).filter(v=>v>0).length}
 // ===== RENDER =====
 function r(){
-  rCats(); rTracker(); rPresets(); rSummary(); rMainGuide();
+  rCats(); rTracker(); rPresets(); rSummary(); rMiddleSummary(); rMainGuide();
 }
 
 function rCats(){
@@ -258,64 +308,46 @@ function rCats(){
   el.innerHTML = CATS.map(cat => {
     const skills = S.filter(s => s.c === cat);
     return `<div class="cat-col">
-      <div class="cat-header">${CICONS[cat]} ${cat} <span>${skills.length} skills</span></div>
+      <div class="cat-header"><span class="cat-icon">${CICONS[cat]}</span> ${cat} <span class="cat-count">${skills.length} skills</span></div>
       <div class="skill-grid">${skills.map(s => rCard(s)).join('')}</div>
     </div>`;
   }).join('');
-  // Animate all level bars from width:0 → target
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      document.querySelectorAll('.comp-bar-wrap .cfill[style*="--tw"]').forEach(bar => {
-        bar.classList.add('animate');
-      });
-    });
-  });
 }
 
 function rCard(s){
   const lvl = A[s.n]||0;
-  return `<div class="skill-card ${lvl>0?'invested':''}">
-      <div class="icon-wrap"><img src="/skill-icons/${s.img}" alt="${s.n}"></div>
-      <div class="info"><h3 title="${s.n}">${s.n}</h3><div class="desc">${lvl>0?s.l[lvl-1].d:s.b}</div><div style="min-height:18px">${lvl>0?`<span class="bonus-tag l${lvl}">${s.l[lvl-1].v}</span>`:''}</div></div>
-    <div style="display:flex;align-items:center;justify-content:center;gap:4px">
-      <div class="level-dots">${[1,2,3].map(l => {
-        const f = lvl >= l, can = rem()>0||lvl>=l;
-        return `<button class="dot ${f?`filled-${l}`:''} ${l===lvl?'active':''} ${!can&&!f?'disabled':''}" onclick="setL('${s.n}',${l})" ${!can&&!f?'disabled':''}>${l}</button>`;
-      }).join('')}</div>
-      <button class="clr-btn" onclick="clearSk('${s.n}')" style="display:${lvl>0?'':'none'}">✕</button>
+  // Build per-level description lines
+  const descLines = s.l.map((lv, i) =>
+    `<div class="desc-line${lvl===i+1?' active':''}"><span class="desc-lv">Lv.${i+1}</span>${lv.d}</div>`
+  ).join('');
+  const lvlCls = lvl>0?'invested':'';
+  return `<div class="skill-card ${lvlCls}">
+    <button class="clear-top" onclick="event.stopPropagation();clearSk('${s.n.replace(/'/g,"\\'")}')" style="display:${lvl>0?'flex':'none'}">✕</button>
+    <div class="icon-wrap"><img src="/skill-icons/${s.img}" alt="${s.n}"></div>
+    <div class="info">
+      <h3 title="${s.n}">${s.n}</h3>
     </div>
-    ${rCompBar(s, lvl)}
+    <div class="dots-row">
+      <div class="level-dots">${[1,2,3].map(l => {
+        const f = lvl >= l, can = (rem()>0||lvl>=l) && (lvl>0||uniqueSkillsCount()<MAX_SKILLS);
+        return `<button class="dot ${f?`filled-${l}`:''} ${l===lvl?'active':''} ${!can&&!f?'disabled':''}" onclick="event.stopPropagation();setL('${s.n.replace(/'/g,"\\'")}',${l})" ${!can&&!f?'disabled':''}>${l}</button>`;
+      }).join('')}</div>
+    </div>
+    <div class="skill-desc ${lvlCls}">${descLines}</div>
   </div>`;
 }
 
-function rCompBar(s, lvl){
-  // Always rendered — reserves full height so cards in grid rows align
-  if (lvl === 0) {
-    const baseVal = s.b.replace(/^[^:]*:\s*/,'').trim();
-    return `<div class="comp-bar-wrap"><div class="comp-row">
-      <span class="clbl"></span>
-      <div class="cbar"><div class="cfill" style="width:8%"></div></div>
-      <span class="cval base">${baseVal}</span>
-    </div><div style="font-size:8px;color:var(--tmuted);line-height:1;margin-top:-1px;padding-left:22px;min-height:10px">0pt: ${baseVal}</div></div>`;
-  }
-  const pct = lvl === 1 ? 35 : lvl === 2 ? 65 : 100;
-  const baseVal = s.b.replace(/^[^:]*:\s*/,'').trim();
-  return `<div class="comp-bar-wrap"><div class="comp-row">
-    <span class="clbl">Lv.${lvl}</span>
-    <div class="cbar"><div class="cfill" style="--tw:${pct}%"></div></div>
-    <span class="cval bonus">${s.l[lvl-1].v}</span>
-  </div><div style="font-size:8px;color:var(--tmuted);line-height:1;margin-top:-1px;padding-left:22px">0pt: ${baseVal}</div></div>`;
-}
-
+// ===== TRACKER =====
 function rTracker(){
   const u = used(), r = rem();
   document.getElementById('ptsUsed').textContent = u;
   document.getElementById('ptsDisplay').textContent = u;
   document.getElementById('ptsRemain').textContent = `(${r} left)`;
   document.getElementById('skillCount').textContent = Object.keys(A).filter(k=>A[k]>0).length;
+  document.getElementById('skillCount').style.background = Object.keys(A).filter(k=>A[k]>0).length >= MAX_SKILLS ? '#D4AF37' : '#ff4444';
   const circ = document.getElementById('progressRing');
   circ.setAttribute('stroke-dashoffset', 150.8 - (u/MAX)*150.8);
-  document.getElementById('ptsHint').textContent = u===0?'Click 1 / 2 / 3 on any skill':r===0?'All points used! Click a lower level to free points':`${u} used · ${r} left`;
+  document.getElementById('ptsHint').textContent = u===0?'Click the dots below each skill to assign points':r===0?'All points used! Click a lower level to free points':uniqueSkillsCount()>=MAX_SKILLS?`${u} used · ${rem()} left · ${uniqueSkillsCount()}/${MAX_SKILLS} skills`:`${u} used · ${rem()} left · ${uniqueSkillsCount()}/${MAX_SKILLS} skills`;
 }
 
 function rPresets(){
@@ -324,12 +356,38 @@ function rPresets(){
   ).join('');
 }
 
+// ===== MIDDLE SUMMARY (stats + invested skills) =====
+function rMiddleSummary(){
+  const el = document.getElementById('middleSummary');
+  const u = used();
+  if (u === 0) {
+    el.innerHTML = '<div class="section-title">Skill Summary</div><div class="empty-state">Allocate points to see your invested skills</div>';
+    return;
+  }
+  const invested = S.filter(s => (A[s.n]||0) > 0);
+
+  let html = '<div class="section-title">Skill Summary</div>';
+
+  // Invested skills
+  html += '<div class="invested-list"><div class="ilabel" style="font-size:9px;margin-bottom:6px">Invested Skills ('+invested.length+')</div>';
+  invested.forEach(s => {
+    const l = A[s.n];
+    html += '<div class="iskill" style="padding:3px 6px;font-size:10px">';
+    html += '<img src="/skill-icons/'+s.img+'" alt="" style="width:14px;height:14px;object-fit:contain;flex-shrink:0">';
+    html += '<span class="iname">'+s.n+'</span>';
+    html += '<span class="ibadge lv'+l+'" style="font-size:8px">Lv.'+l+' '+s.l[l-1].v+'</span></div>';
+  });
+  html += '</div>';
+
+  el.innerHTML = html;
+}
+
 // ===== ANIMATED SUMMARY =====
 function rSummary(){
   const u = used();
   const el = document.getElementById('summaryContent');
   if (u === 0) {
-    el.innerHTML = `<div style="text-align:center;padding:40px 0;color:var(--tmuted);font-size:13px">No points allocated yet<br><span style="font-size:11px">Click the Lv.1-3 dots on skills above</span></div>`;
+    el.innerHTML = `<div style="text-align:center;padding:40px 0;color:var(--tmuted);font-size:13px">No points allocated yet<br><span style="font-size:11px">Click the dots below each skill to choose a level</span></div>`;
     return;
   }
 
@@ -398,14 +456,11 @@ function rSummary(){
 }
 
 function buildGuide(invested, stats){
-  const u = used();
   const pts = { combat:0, survival:0, utility:0 };
-  const names = [];
 
   for (const [name, lvl] of Object.entries(A)) {
     const s = S.find(x => x.n === name);
     if (!s) continue;
-    names.push(name);
     if (s.c === 'Combat') pts.combat += lvl;
     else if (s.c === 'Survival') pts.survival += lvl;
     else if (s.c === 'Utility') pts.utility += lvl;
@@ -422,17 +477,15 @@ function buildGuide(invested, stats){
   const archetypes = [];
   const advices = [];
 
-  // 1. Detect spread
   const investedCount = invested.length;
   const maxedCount = Object.values(A).filter(v => v === 3).length;
 
-  if (investedCount >= 10) {
-    archetypes.push({ icon:'🔀', name:'Jack of All Trades', desc:'Max flexibility — you can handle any situation but excel at none. Great for solo learning the game.' });
+  if (investedCount >= MAX_SKILLS) {
+    archetypes.push({ icon:'🔀', name:'Jack of All Trades', desc:'Max flexibility — you spread points across all available skill slots. Versatile but not hyper-specialized.' });
   } else if (maxedCount >= 3 && investedCount <= 5) {
     archetypes.push({ icon:'🎯', name:'Focused Specialist', desc:'Deep investment in key skills. Your operator has sharp, defined strengths.' });
   }
 
-  // 2. Category dominance
   const dominant = cPct > sPct && cPct > uPct ? 'combat' : sPct > cPct && sPct > uPct ? 'survival' : uPct > cPct && uPct > sPct ? 'utility' : 'balanced';
 
   if (dominant === 'combat') {
@@ -443,53 +496,42 @@ function buildGuide(invested, stats){
     archetypes.push({ icon:'💰', name:'Loot Specialist', desc:'Utility focus. Maximum raid profit — carry more, search faster, keep gear on death, longer lasting meds.' });
   }
 
-  // 3. Specific combo detection
-  const has = (n) => (A[n]||0) >= 2;
-  const hasAny = (arr) => arr.some(n => (A[n]||0) > 0);
   const comboScore = (arr) => arr.reduce((s,n) => s + (A[n]||0), 0);
 
-  // Rat combo: Parkour + Stay Alive + Emergency Evasion + Quick Seal
   const ratScore = comboScore(['Parkour','Stay Alive','Emergency Evasion','Quick Seal']);
   if (ratScore >= 6) {
     archetypes.push({ icon:'🐀', name:'Rat Build', desc:'Escape artist. You survive by avoiding fights — heal fast, flee danger, survive falls, and slip away when hit.' });
   }
 
-  // Sniper: Focus Puller + Veteran + Marathon + Jump Weapon Ctrl
   const sniperScore = comboScore(['Focus Puller','Veteran','Marathon','Jump Weapon Ctrl']);
   if (sniperScore >= 6) {
     archetypes.push({ icon:'🎯', name:"Sniper's Nest", desc:'Precision platform. Quick peeks, steady aim under fire, stamina to reposition, and stable jump shots.' });
   }
 
-  // Medic: Battlefield Heal + Quick Seal + Pharmacist + Stay Alive
   const medicScore = comboScore(['Battlefield Heal','Quick Seal','Pharmacist','Stay Alive']);
   if (medicScore >= 6) {
     archetypes.push({ icon:'🏥', name:'Field Medic', desc:'Team lifeline. You keep squadmates alive — fast revives, quick self-heals, longer meds, and durable downed state.' });
   }
 
-  // Juggernaut: Heavy Motor + Fire-Retardant + Iron Arm + Sleight of Hand
   const juggScore = comboScore(['Heavy Motor','Fire-Retardant','Iron Arm','Sleight of Hand']);
   if (juggScore >= 6) {
     archetypes.push({ icon:'🛡️', name:'Juggernaut', desc:'Heavy assault. Move fast in heavy armor, resist burns, recover stamina quickly, and reload under pressure.' });
   }
 
-  // Loot goblin: Porter + Effective Looting + Pharmacist
   const lootScore = comboScore(['Porter','Effective Looting','Pharmacist']);
   if (lootScore >= 5) {
     archetypes.push({ icon:'💎', name:'Loot Goblin', desc:'Maximum profit. Carry extra loot, skip container searches, and keep meds active longer.' });
   }
 
-  // Insurance: Vinson's Friend I + II
   if ((A["Vinson's Friend I"]||0) + (A["Vinson's Friend II"]||0) >= 4) {
     archetypes.push({ icon:'🔄', name:'Insured Operator', desc:'Death is a setback, not a disaster. High chance to retrieve weapons AND armor on failed extracts.' });
   }
 
-  // Speed: Emergency Evasion + Marathon + Parkour
   const speedScore = comboScore(['Emergency Evasion','Marathon','Parkour']);
   if (speedScore >= 6) {
     archetypes.push({ icon:'💨', name:'Speed Demon', desc:'Unmatched mobility. Burst speed after hits, sustained sprint stamina, and fall immunity.' });
   }
 
-  // 4. Top stats insight
   const statEntries = Object.entries(stats).sort((a,b) => b[1]-a[1]);
   const topStat = statEntries[0];
   const statLabels = { combat:'Combat Speed', survive:'Survivability', mobility:'Mobility', looting:'Looting Power', recovery:'Raid Recovery' };
@@ -499,12 +541,10 @@ function buildGuide(invested, stats){
     advices.push(`Strongest stat: ${statIcons[topStat[0]]} ${statLabels[topStat[0]]} (${Math.min(topStat[1],100)}%). This is your tactical edge.`);
   }
 
-  // Category breakdown advice
   if (dominant === 'balanced' && investedCount <= 6) {
     advices.push('Balanced across categories. You can adapt to any raid — identify your win condition and lean into it.');
   }
 
-  // Build archetype description
   const primary = archetypes[0];
   const secondary = archetypes.length > 1 ? archetypes[1] : null;
 
@@ -524,18 +564,15 @@ function buildGuide(invested, stats){
     </div>`;
   }
 
-  // Show additional tags
   if (archetypes.length > 2) {
     const extras = archetypes.slice(2).map(a => `${a.icon}${a.name}`).join(' · ');
     guideHtml += `<div style="font-size:10px;color:var(--tmuted);margin-bottom:6px">${extras}</div>`;
   }
 
-  // Advice
   advices.forEach(a => {
     guideHtml += `<div style="font-size:11px;color:var(--tsec);line-height:1.5;padding:2px 0">💡 ${a}</div>`;
   });
 
-  // Category pie bar
   if (total > 0) {
     guideHtml += `<div style="display:flex;height:4px;border-radius:2px;overflow:hidden;margin-top:8px">
       <div style="flex:${cPct};background:#FF6B35;min-width:${cPct>0?'2px':'0'}"></div>
@@ -553,13 +590,124 @@ function buildGuide(invested, stats){
   return guideHtml;
 }
 
+function toggleBuildAnalysis(){
+  const el = document.getElementById('mainGuide');
+  const isCollapsed = el.classList.toggle('collapsed');
+  el.querySelector('.toggle-icon').classList.toggle('open', !isCollapsed);
+}
+
 function rMainGuide(){
   const el = document.getElementById('mainGuide');
-  const u = used();
-  if (u === 0) { el.innerHTML = ''; return; }
-  const invested = S.filter(s => (A[s.n]||0) > 0);
-  const stats = calcStats();
-  el.innerHTML = buildGuide(invested, stats);
+  // Calculate category totals for donut
+  const pts = { combat:0, survival:0, utility:0 };
+  for (const [name, lvl] of Object.entries(A)) {
+    const s = S.find(x => x.n === name);
+    if (!s) continue;
+    if (s.c === 'Combat') pts.combat += lvl;
+    else if (s.c === 'Survival') pts.survival += lvl;
+    else if (s.c === 'Utility') pts.utility += lvl;
+  }
+  const total = pts.combat + pts.survival + pts.utility;
+  if (total === 0) {
+    el.innerHTML = '<div class="section-title" onclick="toggleBuildAnalysis()">Build Analysis <span class="toggle-icon open">\u25BC</span></div><div class="hero-right-content"><div style="text-align:center;padding:30px 0;color:var(--tmuted);font-size:12px">Allocate points to see your build analysis</div></div>';
+    el.classList.remove('highlight');
+    return;
+  }
+  const cPct = Math.round(pts.combat/total*100);
+  const sPct = Math.round(pts.survival/total*100);
+  const uPct = Math.round(pts.utility/total*100);
+
+  // SVG donut chart - circumference = 2 * PI * 38 = ~238.76
+  const r = 38;
+  const circ = 2 * Math.PI * r;
+  const cLen = (cPct/100) * circ;
+  const sLen = (sPct/100) * circ;
+  const uLen = (uPct/100) * circ;
+
+  // Archetype detection logic
+  const invested = S.filter(sk => (A[sk.n]||0) > 0);
+  const archetypes = [];
+  const advices = [];
+  const investedCount = invested.length;
+  const maxedCount = Object.values(A).filter(v => v === 3).length;
+
+  if (investedCount >= MAX_SKILLS) {
+    archetypes.push({ icon:'🔀', name:'Jack of All Trades', desc:'Max flexibility — you spread points across all available skill slots. Versatile but not hyper-specialized.' });
+  } else if (maxedCount >= 3 && investedCount <= 5) {
+    archetypes.push({ icon:'🎯', name:'Focused Specialist', desc:'Deep investment in key skills. Your operator has sharp, defined strengths.' });
+  }
+
+  const dominant = cPct > sPct && cPct > uPct ? 'combat' : sPct > cPct && sPct > uPct ? 'survival' : uPct > cPct && uPct > sPct ? 'utility' : 'balanced';
+  if (dominant === 'combat') {
+    archetypes.push({ icon:'⚔️', name:'Combat Veteran', desc:'Heavy combat focus. You win fights through superior gunplay — faster reloads, steadier aim, quicker leans.' });
+  } else if (dominant === 'survival') {
+    archetypes.push({ icon:'👻', name:'Ghost Operator', desc:'Survival focus. You outlast opponents — better escapes, fall control, downed recovery, and damage mitigation.' });
+  } else if (dominant === 'utility') {
+    archetypes.push({ icon:'💰', name:'Loot Specialist', desc:'Utility focus. Maximum raid profit — carry more, search faster, keep gear on death, longer lasting meds.' });
+  }
+
+  const comboScoreFn = (arr) => arr.reduce((s,n) => s + (A[n]||0), 0);
+  const ratScore = comboScoreFn(['Parkour','Stay Alive','Emergency Evasion','Quick Seal']);
+  if (ratScore >= 6) archetypes.push({ icon:'🐀', name:'Rat Build', desc:'Escape artist. You survive by avoiding fights — heal fast, flee danger, survive falls, and slip away when hit.' });
+  const sniperScore = comboScoreFn(['Focus Puller','Veteran','Marathon','Jump Weapon Ctrl']);
+  if (sniperScore >= 6) archetypes.push({ icon:'🎯', name:"Sniper's Nest", desc:'Precision platform. Quick peeks, steady aim under fire, stamina to reposition, and stable jump shots.' });
+  const medicScore = comboScoreFn(['Battlefield Heal','Quick Seal','Pharmacist','Stay Alive']);
+  if (medicScore >= 6) archetypes.push({ icon:'🏥', name:'Field Medic', desc:'Team lifeline. You keep squadmates alive — fast revives, quick self-heals, longer meds, and durable downed state.' });
+  const juggScore = comboScoreFn(['Heavy Motor','Fire-Retardant','Iron Arm','Sleight of Hand']);
+  if (juggScore >= 6) archetypes.push({ icon:'🛡️', name:'Juggernaut', desc:'Heavy assault. Move fast in heavy armor, resist burns, recover stamina quickly, and reload under pressure.' });
+  const lootScore = comboScoreFn(['Porter','Effective Looting','Pharmacist']);
+  if (lootScore >= 5) archetypes.push({ icon:'💎', name:'Loot Goblin', desc:'Maximum profit. Carry extra loot, skip container searches, and keep meds active longer.' });
+  if ((A["Vinson's Friend I"]||0) + (A["Vinson's Friend II"]||0) >= 4) archetypes.push({ icon:'🔄', name:'Insured Operator', desc:'Death is a setback, not a disaster. High chance to retrieve weapons AND armor on failed extracts.' });
+  const speedScore = comboScoreFn(['Emergency Evasion','Marathon','Parkour']);
+  if (speedScore >= 6) archetypes.push({ icon:'💨', name:'Speed Demon', desc:'Unmatched mobility. Burst speed after hits, sustained sprint stamina, and fall immunity.' });
+
+  const primary = archetypes[0];
+  const secondary = archetypes.length > 1 ? archetypes[1] : null;
+  const tags = archetypes.length > 2 ? archetypes.slice(2).map(a => a.icon + a.name).join(' · ') : '';
+
+  let html = '<div class="section-title" onclick="toggleBuildAnalysis()">Build Analysis <span class="toggle-icon">\u25BC</span></div><div class="hero-right-content">';
+
+  // Donut chart
+  html += '<div class="donut-wrap">';
+  html += '<svg class="donut-svg" viewBox="0 0 100 100">';
+  html += '<circle class="donut-bg" cx="50" cy="50" r="'+r+'"/>';
+  if (cPct > 0) html += '<circle class="donut-arc" cx="50" cy="50" r="'+r+'" stroke="#FF6B35" stroke-dasharray="'+cLen+' '+circ+'" stroke-dashoffset="0"/>';
+  if (sPct > 0) html += '<circle class="donut-arc" cx="50" cy="50" r="'+r+'" stroke="#22C55E" stroke-dasharray="'+sLen+' '+circ+'" stroke-dashoffset="'+(-cLen)+'"/>';
+  if (uPct > 0) html += '<circle class="donut-arc" cx="50" cy="50" r="'+r+'" stroke="#3B82F6" stroke-dasharray="'+uLen+' '+circ+'" stroke-dashoffset="'+(-(cLen+sLen))+'"/>';
+  html += '</svg>';
+  html += '<div class="donut-center"><span class="dc-pts">'+total+'</span><span class="dc-label">pts</span></div>';
+  html += '</div>';
+
+  // Legend
+  html += '<div class="donut-legend">';
+  if (cPct > 0) html += '<span><span class="swatch" style="background:#FF6B35"></span>Combat '+cPct+'%</span>';
+  if (sPct > 0) html += '<span><span class="swatch" style="background:#22C55E"></span>Survival '+sPct+'%</span>';
+  if (uPct > 0) html += '<span><span class="swatch" style="background:#3B82F6"></span>Utility '+uPct+'%</span>';
+  html += '</div>';
+
+  // Primary archetype
+  if (primary) {
+    html += '<div class="right-archetype"><div class="ar-name">'+primary.icon+' '+primary.name+'</div><div class="ar-desc">'+primary.desc+'</div></div>';
+  }
+  // Secondary
+  if (secondary) {
+    html += '<div class="right-secondary"><div class="sec-name">Also detected: '+secondary.icon+' '+secondary.name+'</div><div class="sec-desc">'+secondary.desc+'</div></div>';
+  }
+  // Tags
+  if (tags) {
+    html += '<div class="right-tags">'+tags+'</div>';
+  }
+  // Advice
+  if (dominant === 'balanced' && investedCount <= 6) {
+    advices.push('Balanced across categories. You can adapt to any raid — identify your win condition and lean into it.');
+  }
+  advices.forEach(a => {
+    html += '<div class="right-advice">💡 '+a+'</div>';
+  });
+
+  html += '</div>'; // close hero-right-content
+  el.innerHTML = html;
+  el.classList.add('collapsed', 'highlight');
 }
 
 function calcStats(){
@@ -594,9 +742,11 @@ function calcStats(){
 function setL(name, level){
   const cur = A[name]||0;
   if (level - cur > 0 && rem() < (level - cur)) return;
+  if (cur === 0 && uniqueSkillsCount() >= MAX_SKILLS) return;
   A[name] = level;
   if (level === 0) delete A[name];
-  activePreset = null; r();
+  activePreset = null;
+  r();
 }
 
 function clearSk(name){ delete A[name]; activePreset=null; r(); }
@@ -617,7 +767,7 @@ function applyP(name){
 function togglePanel(){
   document.getElementById('summaryPanel').classList.toggle('open');
   document.getElementById('overlay').classList.toggle('show');
-  rSummary(); // refresh on open to animate
+  rSummary();
 }
 
 r();
