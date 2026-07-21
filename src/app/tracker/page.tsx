@@ -20,9 +20,9 @@ export default function TrackerPage() {
   useEffect(() => {
     async function load() {
       const [weapons, bullets, armor] = await Promise.all([
-        fetch('/data/weapon-detail.json').then(r => r.json()),
-        fetch('/data/bullet-detail.json').then(r => r.json()),
-        fetch('/data/armor-detail.json').then(r => r.json()),
+        fetch('/abi-maps/data/weapon-detail.json').then(r => r.json()),
+        fetch('/abi-maps/data/bullet-detail.json').then(r => r.json()),
+        fetch('/abi-maps/data/armor-detail.json').then(r => r.json()),
       ]);
 
       setSections([

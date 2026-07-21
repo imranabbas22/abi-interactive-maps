@@ -46,11 +46,11 @@ export default function GunsmithPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/data/weapon-detail.json').then(r => r.json()),
-      fetch('/data/item_names.json').then(r => r.json()),
-      fetch('/data/weapon-parts.json').then(r => r.json()).catch(() => ({})),
-      fetch('/data/weapon-part-compat.json').then(r => r.json()).catch(() => ({})),
-      fetch('/data/weapon-part-overrides.json').then(r => r.json()).catch(() => ({})),
+      fetch('/abi-maps/data/weapon-detail.json').then(r => r.json()),
+      fetch('/abi-maps/data/item_names.json').then(r => r.json()),
+      fetch('/abi-maps/data/weapon-parts.json').then(r => r.json()).catch(() => ({})),
+      fetch('/abi-maps/data/weapon-part-compat.json').then(r => r.json()).catch(() => ({})),
+      fetch('/abi-maps/data/weapon-part-overrides.json').then(r => r.json()).catch(() => ({})),
     ]).then(([wd, nm, pc, compat, overrides]) => {
       setNames(nm);
       setWeapons(wd.weapons || []);

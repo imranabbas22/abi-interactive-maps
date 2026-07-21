@@ -48,8 +48,8 @@ export default function ArmorDetailPage({ params }: { params: Promise<{ id: stri
 
   useEffect(() => {
     Promise.all([
-      fetch('/data/armor-detail.json').then(r => r.json()),
-      fetch('/data/item_names.json').then(r => r.json()),
+      fetch('/abi-maps/data/armor-detail.json').then(r => r.json()),
+      fetch('/abi-maps/data/item_names.json').then(r => r.json()),
     ]).then(([ad, nameMap]) => {
       setNames(nameMap);
       const arr = Array.isArray(ad) ? ad : (ad.armors || ad.armor || []);

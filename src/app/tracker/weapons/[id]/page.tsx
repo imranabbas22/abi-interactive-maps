@@ -39,8 +39,8 @@ export default function WeaponDetailPage({ params }: { params: Promise<{ id: str
 
   useEffect(() => {
     Promise.all([
-      fetch('/data/weapon-detail.json').then(r => r.json()),
-      fetch('/data/item_names.json').then(r => r.json()),
+      fetch('/abi-maps/data/weapon-detail.json').then(r => r.json()),
+      fetch('/abi-maps/data/item_names.json').then(r => r.json()),
     ]).then(([wd, nameMap]) => {
       setNames(nameMap);
       setWeapons(wd.weapons || []);

@@ -7,7 +7,7 @@ export default function SeasonPage() {
   const [html, setHtml] = useState('');
 
   useEffect(() => {
-    fetch('/data/season-tasks.txt').then(r => r.text()).then(setHtml).catch(() => setHtml(''));
+    fetch('/abi-maps/data/season-tasks.txt').then(r => r.text()).then(setHtml).catch(() => setHtml(''));
   }, []);
 
   return (

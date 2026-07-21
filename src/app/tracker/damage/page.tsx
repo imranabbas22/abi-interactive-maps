@@ -19,7 +19,7 @@ export default function DamagePage() {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    fetch('/data/damage_overview.json').then(r => r.json()).then(setItems);
+    fetch('/abi-maps/data/damage_overview.json').then(r => r.json()).then(setItems);
   }, []);
 
   const filtered = items.filter(i => !search || i.weapon_combo.toLowerCase().includes(search.toLowerCase()) || i.ammo_name.toLowerCase().includes(search.toLowerCase()));

@@ -44,8 +44,8 @@ export default function BulletsPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/data/bullet-detail.json').then(r => r.json()),
-      fetch('/data/item_names.json').then(r => r.json()),
+      fetch('/abi-maps/data/bullet-detail.json').then(r => r.json()),
+      fetch('/abi-maps/data/item_names.json').then(r => r.json()),
     ]).then(([bd, nameMap]) => {
       setNames(nameMap);
       const arr = Array.isArray(bd) ? bd : (bd.bullets || []);

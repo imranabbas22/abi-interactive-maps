@@ -50,10 +50,10 @@ export default function SimulatorPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/data/weapon-detail.json').then(r => r.json()),
-      fetch('/data/bullet-detail.json').then(r => r.json()),
-      fetch('/data/armor-detail.json').then(r => r.json()),
-      fetch('/data/item_names.json').then(r => r.json()),
+      fetch('/abi-maps/data/weapon-detail.json').then(r => r.json()),
+      fetch('/abi-maps/data/bullet-detail.json').then(r => r.json()),
+      fetch('/abi-maps/data/armor-detail.json').then(r => r.json()),
+      fetch('/abi-maps/data/item_names.json').then(r => r.json()),
     ]).then(([wd, bd, ad, nm]) => {
       setNames(nm);
       setWeapons(wd.weapons || []);

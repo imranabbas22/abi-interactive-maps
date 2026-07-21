@@ -189,15 +189,15 @@ export default function AimLabPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/data/weapon-detail.json').then(r => r.json()),
-      fetch('/data/bullet-detail.json').then(r => r.json()),
-      fetch('/data/item_names.json').then(r => r.json()),
-      fetch('/data/weapon-parts.json').then(r => r.json()).catch(() => ({})),
-      fetch('/data/damage_overview.json').then(r => r.json()).catch(() => []),
-      fetch('/data/avg_shots.json').then(r => r.json()).catch(() => []),
-      fetch('/data/armor-detail.json').then(r => r.json()).catch(() => []),
-      fetch('/data/weapon-part-compat.json').then(r => r.json()).catch(() => ({})),
-      fetch('/data/weapon-part-overrides.json').then(r => r.json()).catch(() => ({})),
+      fetch('/abi-maps/data/weapon-detail.json').then(r => r.json()),
+      fetch('/abi-maps/data/bullet-detail.json').then(r => r.json()),
+      fetch('/abi-maps/data/item_names.json').then(r => r.json()),
+      fetch('/abi-maps/data/weapon-parts.json').then(r => r.json()).catch(() => ({})),
+      fetch('/abi-maps/data/damage_overview.json').then(r => r.json()).catch(() => []),
+      fetch('/abi-maps/data/avg_shots.json').then(r => r.json()).catch(() => []),
+      fetch('/abi-maps/data/armor-detail.json').then(r => r.json()).catch(() => []),
+      fetch('/abi-maps/data/weapon-part-compat.json').then(r => r.json()).catch(() => ({})),
+      fetch('/abi-maps/data/weapon-part-overrides.json').then(r => r.json()).catch(() => ({})),
     ]).then(([wd, bd, nm, pc, dov, avg, ad, compat, overrides]) => {
       setNames(nm);
       setWeapons(wd.weapons || []);

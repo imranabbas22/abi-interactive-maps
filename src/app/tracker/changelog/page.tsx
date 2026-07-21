@@ -17,7 +17,7 @@ export default function ChangelogPage() {
   const [changes, setChanges] = useState<Change[]>([]);
 
   useEffect(() => {
-    fetch('/data/changelog.json').then(r => r.json()).then(setChanges);
+    fetch('/abi-maps/data/changelog.json').then(r => r.json()).then(setChanges);
   }, []);
 
   const byVersion: Record<string, Change[]> = {};

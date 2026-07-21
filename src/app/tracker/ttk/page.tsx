@@ -15,7 +15,7 @@ export default function TTKPage() {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    fetch('/data/avg_shots.json').then(r => r.json()).then(setItems);
+    fetch('/abi-maps/data/avg_shots.json').then(r => r.json()).then(setItems);
   }, []);
 
   // Group by weapon

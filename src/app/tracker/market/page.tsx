@@ -26,8 +26,8 @@ export default function MarketPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/data/marketPageConfig.json').then(r => r.json()),
-      fetch('/data/item_names.json').then(r => r.json()),
+      fetch('/abi-maps/data/marketPageConfig.json').then(r => r.json()),
+      fetch('/abi-maps/data/item_names.json').then(r => r.json()),
     ]).then(([config, n]) => {
       setNames(n);
       const cats: MarketItem[] = [];
