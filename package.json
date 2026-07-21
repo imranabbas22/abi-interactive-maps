@@ -19,6 +19,7 @@
   "dependencies": {
     "leaflet": "^1.9.4",
     "next": "^16.2.7",
+    "playwright": "^1.61.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-leaflet": "^5.0.0"

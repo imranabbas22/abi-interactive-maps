@@ -1,0 +1,371 @@
+[
+  {
+    "version": " → ",
+    "date": "",
+    "category": "1 items · 1 changes",
+    "item_name": "VSSRifle",
+    "field_name": "Range",
+    "old_value": "26",
+    "new_value": "32"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "5.56×45mm M855A1",
+    "field_name": "ArmorDamage",
+    "old_value": "20.1",
+    "new_value": "▼ 17.1"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "5.56×45mm M855A1",
+    "field_name": "Damage",
+    "old_value": "47",
+    "new_value": "▼ 44"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "5.56×45mm AP",
+    "field_name": "",
+    "old_value": "9%",
+    "new_value": "▼ 6%"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "5.56×45mm M855A2",
+    "field_name": "ArmorDamage",
+    "old_value": "22.4",
+    "new_value": "▼ 20.4"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "5.56×45mm M855A2",
+    "field_name": "Damage",
+    "old_value": "49",
+    "new_value": "▼ 48"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "5.56×45mm M855A2",
+    "field_name": "",
+    "old_value": "0",
+    "new_value": "▼ -2"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "5.56×45mm M855A2",
+    "field_name": "Penetration",
+    "old_value": "44",
+    "new_value": "▼ 41"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "5.56×45mm M855A2",
+    "field_name": "",
+    "old_value": "0",
+    "new_value": "▼ -1"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "9×19mm 7N30",
+    "field_name": "",
+    "old_value": "8.1%",
+    "new_value": "▼ 6.2%"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "9×39mm PAB",
+    "field_name": "",
+    "old_value": "9%",
+    "new_value": "▼ 5%"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "5.45×39mm 7N10M",
+    "field_name": "",
+    "old_value": "8%",
+    "new_value": "▼ 5.8%"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_M67",
+    "field_name": "Penetration",
+    "old_value": "60",
+    "new_value": "▼ 20"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_M67",
+    "field_name": "Pen Level",
+    "old_value": "6",
+    "new_value": "▼ 2"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_M18",
+    "field_name": "Penetration",
+    "old_value": "60",
+    "new_value": "▼ 20"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_M18",
+    "field_name": "Pen Level",
+    "old_value": "6",
+    "new_value": "▼ 2"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_Z3",
+    "field_name": "Penetration",
+    "old_value": "60",
+    "new_value": "▼ 20"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_Z3",
+    "field_name": "Pen Level",
+    "old_value": "6",
+    "new_value": "▼ 2"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_M84",
+    "field_name": "Penetration",
+    "old_value": "60",
+    "new_value": "▼ 20"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_M84",
+    "field_name": "Pen Level",
+    "old_value": "6",
+    "new_value": "▼ 2"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_",
+    "field_name": "Penetration",
+    "old_value": "60",
+    "new_value": "▼ 20"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_",
+    "field_name": "Pen Level",
+    "old_value": "6",
+    "new_value": "▼ 2"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_X 5",
+    "field_name": "Penetration",
+    "old_value": "60",
+    "new_value": "▼ 20"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_X 5",
+    "field_name": "Pen Level",
+    "old_value": "6",
+    "new_value": "▼ 2"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_GLI F4",
+    "field_name": "Penetration",
+    "old_value": "60",
+    "new_value": "▼ 20"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_GLI F4",
+    "field_name": "Pen Level",
+    "old_value": "6",
+    "new_value": "▼ 2"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_GHO 2",
+    "field_name": "Penetration",
+    "old_value": "60",
+    "new_value": "▼ 20"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_GHO 2",
+    "field_name": "Pen Level",
+    "old_value": "6",
+    "new_value": "▼ 2"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_BOSS_Z3",
+    "field_name": "Penetration",
+    "old_value": "60",
+    "new_value": "▼ 20"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "15 items · 29 changes",
+    "item_name": "M_BOSS_Z3",
+    "field_name": "Pen Level",
+    "old_value": "6",
+    "new_value": "▼ 2"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "5 items · 5 changes",
+    "item_name": "AN94Rifle",
+    "field_name": "Fire Rate",
+    "old_value": "630",
+    "new_value": "680"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "5 items · 5 changes",
+    "item_name": "T191Rifle",
+    "field_name": "Damage",
+    "old_value": "3",
+    "new_value": "▼ 2"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "5 items · 5 changes",
+    "item_name": "T192Rifle",
+    "field_name": "",
+    "old_value": "0%",
+    "new_value": "▲ 20%"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "5 items · 5 changes",
+    "item_name": "U191Rifle",
+    "field_name": "Damage",
+    "old_value": "6",
+    "new_value": "▼ 4"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "5 items · 5 changes",
+    "item_name": "RPK16 LMG",
+    "field_name": "",
+    "old_value": "30%",
+    "new_value": "▲ 50%"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "1 items · 1 changes",
+    "item_name": "T191AccuracyRifle Barrel",
+    "field_name": "Damage",
+    "old_value": "2",
+    "new_value": "▼ 1"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "1 items · 2 changes",
+    "item_name": "U191Rifle",
+    "field_name": "RecoilForce.Z.RandomInRangeMagnitude.X",
+    "old_value": "320",
+    "new_value": "▼ 280"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "1 items · 2 changes",
+    "item_name": "U191Rifle",
+    "field_name": "RecoilForce.Z.RandomInRangeMagnitude.Y",
+    "old_value": "360",
+    "new_value": "▼ 320"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "3 items · 3 changes",
+    "item_name": "T191Rifle",
+    "field_name": "",
+    "old_value": "77",
+    "new_value": "▼ 70"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "3 items · 3 changes",
+    "item_name": "T192Rifle",
+    "field_name": "Range",
+    "old_value": "35",
+    "new_value": "▲ 41"
+  },
+  {
+    "version": " → ",
+    "date": "",
+    "category": "3 items · 3 changes",
+    "item_name": "U191Rifle",
+    "field_name": "",
+    "old_value": "52",
+    "new_value": "▼ 44"
+  }
+]

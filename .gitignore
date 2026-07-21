@@ -39,6 +39,10 @@ yarn-error.log*
 # airport raw frames (large video frames, 79MB+ mp4)
 public/maps/airport-raw/
 
+# imported weapon/part game-asset images (62MB+, regenerate locally via
+# scripts/import-part-images.js against your abi_assets folder)
+public/images/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

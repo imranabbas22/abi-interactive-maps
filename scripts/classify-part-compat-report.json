@@ -1,0 +1,4537 @@
+{
+  "pass1": [
+    {
+      "id": 201020005,
+      "name": "Dedicated FAL Rear Grip",
+      "tag": "Assemble.PistolGrip.Other.FAL"
+    },
+    {
+      "id": 201020006,
+      "name": "FAL Comfortable Rear Grip",
+      "tag": "Assemble.PistolGrip.Other.FAL"
+    },
+    {
+      "id": 201020008,
+      "name": "MPX Standard Polymer Rear Grip",
+      "tag": "Assemble.PistolGrip.Other.MPX"
+    },
+    {
+      "id": 201020009,
+      "name": "M9A3 Standard Polymer Rear Grip",
+      "tag": "Assemble.PistolGrip.Other.M9A3"
+    },
+    {
+      "id": 201020010,
+      "name": "Gorod Dedicated SVDS Rear Grip",
+      "tag": "Assemble.PistolGrip.Other.SVDS"
+    },
+    {
+      "id": 201020011,
+      "name": "MDR Standard Rear Grip",
+      "tag": "Assemble.PistolGrip.Other.DTMDR"
+    },
+    {
+      "id": 201020025,
+      "name": "M870 to AR Grip",
+      "tag": "Assemble.PistolGrip.AR"
+    },
+    {
+      "id": 201020026,
+      "name": "Dedicated Mk14 Grip",
+      "tag": "Assemble.PistolGrip.Other.MK14"
+    },
+    {
+      "id": 201020027,
+      "name": "Dedicated M1911 Grip",
+      "tag": "Assemble.PistolGrip.M1911"
+    },
+    {
+      "id": 201020028,
+      "name": "Standard M1911 Grip",
+      "tag": "Assemble.PistolGrip.M1911"
+    },
+    {
+      "id": 201020030,
+      "name": "Dedicated M45A1 Grip",
+      "tag": "Assemble.PistolGrip.M45A1"
+    },
+    {
+      "id": 201020031,
+      "name": "QC61 Pistol Grip",
+      "tag": "Assemble.PistolGrip.QC61"
+    },
+    {
+      "id": 201020032,
+      "name": "CZ 52 Pistol Grip",
+      "tag": "Assemble.PistolGrip.CZ52"
+    },
+    {
+      "id": 201020033,
+      "name": "SCAR-L Rear Grip",
+      "tag": "Assemble.PistolGrip.AR"
+    },
+    {
+      "id": 201020034,
+      "name": "BIZON Rear Grip",
+      "tag": "Assemble.PistolGrip.Other.BIZON"
+    },
+    {
+      "id": 201020035,
+      "name": "SG550 Rear Grip",
+      "tag": "Assemble.PistolGrip.Other.SG550"
+    },
+    {
+      "id": 201020036,
+      "name": "G3 Standard Rear Grip",
+      "tag": "Assemble.PistolGrip.Other.G3"
+    },
+    {
+      "id": 201020037,
+      "name": "G3 Tactical Rear Grip",
+      "tag": "Assemble.PistolGrip.Other.G3"
+    },
+    {
+      "id": 201020040,
+      "name": "AK12 Standard Rear Grip",
+      "tag": "Assemble.PistolGrip.AK"
+    },
+    {
+      "id": 201020041,
+      "name": "MCX Standard Rear Grip",
+      "tag": "Assemble.PistolGrip.Other.MCX"
+    },
+    {
+      "id": 201030111,
+      "name": "F2000 1.6x Optical Sight",
+      "tag": "Assemble.Sight.Scope.Other.F2000"
+    },
+    {
+      "id": 201030203,
+      "name": "Mosin Dedicated 3.5x Rifle Scope",
+      "tag": "Assemble.Sight.Scope.Other.Mosin"
+    },
+    {
+      "id": 201030213,
+      "name": "T951 3x Scope",
+      "tag": "Assemble.Sight.Scope.Other.T951"
+    },
+    {
+      "id": 201030602,
+      "name": "Mosin-Nagant Standard Rear Sight",
+      "tag": "Assemble.Sight.Scope.Other.Mosin"
+    },
+    {
+      "id": 201030615,
+      "name": "Mosin-Nagant Standard Front Sight",
+      "tag": "Assemble.Sight.Scope.Other.Mosin"
+    },
+    {
+      "id": 201030636,
+      "name": "S12K Rear Sight Rail",
+      "tag": "Assemble.Sight.Scope.ScopeNeedsWarsawPactRail"
+    },
+    {
+      "id": 201040107,
+      "name": "M14 Ebony Wooden Stock",
+      "tag": "Assemble.Stocks.Other.M14"
+    },
+    {
+      "id": 201040108,
+      "name": "M14 Angel Modern Stock",
+      "tag": "Assemble.Stocks.Other.M14"
+    },
+    {
+      "id": 201040115,
+      "name": "MP5 Fixed Stock",
+      "tag": "Assemble.Stocks.Other.MP5"
+    },
+    {
+      "id": 201040116,
+      "name": "MP5 End-Cap Stock",
+      "tag": "Assemble.Stocks.Other.MP5"
+    },
+    {
+      "id": 201040117,
+      "name": "Mosin Carbine Sniper Wooden Stock",
+      "tag": "Assemble.Stocks.Other.Mosin"
+    },
+    {
+      "id": 201040118,
+      "name": "Mosin Short-Barrel Bolt-Action Stock",
+      "tag": "Assemble.Stocks.Other.Mosin"
+    },
+    {
+      "id": 201040119,
+      "name": "M870 Anti-Slip Stock",
+      "tag": "Assemble.Stocks.Other.M870"
+    },
+    {
+      "id": 201040120,
+      "name": "FAL Polymer Stock",
+      "tag": "Assemble.Stocks.Other.FAL"
+    },
+    {
+      "id": 201040121,
+      "name": "FAL Special Stock",
+      "tag": "Assemble.Stocks.Other.FAL"
+    },
+    {
+      "id": 201040122,
+      "name": "FAL Tube Adapter",
+      "tag": "Assemble.Stocks.Other.FAL"
+    },
+    {
+      "id": 201040123,
+      "name": "M870 Ergonomic Stock",
+      "tag": "Assemble.Stocks.Other.M870"
+    },
+    {
+      "id": 201040124,
+      "name": "MP5 Classic Collapsible Stock",
+      "tag": "Assemble.Stocks.Other.MP5"
+    },
+    {
+      "id": 201040125,
+      "name": "SKS OEM Oak Stock",
+      "tag": "Assemble.Stocks.Other.SKS"
+    },
+    {
+      "id": 201040129,
+      "name": "SVDS Polymer Stock",
+      "tag": "Assemble.Stocks.Other.SVD"
+    },
+    {
+      "id": 201040134,
+      "name": "VSS Standard Wooden Stock",
+      "tag": "Assemble.Stocks.Other.VSS"
+    },
+    {
+      "id": 201040139,
+      "name": "Mosin Modern Standard Stock",
+      "tag": "Assemble.Stocks.Other.Mosin"
+    },
+    {
+      "id": 201040140,
+      "name": "Uzi Conventional Stock",
+      "tag": "Assemble.Stocks.Other.UZI"
+    },
+    {
+      "id": 201040141,
+      "name": "Uzi Adapter",
+      "tag": "Assemble.Stocks.StockAdapter.ARBufferTube"
+    },
+    {
+      "id": 201040142,
+      "name": "Uzi Wooden Stock",
+      "tag": "Assemble.Stocks.Other.UZI"
+    },
+    {
+      "id": 201040146,
+      "name": "AKM Dark Oak Wooden Stock",
+      "tag": "Assemble.Stocks.AK.AKM"
+    },
+    {
+      "id": 201040151,
+      "name": "SKS Modern Integrated Polymer Stock",
+      "tag": "Assemble.Stocks.Other.SKS"
+    },
+    {
+      "id": 201040152,
+      "name": "Mini14 Alloy Integrated Stock",
+      "tag": "Assemble.Stocks.Other.Mini14"
+    },
+    {
+      "id": 201040153,
+      "name": "Mini14 Integrated Wooden Stock",
+      "tag": "Assemble.Stocks.Other.Mini14"
+    },
+    {
+      "id": 201040154,
+      "name": "AX50 Precision Stock",
+      "tag": "Assemble.Stocks.Other.AX50"
+    },
+    {
+      "id": 201040155,
+      "name": "AX50 Quick-Aim Stock",
+      "tag": "Assemble.Stocks.Other.AX50"
+    },
+    {
+      "id": 201040156,
+      "name": "Mosin Standard Sniper Stock",
+      "tag": "Assemble.Stocks.Other.Mosin"
+    },
+    {
+      "id": 201040158,
+      "name": "UMP45 Standard Stock",
+      "tag": "Assemble.Stocks.Other.UMP45"
+    },
+    {
+      "id": 201040161,
+      "name": "MP40 Folding Stock",
+      "tag": "Assemble.Stocks.Other.MP40"
+    },
+    {
+      "id": 201040162,
+      "name": "MAC-10 Standard Stock",
+      "tag": "Assemble.Stocks.Other.MAC10"
+    },
+    {
+      "id": 201040163,
+      "name": "MAC-10 Premium Folding Stock",
+      "tag": "Assemble.Stocks.Other.MAC10"
+    },
+    {
+      "id": 201040165,
+      "name": "FAL Triangle Stock",
+      "tag": "Assemble.Stocks.Other.FAL"
+    },
+    {
+      "id": 201040169,
+      "name": "MP5 Tactical Stock",
+      "tag": "Assemble.Stocks.Other.MP5"
+    },
+    {
+      "id": 201040170,
+      "name": "MG 3 Standard Stock",
+      "tag": "Assemble.Stocks.Other.MG3"
+    },
+    {
+      "id": 201040171,
+      "name": "QC61 Standard Stock",
+      "tag": "Assemble.Stocks.Other.QC61"
+    },
+    {
+      "id": 201040172,
+      "name": "QC61 Rail Handguard Stock",
+      "tag": "Assemble.Stocks.Other.QC61"
+    },
+    {
+      "id": 201040173,
+      "name": "M3A1 Folding Stock",
+      "tag": "Assemble.Stocks.Other.M3A1"
+    },
+    {
+      "id": 201040174,
+      "name": "MPF45 Wooden Stock",
+      "tag": "Assemble.Stocks.Other.MPF45"
+    },
+    {
+      "id": 201040175,
+      "name": "MPF45 Metal Stock",
+      "tag": "Assemble.Stocks.Other.MPF45"
+    },
+    {
+      "id": 201040176,
+      "name": "MPF45 Mask Stock",
+      "tag": "Assemble.Stocks.Other.MPF45"
+    },
+    {
+      "id": 201040177,
+      "name": "MPF45 Stock Cover",
+      "tag": "Assemble.Stocks.Other.MPF45"
+    },
+    {
+      "id": 201040180,
+      "name": "T85 Standard Stock",
+      "tag": "Assemble.Stocks.Other.T85"
+    },
+    {
+      "id": 201040182,
+      "name": "SJ16 Standard Stock",
+      "tag": "Assemble.Stocks.Other.SJ16"
+    },
+    {
+      "id": 201040187,
+      "name": "ACE31 Foldable Collapsing Stock",
+      "tag": "Assemble.Stocks.Other.ACE31"
+    },
+    {
+      "id": 201040192,
+      "name": "MP9 Folding Stock",
+      "tag": "Assemble.Stocks.Other.MP9"
+    },
+    {
+      "id": 201040194,
+      "name": "Dedicated Suomi Stock",
+      "tag": "Assemble.Stocks.Other.Suomi"
+    },
+    {
+      "id": 201040196,
+      "name": "VSS Modern Design Stock",
+      "tag": "Assemble.Stocks.Other.VSS"
+    },
+    {
+      "id": 201040197,
+      "name": "FAMAS Standard Stock",
+      "tag": "Assemble.Stocks.Other.FAMAS"
+    },
+    {
+      "id": 201040199,
+      "name": "BIZON Foldable Stock",
+      "tag": "Assemble.Stocks.Other.BIZON"
+    },
+    {
+      "id": 201040206,
+      "name": "Dedicated M870 Extension Tube",
+      "tag": "Assemble.Stocks.Other.M870"
+    },
+    {
+      "id": 201040207,
+      "name": "RPK-16 Expandable Tube",
+      "tag": "Assemble.Stocks.Other.RPK16"
+    },
+    {
+      "id": 201040208,
+      "name": "SCAR-L Tube Adaptor",
+      "tag": "Assemble.Stocks.AR.AR15StockNeedsBufferTube"
+    },
+    {
+      "id": 201040306,
+      "name": "AKM to PT Adapter",
+      "tag": "Assemble.Stocks.StockAdapter.Other.AKMPT"
+    },
+    {
+      "id": 201040308,
+      "name": "Dedicated M870 Buffer Adapter",
+      "tag": "Assemble.Stocks.Other.M870"
+    },
+    {
+      "id": 201040313,
+      "name": "AK12 Stock Adapter",
+      "tag": "Assemble.Stocks.AK.AK12"
+    },
+    {
+      "id": 201040406,
+      "name": "USAS-12 Cushion",
+      "tag": "Assemble.Stocks.StockPad.USAS12"
+    },
+    {
+      "id": 201040407,
+      "name": "USAS-12 Standard Rear Cushion",
+      "tag": "Assemble.Stocks.StockPad.USAS12"
+    },
+    {
+      "id": 201040408,
+      "name": "Groza Standard Rear Cushion",
+      "tag": "Assemble.Stocks.StockPad.Groza"
+    },
+    {
+      "id": 201040409,
+      "name": "Groza Tactical Rubber Pad",
+      "tag": "Assemble.Stocks.StockPad.Groza"
+    },
+    {
+      "id": 201040412,
+      "name": "DP-12 Standard Rear Cushion",
+      "tag": "Assemble.Stocks.StockPad.DP12"
+    },
+    {
+      "id": 201040413,
+      "name": "DP-12 Cushion",
+      "tag": "Assemble.Stocks.StockPad.DP12"
+    },
+    {
+      "id": 201040414,
+      "name": "T951 Stock Cushion",
+      "tag": "Assemble.Stocks.Other.T951"
+    },
+    {
+      "id": 201040415,
+      "name": "T951 Cheek Rest",
+      "tag": "Assemble.Stocks.Other.T951"
+    },
+    {
+      "id": 201040416,
+      "name": "Mosin Standard Buttstock Cushion",
+      "tag": "Assemble.Stocks.Other.Mosin"
+    },
+    {
+      "id": 201040501,
+      "name": "T951 Stock",
+      "tag": "Assemble.Stocks.Other.T951"
+    },
+    {
+      "id": 201040502,
+      "name": "T03 Foldable Stock",
+      "tag": "Assemble.Stocks.Other.T03"
+    },
+    {
+      "id": 201040508,
+      "name": "ACE 31 Lightweight Stock",
+      "tag": "Assemble.Stocks.Other.ACE31"
+    },
+    {
+      "id": 201040512,
+      "name": "SG550 Dedicated Folding Stock",
+      "tag": "Assemble.Stocks.Other.SG550"
+    },
+    {
+      "id": 201040513,
+      "name": "SG550 Premium Stock",
+      "tag": "Assemble.Stocks.Other.SG550"
+    },
+    {
+      "id": 201040515,
+      "name": "G3 Standard Stock",
+      "tag": "Assemble.Stocks.Other.G3"
+    },
+    {
+      "id": 201040517,
+      "name": "G3 Modern Stock",
+      "tag": "Assemble.Stocks.Other.G3"
+    },
+    {
+      "id": 201040522,
+      "name": "AK12 Standard Stock",
+      "tag": "Assemble.Stocks.AK.AK12"
+    },
+    {
+      "id": 201040523,
+      "name": "AK12 Tactical Stock",
+      "tag": "Assemble.Stocks.AK.AK12"
+    },
+    {
+      "id": 201040524,
+      "name": "Dedicated MCX Stock",
+      "tag": "Assemble.Stocks.Other.MCX"
+    },
+    {
+      "id": 201040535,
+      "name": "FAL Lightweight Stock",
+      "tag": "Assemble.Stocks.Other.FAL"
+    },
+    {
+      "id": 201040536,
+      "name": "FAL Stable stock",
+      "tag": "Assemble.Stocks.Other.FAL"
+    },
+    {
+      "id": 201040537,
+      "name": "VSS Assault Rifle StockVSS Assault Rifle Stock",
+      "tag": "Assemble.Stocks.Other.VSS"
+    },
+    {
+      "id": 201040542,
+      "name": "SVD Tactical Modern StockSVD Tactical Modern Stock",
+      "tag": "Assemble.Stocks.Other.SVD"
+    },
+    {
+      "id": 201040550,
+      "name": "Mosin High-Performance StockMosin High-Performance Stock",
+      "tag": "Assemble.Stocks.Other.Mosin"
+    },
+    {
+      "id": 201050001,
+      "name": "AKM Series 40-Round Magazine",
+      "tag": "Assemble.Magazine.762x39mm.AKM"
+    },
+    {
+      "id": 201050002,
+      "name": "MP5 Standard 30-Round Magazine",
+      "tag": "Assemble.Magazine.9x19mm.MP5"
+    },
+    {
+      "id": 201050003,
+      "name": "MP5 50-Round Magazine",
+      "tag": "Assemble.Magazine.9x19mm.MP5"
+    },
+    {
+      "id": 201050004,
+      "name": "G Series Pistol 17-Round Magazine",
+      "tag": "Assemble.Magazine.9x19mm.Glock"
+    },
+    {
+      "id": 201050005,
+      "name": "G Series Pistol 33-Round Extended Mag",
+      "tag": "Assemble.Magazine.762x51mm.G3"
+    },
+    {
+      "id": 201050006,
+      "name": "AR 30-Round International Standard Mag",
+      "tag": "Assemble.Magazine.338.AR30"
+    },
+    {
+      "id": 201050008,
+      "name": "Mosin Rifle Standard Magazine Chamber",
+      "tag": "Assemble.Magazine.762x54mmR.Mosin"
+    },
+    {
+      "id": 201050009,
+      "name": "M870 4-Shell Magazine Chamber",
+      "tag": "Assemble.Magazine.12x70mm.M870"
+    },
+    {
+      "id": 201050010,
+      "name": "M870 7-Shell Extended Magazine Chamber",
+      "tag": "Assemble.Magazine.12x70mm.M870"
+    },
+    {
+      "id": 201050011,
+      "name": "M870 10-Shell Extended Magazine Chamber",
+      "tag": "Assemble.Magazine.12x70mm.M870"
+    },
+    {
+      "id": 201050012,
+      "name": "FAL 50-Round Drum",
+      "tag": "Assemble.Magazine.762x51mm.FAL"
+    },
+    {
+      "id": 201050013,
+      "name": "FAL 20-Round Metal Magazine",
+      "tag": "Assemble.Magazine.762x51mm.FAL"
+    },
+    {
+      "id": 201050014,
+      "name": "AKM 30-Round Lightweight Alloy",
+      "tag": "Assemble.Magazine.762x39mm.AKM"
+    },
+    {
+      "id": 201050015,
+      "name": "SKS 10-Round Internal Box Mag Chamber",
+      "tag": "Assemble.Magazine.762x39mm.SKS"
+    },
+    {
+      "id": 201050016,
+      "name": "MPX 30-Round Standard Translucent Mag",
+      "tag": "Assemble.Magazine.9x19mm.MPX"
+    },
+    {
+      "id": 201050017,
+      "name": "M9A3 17-Round Standard Magazine",
+      "tag": "Assemble.Magazine.9x19mm.M9A3"
+    },
+    {
+      "id": 201050018,
+      "name": "P90 50-Round Polymer Magazine",
+      "tag": "Assemble.Magazine.57x28mm.P90"
+    },
+    {
+      "id": 201050019,
+      "name": "P90 30-Round Polymer Magazine",
+      "tag": "Assemble.Magazine.57x28mm.P90"
+    },
+    {
+      "id": 201050020,
+      "name": "SVDS 10-Round Steel Magazine",
+      "tag": "Assemble.Magazine.762x54mmR.SVDS"
+    },
+    {
+      "id": 201050021,
+      "name": "SVDS 20-Round Steel Magazine",
+      "tag": "Assemble.Magazine.762x54mmR.SVDS"
+    },
+    {
+      "id": 201050022,
+      "name": "MP-133 6-Shell Extended Magazine Chamber",
+      "tag": "Assemble.Magazine.12x70mm.MP133"
+    },
+    {
+      "id": 201050023,
+      "name": "MP-133 8-Shell Extended Magazine Chamber",
+      "tag": "Assemble.Magazine.12x70mm.MP133"
+    },
+    {
+      "id": 201050028,
+      "name": "AR 30-Round Polymer",
+      "tag": "Assemble.Magazine.338.AR30"
+    },
+    {
+      "id": 201050030,
+      "name": "VSS 10-Round Standard Magazine",
+      "tag": "Assemble.Magazine.9x39mm.VSS"
+    },
+    {
+      "id": 201050031,
+      "name": "VSS 20-Round Standard Magazine",
+      "tag": "Assemble.Magazine.9x39mm.VSS"
+    },
+    {
+      "id": 201050032,
+      "name": "VSS 30-Round Standard Magazine",
+      "tag": "Assemble.Magazine.9x39mm.VSS"
+    },
+    {
+      "id": 201050035,
+      "name": "Dedicated Mosin 10-Round Quick Magazine",
+      "tag": "Assemble.Magazine.762x54mmR.Mosin"
+    },
+    {
+      "id": 201050036,
+      "name": "SKS Exclusive 20-Round Clip Magazine",
+      "tag": "Assemble.Magazine.762x39mm.SKS"
+    },
+    {
+      "id": 201050037,
+      "name": "Uzi 20-Round Magazine",
+      "tag": "Assemble.Magazine.9x19mm.UZI"
+    },
+    {
+      "id": 201050042,
+      "name": "M14 20-Round Double Row Magazine",
+      "tag": "Assemble.Magazine.762x51mm.M14"
+    },
+    {
+      "id": 201050043,
+      "name": "M14 30-Round Double Row Magazine",
+      "tag": "Assemble.Magazine.762x51mm.M14"
+    },
+    {
+      "id": 201050044,
+      "name": "MP9 32-Round Standard Magazine",
+      "tag": "Assemble.Magazine.9x19mm.MP9"
+    },
+    {
+      "id": 201050045,
+      "name": "AKM Series 10-Round Small Magazine",
+      "tag": "Assemble.Magazine.762x39mm.AKM"
+    },
+    {
+      "id": 201050046,
+      "name": "AKM 75-Round XL Drum",
+      "tag": "Assemble.Magazine.762x39mm.AKM"
+    },
+    {
+      "id": 201050047,
+      "name": "AKM Series 73-Round Polymer Drum",
+      "tag": "Assemble.Magazine.762x39mm.AKM"
+    },
+    {
+      "id": 201050048,
+      "name": "AKM Series 50-Round Compatible Drum",
+      "tag": "Assemble.Magazine.762x39mm.AKM"
+    },
+    {
+      "id": 201050051,
+      "name": "MP5 20-Round Standard Magazine",
+      "tag": "Assemble.Magazine.9x19mm.MP5"
+    },
+    {
+      "id": 201050052,
+      "name": "MPX 50-Round Polymer Drum",
+      "tag": "Assemble.Magazine.9x19mm.MPX"
+    },
+    {
+      "id": 201050053,
+      "name": "MPX 41-Round Extended Magazine",
+      "tag": "Assemble.Magazine.9x19mm.MPX"
+    },
+    {
+      "id": 201050054,
+      "name": "M96 10-Round Metal Magazine",
+      "tag": "Assemble.Magazine.556x45mm.M96"
+    },
+    {
+      "id": 201050055,
+      "name": "Mini14 10-Round Magazine",
+      "tag": "Assemble.Magazine.556x45mm.Mini14"
+    },
+    {
+      "id": 201050056,
+      "name": "Mini14 20-Round Magazine",
+      "tag": "Assemble.Magazine.556x45mm.Mini14"
+    },
+    {
+      "id": 201050057,
+      "name": "Mini14 30-Round Magazine",
+      "tag": "Assemble.Magazine.556x45mm.Mini14"
+    },
+    {
+      "id": 201050058,
+      "name": "AX50 5-Round Magazine",
+      "tag": "Assemble.Magazine.127x99mm.AX50"
+    },
+    {
+      "id": 201050059,
+      "name": "AX50 10-Round Magazine",
+      "tag": "Assemble.Magazine.127x99mm.AX50"
+    },
+    {
+      "id": 201050060,
+      "name": "Desert Eagle 8-Round Magazine",
+      "tag": "Assemble.Magazine.44mm.DE"
+    },
+    {
+      "id": 201050061,
+      "name": "S12K 20-Round Drum",
+      "tag": "Assemble.Magazine.12x70mm.Saiga12"
+    },
+    {
+      "id": 201050062,
+      "name": "S12K 10-Round Magazine",
+      "tag": "Assemble.Magazine.12x70mm.Saiga12"
+    },
+    {
+      "id": 201050063,
+      "name": "S12K 5-Round Magazine",
+      "tag": "Assemble.Magazine.12x70mm.Saiga12"
+    },
+    {
+      "id": 201050064,
+      "name": "UMP45 25-Round Magazine",
+      "tag": "Assemble.Magazine.45mm.UMP"
+    },
+    {
+      "id": 201050065,
+      "name": "M110 10-Round Magazine",
+      "tag": "Assemble.Magazine.762x51mm.SR25"
+    },
+    {
+      "id": 201050066,
+      "name": "M110 20-Round Magazine",
+      "tag": "Assemble.Magazine.762x51mm.SR25"
+    },
+    {
+      "id": 201050067,
+      "name": "M110 20-Round Quick Magazine",
+      "tag": "Assemble.Magazine.762x51mm.SR25"
+    },
+    {
+      "id": 201050068,
+      "name": "Mk14 50-Round Drum",
+      "tag": "Assemble.Magazine.762x51mm.MK14"
+    },
+    {
+      "id": 201050069,
+      "name": "T54 8-Round Magazine",
+      "tag": "Assemble.Magazine.762x25mm.T54"
+    },
+    {
+      "id": 201050070,
+      "name": "MG 3 100-Round Belt",
+      "tag": "Assemble.Magazine.762x51mm.MG3"
+    },
+    {
+      "id": 201050071,
+      "name": "M1911 7-Round Magazine",
+      "tag": "Assemble.Magazine.45mm.M1911"
+    },
+    {
+      "id": 201050072,
+      "name": "M1911 11-Round Magazine",
+      "tag": "Assemble.Magazine.45mm.M1911"
+    },
+    {
+      "id": 201050073,
+      "name": "M3A1 30-Round Magazine",
+      "tag": "Assemble.Magazine.45mm.M3A1"
+    },
+    {
+      "id": 201050074,
+      "name": "F2000 50-Round Magazine",
+      "tag": "Assemble.Magazine.556x45mm.F2000"
+    },
+    {
+      "id": 201050075,
+      "name": "MP40 32-Round Magazine",
+      "tag": "Assemble.Magazine.9x19mm.MP40"
+    },
+    {
+      "id": 201050076,
+      "name": "MAC-10 30-Round Magazine",
+      "tag": "Assemble.Magazine.45mm.MAC10"
+    },
+    {
+      "id": 201050077,
+      "name": "T79 20-Round Magazine",
+      "tag": "Assemble.Magazine.762x25mm.T79"
+    },
+    {
+      "id": 201050078,
+      "name": "T79 30-Round Magazine",
+      "tag": "Assemble.Magazine.762x25mm.T79"
+    },
+    {
+      "id": 201050079,
+      "name": "SKS 35-Round Magazine",
+      "tag": "Assemble.Magazine.762x39mm.SKS"
+    },
+    {
+      "id": 201050080,
+      "name": "AUG 30-round Magazine",
+      "tag": "Assemble.Magazine.556x45mm.AUG"
+    },
+    {
+      "id": 201050081,
+      "name": "AUG 42-round Magazine",
+      "tag": "Assemble.Magazine.556x45mm.AUG"
+    },
+    {
+      "id": 201050082,
+      "name": "BM59 10-round Magazine",
+      "tag": "Assemble.Magazine.762x51mm.BM59"
+    },
+    {
+      "id": 201050083,
+      "name": "BM59 20-round Magazine",
+      "tag": "Assemble.Magazine.762x51mm.BM59"
+    },
+    {
+      "id": 201050084,
+      "name": "M45A1 7-round Magazine",
+      "tag": "Assemble.Magazine.45mm.M45A1"
+    },
+    {
+      "id": 201050087,
+      "name": "M9A3 10-round Small Magazine",
+      "tag": "Assemble.Magazine.9x19mm.M9A3"
+    },
+    {
+      "id": 201050088,
+      "name": "UMP45 15-round Magazine",
+      "tag": "Assemble.Magazine.45mm.UMP"
+    },
+    {
+      "id": 201050089,
+      "name": "MAC10 15-round Magazine",
+      "tag": "Assemble.Magazine.45mm.MAC10"
+    },
+    {
+      "id": 201050090,
+      "name": "M3A1 15-Round Magazine",
+      "tag": "Assemble.Magazine.45mm.M3A1"
+    },
+    {
+      "id": 201050092,
+      "name": "Gold Desert Eagle 8-Round",
+      "tag": "Assemble.Magazine.44mm.DE"
+    },
+    {
+      "id": 201050093,
+      "name": "SVDS Novice Magazine",
+      "tag": "Assemble.Magazine.762x54mmR.SVDS"
+    },
+    {
+      "id": 201050095,
+      "name": "QC61 20-Round Magazine",
+      "tag": "Assemble.Magazine.762x25mm.QC61"
+    },
+    {
+      "id": 201050096,
+      "name": "QC61 30-Round Magazine",
+      "tag": "Assemble.Magazine.762x25mm.QC61"
+    },
+    {
+      "id": 201050097,
+      "name": "MPF45 20-Round Magazine",
+      "tag": "Assemble.Magazine.45mm.MPF45"
+    },
+    {
+      "id": 201050098,
+      "name": "MPF45 30-Round Magazine",
+      "tag": "Assemble.Magazine.45mm.MPF45"
+    },
+    {
+      "id": 201050099,
+      "name": "VSS 50-Round Magazine",
+      "tag": "Assemble.Magazine.9x39mm.VSS"
+    },
+    {
+      "id": 201050100,
+      "name": "AUG 60-Round Drum Magazine",
+      "tag": "Assemble.Magazine.556x45mm.AUG"
+    },
+    {
+      "id": 201050101,
+      "name": "Uzi 32-Round Magazine",
+      "tag": "Assemble.Magazine.9x19mm.UZI"
+    },
+    {
+      "id": 201050102,
+      "name": "MP9 15-Round Magazine",
+      "tag": "Assemble.Magazine.9x19mm.MP9"
+    },
+    {
+      "id": 201050103,
+      "name": "BM 59 5-Round Magazine",
+      "tag": "Assemble.Magazine.762x51mm.BM59"
+    },
+    {
+      "id": 201050104,
+      "name": "AK-102 60-Round Magazine",
+      "tag": "Assemble.Magazine.556x45mm.AK"
+    },
+    {
+      "id": 201050105,
+      "name": "FAL 30-Round Magazine",
+      "tag": "Assemble.Magazine.762x51mm.FAL"
+    },
+    {
+      "id": 201050106,
+      "name": "Vector 45 30-Round Magazine",
+      "tag": "Assemble.Magazine.45mm.Vector"
+    },
+    {
+      "id": 201050107,
+      "name": "Vector 45 50-Round Drum Magazine",
+      "tag": "Assemble.Magazine.45mm.Vector"
+    },
+    {
+      "id": 201050108,
+      "name": "T85 30-Round Magazine",
+      "tag": "Assemble.Magazine.762x25mm.T85"
+    },
+    {
+      "id": 201050109,
+      "name": "USAS-12 10-Round Magazine",
+      "tag": "Assemble.Magazine.12x70mm.USAS12"
+    },
+    {
+      "id": 201050110,
+      "name": "USAS-12 20-Round Drum Magazine",
+      "tag": "Assemble.Magazine.12x70mm.USAS12"
+    },
+    {
+      "id": 201050111,
+      "name": "AR-30 5-Round Magazine",
+      "tag": "Assemble.Magazine.338.AR30"
+    },
+    {
+      "id": 201050112,
+      "name": "SJ16 5-Round Magazine",
+      "tag": "Assemble.Magazine.338.SJ16"
+    },
+    {
+      "id": 201050113,
+      "name": "SJ16 10-Round Magazine",
+      "tag": "Assemble.Magazine.338.SJ16"
+    },
+    {
+      "id": 201050114,
+      "name": "Vector 9 30-Round Magazine",
+      "tag": "Assemble.Magazine.9x19mm.Vector"
+    },
+    {
+      "id": 201050115,
+      "name": "Vector 9 50-Round Drum Magazine",
+      "tag": "Assemble.Magazine.9x19mm.Vector"
+    },
+    {
+      "id": 201050116,
+      "name": "CZ 52 8-Round Magazine",
+      "tag": "Assemble.Magazine.762x25mm.CZ52"
+    },
+    {
+      "id": 201050117,
+      "name": "SVTU 5-Round Magazine",
+      "tag": "Assemble.Magazine.762x54mmR.SVT"
+    },
+    {
+      "id": 201050118,
+      "name": "SVTU 10-Round Magazine",
+      "tag": "Assemble.Magazine.762x54mmR.SVT"
+    },
+    {
+      "id": 201050119,
+      "name": "F57 10-Round Magazine",
+      "tag": "Assemble.Magazine.57x28mm.F57"
+    },
+    {
+      "id": 201050120,
+      "name": "F57 20-Round Magazine",
+      "tag": "Assemble.Magazine.57x28mm.F57"
+    },
+    {
+      "id": 201050121,
+      "name": "M24 5-Round Magazine",
+      "tag": "Assemble.Magazine.762x51mm.M24"
+    },
+    {
+      "id": 201050122,
+      "name": "M24 10-Round Magazine",
+      "tag": "Assemble.Magazine.762x51mm.M24"
+    },
+    {
+      "id": 201050123,
+      "name": "AN-94 30-Round Magazine",
+      "tag": "Assemble.Magazine.545x39mm.AN94"
+    },
+    {
+      "id": 201050125,
+      "name": "MP5 Novice Magazine",
+      "tag": "Assemble.Magazine.9x19mm.MP5"
+    },
+    {
+      "id": 201050126,
+      "name": "AR-30 10-Round Magazine",
+      "tag": "Assemble.Magazine.338.AR30"
+    },
+    {
+      "id": 201050127,
+      "name": "BM 59 Novice Magazine",
+      "tag": "Assemble.Magazine.762x51mm.BM59"
+    },
+    {
+      "id": 201050128,
+      "name": "AKM Series 100-Round XL Drum",
+      "tag": "Assemble.Magazine.762x39mm.AKM"
+    },
+    {
+      "id": 201050130,
+      "name": "AR Series Viewport 30-Round Magazine",
+      "tag": "Assemble.Magazine.338.AR30"
+    },
+    {
+      "id": 201050131,
+      "name": "Groza 20-Round Magazine",
+      "tag": "Assemble.Magazine.9x39mm.Groza"
+    },
+    {
+      "id": 201050132,
+      "name": "Groza 30-Round Magazine",
+      "tag": "Assemble.Magazine.9x39mm.Groza"
+    },
+    {
+      "id": 201050133,
+      "name": "Groza 50-Round Drum",
+      "tag": "Assemble.Magazine.9x39mm.Groza"
+    },
+    {
+      "id": 201050134,
+      "name": "Suomi 20-Round Magazine",
+      "tag": "Assemble.Magazine.9x19mm.Suomi"
+    },
+    {
+      "id": 201050135,
+      "name": "Suomi 40-Round Drum",
+      "tag": "Assemble.Magazine.9x19mm.Suomi"
+    },
+    {
+      "id": 201050136,
+      "name": "Suomi 72-Round Large Drum",
+      "tag": "Assemble.Magazine.9x19mm.Suomi"
+    },
+    {
+      "id": 201050137,
+      "name": "A standard DP-12 magazine chamber.",
+      "tag": "Assemble.Magazine.12x70mm.DP12"
+    },
+    {
+      "id": 201050138,
+      "name": "FAMAS 25-Round Magazine",
+      "tag": "Assemble.Magazine.556x45mm.FAMAS"
+    },
+    {
+      "id": 201050140,
+      "name": "SCAR-L 30-Round Magazine",
+      "tag": "Assemble.Magazine.556x45mm.AR"
+    },
+    {
+      "id": 201050141,
+      "name": "BIZON 53-Round Drum",
+      "tag": "Assemble.Magazine.9x19mm.BIZON"
+    },
+    {
+      "id": 201050144,
+      "name": "TS5 30-Round Magazine",
+      "tag": "Assemble.Magazine.9x19mm.TS5"
+    },
+    {
+      "id": 201050145,
+      "name": "SG550 20-Round Magazine",
+      "tag": "Assemble.Magazine.556x45mm.SG550"
+    },
+    {
+      "id": 201050146,
+      "name": "SG550 30-Round Magazine",
+      "tag": "Assemble.Magazine.556x45mm.SG550"
+    },
+    {
+      "id": 201050147,
+      "name": "G3 20-Round Magazine",
+      "tag": "Assemble.Magazine.762x51mm.G3"
+    },
+    {
+      "id": 201050148,
+      "name": "G3 30-Round Magazine",
+      "tag": "Assemble.Magazine.762x51mm.G3"
+    },
+    {
+      "id": 201050152,
+      "name": "AK-12 Viewport 30-Round Magazine",
+      "tag": "Assemble.Magazine.545x39mm.AK12"
+    },
+    {
+      "id": 201050157,
+      "name": "Uzi 50-Round Drum",
+      "tag": "Assemble.Magazine.9x19mm.UZI"
+    },
+    {
+      "id": 201060111,
+      "name": "AKS-74U Rail",
+      "tag": "Assemble.Mount.Other.AKS74U"
+    },
+    {
+      "id": 201060113,
+      "name": "M14 Upper Receiver Cover",
+      "tag": "Assemble.Mount.Other.M14Front"
+    },
+    {
+      "id": 201060114,
+      "name": "Uzi Top Rail",
+      "tag": "Assemble.Mount.Other.UZI"
+    },
+    {
+      "id": 201060116,
+      "name": "MP5 Universal Receiver Clip Rail",
+      "tag": "Assemble.Mount.Other.MP5"
+    },
+    {
+      "id": 201060117,
+      "name": "MP5 Extended Rail",
+      "tag": "Assemble.Mount.Other.MP5"
+    },
+    {
+      "id": 201060122,
+      "name": "M96 Carbine Long Rail",
+      "tag": "Assemble.Mount.Other.M96"
+    },
+    {
+      "id": 201060124,
+      "name": "Dedicated F57 RMR Rail",
+      "tag": "Assemble.Mount.Other.F57"
+    },
+    {
+      "id": 201060125,
+      "name": "F57 Multipurpose Rail",
+      "tag": "Assemble.Mount.Other.F57"
+    },
+    {
+      "id": 201060129,
+      "name": "Dedicated Suomi Rail",
+      "tag": "Assemble.Mount.Other.Suomi"
+    },
+    {
+      "id": 201060209,
+      "name": "FAMAS Top Rail",
+      "tag": "Assemble.Mount.Rails.FAMAS.Top"
+    },
+    {
+      "id": 201060310,
+      "name": "SKS Rifle Sight Mount",
+      "tag": "Assemble.Mount.Scope.SightBase.SKS"
+    },
+    {
+      "id": 201060311,
+      "name": "Dedicated SKS Handguard Rail",
+      "tag": "Assemble.Mount.Scope.SightBase.SKS"
+    },
+    {
+      "id": 201060312,
+      "name": "M14 Upper Receiver Cover Long Rail",
+      "tag": "Assemble.Mount.Other.M14Front"
+    },
+    {
+      "id": 201060315,
+      "name": "Mini14 Top Rail",
+      "tag": "Assemble.Mount.Other.Mini14"
+    },
+    {
+      "id": 201060317,
+      "name": "MP5SD Barrel Rail",
+      "tag": "Assemble.Mount.Other.MP5SD"
+    },
+    {
+      "id": 201060318,
+      "name": "Dedicated UMP45 Rail",
+      "tag": "Assemble.Mount.Other.UMP45"
+    },
+    {
+      "id": 201060319,
+      "name": "Dedicated Mk14 Rail",
+      "tag": "Assemble.Mount.Other.MK14"
+    },
+    {
+      "id": 201060322,
+      "name": "Dedicated M3A1 Rail",
+      "tag": "Assemble.Mount.Other.M3A1"
+    },
+    {
+      "id": 201060323,
+      "name": "MAC-10 Side Rail",
+      "tag": "Assemble.Mount.Other.MAC10.Uprail"
+    },
+    {
+      "id": 201060324,
+      "name": "T79 Top Rail",
+      "tag": "Assemble.Mount.Other.T79"
+    },
+    {
+      "id": 201060325,
+      "name": "Dedicated MP9 Top Rail",
+      "tag": "Assemble.Mount.Other.MP9"
+    },
+    {
+      "id": 201060326,
+      "name": "Dedicated SKS Top Rail",
+      "tag": "Assemble.Mount.Scope.SightBase.SKS"
+    },
+    {
+      "id": 201060327,
+      "name": "Dedicated AUG Top Rail",
+      "tag": "Assemble.Mount.Other.AUG"
+    },
+    {
+      "id": 201060328,
+      "name": "Dedicated BM 59 Top Rail",
+      "tag": "Assemble.Mount.Other.BM59"
+    },
+    {
+      "id": 201060329,
+      "name": "MG 3 Sight Rail",
+      "tag": "Assemble.Mount.Other.MG3"
+    },
+    {
+      "id": 201060334,
+      "name": "T85 Rail",
+      "tag": "Assemble.Mount.Other.T85"
+    },
+    {
+      "id": 201060335,
+      "name": "USAS-12 Upper Receiver Rail",
+      "tag": "Assemble.Mount.Other.USAS12"
+    },
+    {
+      "id": 201060336,
+      "name": "SJ16 Top Rail",
+      "tag": "Assemble.Mount.Other.SJ16"
+    },
+    {
+      "id": 201060340,
+      "name": "Dedicated M24 Picatinny Scope Rail",
+      "tag": "Assemble.Mount.Other.M24"
+    },
+    {
+      "id": 201060341,
+      "name": "Dedicated M24 Covered Picatinny Rail",
+      "tag": "Assemble.Mount.Other.M24"
+    },
+    {
+      "id": 201060342,
+      "name": "ACE31 Tactical Rail",
+      "tag": "Assemble.Mount.Other.ACE31"
+    },
+    {
+      "id": 201060343,
+      "name": "M16 Top Rail",
+      "tag": "Assemble.Mount.Other.M16"
+    },
+    {
+      "id": 201060344,
+      "name": "Dedicated M300 Rail",
+      "tag": "Assemble.Mount.Other.M300"
+    },
+    {
+      "id": 201060346,
+      "name": "SCAR-L Side Rail",
+      "tag": "Assemble.Mount.Other.SCAR.Siderail"
+    },
+    {
+      "id": 201060347,
+      "name": "BIZON Side Rail",
+      "tag": "Assemble.Mount.Other.BIZON"
+    },
+    {
+      "id": 201060351,
+      "name": "T03 Top Rail",
+      "tag": "Assemble.Mount.Other.T03.TopRail"
+    },
+    {
+      "id": 201070105,
+      "name": "Dedicated SKS Suppressor",
+      "tag": "Assemble.Muzzle.762x39mm.SKS"
+    },
+    {
+      "id": 201070106,
+      "name": "Dedicated SVD Suppressor",
+      "tag": "Assemble.Muzzle.762x54mmR.SVDS"
+    },
+    {
+      "id": 201070107,
+      "name": "VSS Integrated Suppressor",
+      "tag": "Assemble.Muzzle.9x39mm.VSS"
+    },
+    {
+      "id": 201070108,
+      "name": "MP5SD Suppressor",
+      "tag": "Assemble.Muzzle.9x19mm.MP5SD"
+    },
+    {
+      "id": 201070109,
+      "name": "Mosin Bolt-Action Rifle Suppressor",
+      "tag": "Assemble.Muzzle.762x54mmR.Mosin"
+    },
+    {
+      "id": 201070111,
+      "name": "P90 Conventional Suppressor",
+      "tag": "Assemble.Muzzle.57x28mm.P90"
+    },
+    {
+      "id": 201070113,
+      "name": "AX50 Suppressor",
+      "tag": "Assemble.Muzzle.127x99mm.AX50"
+    },
+    {
+      "id": 201070123,
+      "name": "MAC-10 Conventional Suppressor",
+      "tag": "Assemble.Muzzle.45mm.MAC10"
+    },
+    {
+      "id": 201070126,
+      "name": "QC61 Suppressor",
+      "tag": "Assemble.Muzzle.762x25mm.QC61"
+    },
+    {
+      "id": 201070127,
+      "name": "MPF45 Suppressor",
+      "tag": "Assemble.Muzzle.45mm.MPF45"
+    },
+    {
+      "id": 201070129,
+      "name": "T85 Suppressor",
+      "tag": "Assemble.Muzzle.762x25mm.T85"
+    },
+    {
+      "id": 201070131,
+      "name": "Dedicated F57 Suppressor",
+      "tag": "Assemble.Muzzle.57x28mm.F57"
+    },
+    {
+      "id": 201070132,
+      "name": "Dedicated USAS-12 Suppressor",
+      "tag": "Assemble.Muzzle.12x70.USAS12"
+    },
+    {
+      "id": 201070134,
+      "name": "Mk14/M14 Suppressor",
+      "tag": "Assemble.Muzzle.762x51mm.M14"
+    },
+    {
+      "id": 201070136,
+      "name": "AR-30 Suppressor",
+      "tag": "Assemble.Muzzle.338.AR30"
+    },
+    {
+      "id": 201070138,
+      "name": "Groza Special Suppressor",
+      "tag": "Assemble.Muzzle.9x39mm.Groza"
+    },
+    {
+      "id": 201070139,
+      "name": "T951 Suppressor",
+      "tag": "Assemble.Muzzle.58x42mm.T951"
+    },
+    {
+      "id": 201070141,
+      "name": "AK12 Suppressor",
+      "tag": "Assemble.Muzzle.545x39mm.AK12"
+    },
+    {
+      "id": 201070144,
+      "name": "DBR Standard Suppressor",
+      "tag": "Assemble.Muzzle.762x54mmR.DBR"
+    },
+    {
+      "id": 201070206,
+      "name": "M14 Muzzle Flash Suppressor",
+      "tag": "Assemble.Muzzle.762x51mm.M14"
+    },
+    {
+      "id": 201070212,
+      "name": "Mosin Multi-Port Flash Suppressor",
+      "tag": "Assemble.Muzzle.762x54mmR.Mosin"
+    },
+    {
+      "id": 201070231,
+      "name": "M3A1 M9 Flash Suppressor",
+      "tag": "Assemble.Muzzle.45mm.M3A1"
+    },
+    {
+      "id": 201070232,
+      "name": "MAC-10 Muzzle Brake",
+      "tag": "Assemble.Muzzle.45mm.MAC10"
+    },
+    {
+      "id": 201070233,
+      "name": "T79 Flash Suppressor",
+      "tag": "Assemble.Muzzle.762x25mm.T79"
+    },
+    {
+      "id": 201070234,
+      "name": "QC61 Flash Suppressor",
+      "tag": "Assemble.Muzzle.762x25mm.QC61"
+    },
+    {
+      "id": 201070235,
+      "name": "MPF45 Muzzle Brake",
+      "tag": "Assemble.Muzzle.45mm.MPF45"
+    },
+    {
+      "id": 201070238,
+      "name": "AR-30 Muzzle Brake",
+      "tag": "Assemble.Muzzle.338.AR30"
+    },
+    {
+      "id": 201070240,
+      "name": "F57 Picatinny Muzzle Brake",
+      "tag": "Assemble.Muzzle.57x28mm.F57"
+    },
+    {
+      "id": 201070241,
+      "name": "Dedicated AN-94 Muzzle Brake",
+      "tag": "Assemble.Muzzle.545x39mm.AN94"
+    },
+    {
+      "id": 201070243,
+      "name": "Dedicated P90 Flash Suppressor",
+      "tag": "Assemble.Muzzle.57x28mm.P90"
+    },
+    {
+      "id": 201070244,
+      "name": "Dedicated AEK Flash Suppressor",
+      "tag": "Assemble.Muzzle.762x39mm.AEK"
+    },
+    {
+      "id": 201070246,
+      "name": "Dedicated MPX Muzzle Brake",
+      "tag": "Assemble.Muzzle.9x19mm.MPX"
+    },
+    {
+      "id": 201070249,
+      "name": "Dedicated MP5 Lightweight Muzzle Brake",
+      "tag": "Assemble.Muzzle.9x19mm.MP5"
+    },
+    {
+      "id": 201070250,
+      "name": "Dedicated MP5 Industrial Muzzle Brake",
+      "tag": "Assemble.Muzzle.9x19mm.MP5"
+    },
+    {
+      "id": 201070252,
+      "name": "Dedicated BM59 Flash Suppressor",
+      "tag": "Assemble.Muzzle.762x51mm.BM59"
+    },
+    {
+      "id": 201070253,
+      "name": "Dedicated Groza Muzzle Set",
+      "tag": "Assemble.Muzzle.9x39mm.Groza"
+    },
+    {
+      "id": 201070254,
+      "name": "Groza Front Grip Muzzle",
+      "tag": "Assemble.Muzzle.9x39mm.Groza"
+    },
+    {
+      "id": 201070255,
+      "name": "Suomi Muzzle Anti-Kick",
+      "tag": "Assemble.Muzzle.9x19mm.Suomi"
+    },
+    {
+      "id": 201070256,
+      "name": "M300 Muzzle Brake",
+      "tag": "Assemble.Muzzle.762x54mmR.M300"
+    },
+    {
+      "id": 201070257,
+      "name": "DP-12 Choke",
+      "tag": "Assemble.Muzzle.12x70.DP12"
+    },
+    {
+      "id": 201070258,
+      "name": "DP-12 Short Blade Choke",
+      "tag": "Assemble.Muzzle.12x70.DP12"
+    },
+    {
+      "id": 201070259,
+      "name": "DP-12 Tactical Choke",
+      "tag": "Assemble.Muzzle.12x70.DP12"
+    },
+    {
+      "id": 201070260,
+      "name": "T951 Muzzle Flash Suppressor",
+      "tag": "Assemble.Muzzle.58x42mm.T951"
+    },
+    {
+      "id": 201070261,
+      "name": "T03 Muzzle Flash Suppressor",
+      "tag": "Assemble.Muzzle.58x42mm.T03"
+    },
+    {
+      "id": 201070262,
+      "name": "AK12 Muzzle Brake",
+      "tag": "Assemble.Muzzle.545x39mm.AK12"
+    },
+    {
+      "id": 201070301,
+      "name": "MP5 Threaded Muzzle Adapter",
+      "tag": "Assemble.Muzzle.9x19mm.MP5MuzzleAdapter"
+    },
+    {
+      "id": 201070302,
+      "name": "SVDS Muzzle Flash Suppressor",
+      "tag": "Assemble.Muzzle.762x54mmR.SVDS"
+    },
+    {
+      "id": 201070303,
+      "name": "SVDS Threaded Muzzle Adapter",
+      "tag": "Assemble.Muzzle.762x54mmR.SVDSMuzzleAdapter"
+    },
+    {
+      "id": 201070306,
+      "name": "P90 Flash Suppressor Adapter",
+      "tag": "Assemble.Muzzle.57x28mm.P90"
+    },
+    {
+      "id": 201070308,
+      "name": "M14 Threaded Muzzle Adapter",
+      "tag": "Assemble.Muzzle.762x51mm.M14"
+    },
+    {
+      "id": 201070311,
+      "name": "Mosin 7.62x39 Adapter",
+      "tag": "Assemble.Muzzle.762x54mmR.Mosin"
+    },
+    {
+      "id": 201070312,
+      "name": "AKM Muzzle Adapter",
+      "tag": "Assemble.Muzzle.DT.Adapter"
+    },
+    {
+      "id": 201070313,
+      "name": "Mosin 7.62x51 Adapter",
+      "tag": "Assemble.Muzzle.762x54mmR.Mosin"
+    },
+    {
+      "id": 201070315,
+      "name": "SKS Muzzle Adapter",
+      "tag": "Assemble.Muzzle.762x39mm.SKS"
+    },
+    {
+      "id": 201070318,
+      "name": "AN-94 Muzzle Adapter",
+      "tag": "Assemble.Muzzle.545x39mm.AN94"
+    },
+    {
+      "id": 201080003,
+      "name": "MP5 Integrated Standard Handguard",
+      "tag": "Assemble.Handguard.Other.MP5"
+    },
+    {
+      "id": 201080004,
+      "name": "MP5 Alloy Premium Handguard",
+      "tag": "Assemble.Handguard.Other.MP5"
+    },
+    {
+      "id": 201080006,
+      "name": "H416 Universal Quad-rail Handguard",
+      "tag": "Assemble.Handguard.AR.HK416"
+    },
+    {
+      "id": 201080008,
+      "name": "M870 Exclusive Metal Rail Handguard",
+      "tag": "Assemble.Handguard.Other.M870"
+    },
+    {
+      "id": 201080009,
+      "name": "M870 Classic Composite Handguard",
+      "tag": "Assemble.Handguard.Other.M870"
+    },
+    {
+      "id": 201080010,
+      "name": "FAL Quad-rail Extended Handguard",
+      "tag": "Assemble.Handguard.Other.FAL"
+    },
+    {
+      "id": 201080011,
+      "name": "FAL Classic Handguard",
+      "tag": "Assemble.Handguard.Other.FAL"
+    },
+    {
+      "id": 201080013,
+      "name": "MPX 4.5\" Modular Locking Handguard",
+      "tag": "Assemble.Handguard.AR.MPX"
+    },
+    {
+      "id": 201080014,
+      "name": "MPX 6.5\" Modular Locking Handguard",
+      "tag": "Assemble.Handguard.AR.MPX"
+    },
+    {
+      "id": 201080015,
+      "name": "MPX 10.5\" Modular Locking Handguard",
+      "tag": "Assemble.Handguard.AR.MPX"
+    },
+    {
+      "id": 201080019,
+      "name": "SVDS Polymer Handguard",
+      "tag": "Assemble.Handguard.Other.SVD"
+    },
+    {
+      "id": 201080020,
+      "name": "SVDS Advanced Handguard",
+      "tag": "Assemble.Handguard.Other.SVD"
+    },
+    {
+      "id": 201080021,
+      "name": "SVDS Rail Handguard",
+      "tag": "Assemble.Handguard.Other.SVD"
+    },
+    {
+      "id": 201080022,
+      "name": "MP 133 Beech Handguard",
+      "tag": "Assemble.Handguard.Other.MP133"
+    },
+    {
+      "id": 201080023,
+      "name": "MP 133 Plastic Handguard",
+      "tag": "Assemble.Handguard.Other.MP133"
+    },
+    {
+      "id": 201080024,
+      "name": "MDR Modular Locking Standard Handguard",
+      "tag": "Assemble.Handguard.Other.DTMDR"
+    },
+    {
+      "id": 201080031,
+      "name": "AKS 74U Series Classic Wooden Handguard",
+      "tag": "Assemble.Handguard.AK.AKS"
+    },
+    {
+      "id": 201080032,
+      "name": "AKS 74U Series Alloy Rail Handguard",
+      "tag": "Assemble.Handguard.AK.AKS"
+    },
+    {
+      "id": 201080033,
+      "name": "MP5SD Polymer Handguard",
+      "tag": "Assemble.Handguard.MP5SD"
+    },
+    {
+      "id": 201080036,
+      "name": "AK Modular Locking Extension Handguard",
+      "tag": "Assemble.Handguard.AK.AKM"
+    },
+    {
+      "id": 201080037,
+      "name": "H416 9\" Modular Locking Handguard",
+      "tag": "Assemble.Handguard.AR.HK416"
+    },
+    {
+      "id": 201080038,
+      "name": "H416 Quad-rail Extended Handguard",
+      "tag": "Assemble.Handguard.AR.HK416"
+    },
+    {
+      "id": 201080040,
+      "name": "H416 13\" Modular Locking Handguard",
+      "tag": "Assemble.Handguard.AR.HK416"
+    },
+    {
+      "id": 201080041,
+      "name": "FAL Perforated Front Handguard",
+      "tag": "Assemble.Handguard.Other.FAL"
+    },
+    {
+      "id": 201080042,
+      "name": "FAL Quad-rail Standard Handguard",
+      "tag": "Assemble.Handguard.Other.FAL"
+    },
+    {
+      "id": 201080043,
+      "name": "MPX 14\" Modular Locking Handguard",
+      "tag": "Assemble.Handguard.AR.MPX"
+    },
+    {
+      "id": 201080045,
+      "name": "RPK16 Special Handguard",
+      "tag": "Assemble.Handguard.Other.RPK16"
+    },
+    {
+      "id": 201080046,
+      "name": "S12K Standard Handguard",
+      "tag": "Assemble.Handguard.Other.Saiga12"
+    },
+    {
+      "id": 201080047,
+      "name": "S12K Superb Long Handguard",
+      "tag": "Assemble.Handguard.Other.Saiga12"
+    },
+    {
+      "id": 201080048,
+      "name": "S12K Superb Short Handguard",
+      "tag": "Assemble.Handguard.Other.Saiga12"
+    },
+    {
+      "id": 201080049,
+      "name": "M110 Tactical Handguard",
+      "tag": "Assemble.Handguard.Other.SR25"
+    },
+    {
+      "id": 201080050,
+      "name": "M110 Standard Handguard",
+      "tag": "Assemble.Handguard.Other.SR25"
+    },
+    {
+      "id": 201080051,
+      "name": "F2000 Standard Handguard",
+      "tag": "Assemble.Handguard.Other.F2000"
+    },
+    {
+      "id": 201080052,
+      "name": "T79 Basic Handguard",
+      "tag": "Assemble.Handguard.Other.T79"
+    },
+    {
+      "id": 201080053,
+      "name": "T79 Improved Handguard",
+      "tag": "Assemble.Handguard.Other.T79"
+    },
+    {
+      "id": 201080054,
+      "name": "T79 Modern Handguard",
+      "tag": "Assemble.Handguard.Other.T79"
+    },
+    {
+      "id": 201080055,
+      "name": "SVDS Modern Handguard MK1",
+      "tag": "Assemble.Handguard.Other.SVD"
+    },
+    {
+      "id": 201080057,
+      "name": "AKS-74U Fiberglass Anti-slip Handguard",
+      "tag": "Assemble.Handguard.AK.AKS"
+    },
+    {
+      "id": 201080059,
+      "name": "MP5 Industrial Handguard",
+      "tag": "Assemble.Handguard.Other.MP5"
+    },
+    {
+      "id": 201080061,
+      "name": "Vector Standard Handguard",
+      "tag": "Assemble.Handguard.Other.Vector"
+    },
+    {
+      "id": 201080062,
+      "name": "Vector MK5 Extended Handguard",
+      "tag": "Assemble.Handguard.Other.Vector"
+    },
+    {
+      "id": 201080063,
+      "name": "Vector Extended Handguard",
+      "tag": "Assemble.Handguard.Other.Vector"
+    },
+    {
+      "id": 201080064,
+      "name": "USAS12 Standard Handguard",
+      "tag": "Assemble.Handguard.Other.USAS12"
+    },
+    {
+      "id": 201080065,
+      "name": "USAS12 Rail Handguard",
+      "tag": "Assemble.Handguard.Other.USAS12"
+    },
+    {
+      "id": 201080066,
+      "name": "SPR310 Special Handguard",
+      "tag": "Assemble.Handguard.Other.SPR310"
+    },
+    {
+      "id": 201080067,
+      "name": "ACE31 Aluminum Alloy Rail Handguard",
+      "tag": "Assemble.Handguard.Other.ACE31"
+    },
+    {
+      "id": 201080068,
+      "name": "ACE 31 Plastic Handguard",
+      "tag": "Assemble.Handguard.Other.ACE31"
+    },
+    {
+      "id": 201080069,
+      "name": "ACE31 Extended Handguard",
+      "tag": "Assemble.Handguard.Other.ACE31"
+    },
+    {
+      "id": 201080070,
+      "name": "AEK Standard Handguard",
+      "tag": "Assemble.Handguard.AK.AEK"
+    },
+    {
+      "id": 201080071,
+      "name": "AN94 Special Handguard",
+      "tag": "Assemble.Handguard.Other.AN94"
+    },
+    {
+      "id": 201080072,
+      "name": "AN94 Rail Handguard",
+      "tag": "Assemble.Handguard.Other.AN94"
+    },
+    {
+      "id": 201080073,
+      "name": "MDR Standard Long Handguard",
+      "tag": "Assemble.Handguard.Other.DTMDR"
+    },
+    {
+      "id": 201080074,
+      "name": "M16 Standard Long Handguard",
+      "tag": "Assemble.Handguard.AR.AR15"
+    },
+    {
+      "id": 201080075,
+      "name": "DP-12 Standard Handguard",
+      "tag": "Assemble.Handguard.Other.DP12"
+    },
+    {
+      "id": 201080076,
+      "name": "DP-12 Lightweight Handguard",
+      "tag": "Assemble.Handguard.Other.DP12"
+    },
+    {
+      "id": 201080077,
+      "name": "DP-12 Rail Handguard",
+      "tag": "Assemble.Handguard.Other.DP12"
+    },
+    {
+      "id": 201080078,
+      "name": "RPK-16 Improved Handguard",
+      "tag": "Assemble.Handguard.Other.RPK16"
+    },
+    {
+      "id": 201080079,
+      "name": "AEK Improved Handguard",
+      "tag": "Assemble.Handguard.AK.AEK"
+    },
+    {
+      "id": 201080080,
+      "name": "F2000 Improved Handguard",
+      "tag": "Assemble.Handguard.Other.F2000"
+    },
+    {
+      "id": 201080081,
+      "name": "FAMAS Extended Handguard",
+      "tag": "Assemble.Handguard.Other.FAMAS"
+    },
+    {
+      "id": 201080082,
+      "name": "SCAR-L Extension Handguard",
+      "tag": "Assemble.Handguard.Other.SCAR"
+    },
+    {
+      "id": 201080083,
+      "name": "BIZON Standard Handguard",
+      "tag": "Assemble.Handguard.Other.BIZON"
+    },
+    {
+      "id": 201080084,
+      "name": "T03 Special Handguard",
+      "tag": "Assemble.Handguard.Other.T03"
+    },
+    {
+      "id": 201080085,
+      "name": "T03 Rail Handguard",
+      "tag": "Assemble.Handguard.Other.T03"
+    },
+    {
+      "id": 201080086,
+      "name": "USAS-12 Improved Handguard",
+      "tag": "Assemble.Handguard.Other.USAS12"
+    },
+    {
+      "id": 201080087,
+      "name": "TS5 Standard Handguard",
+      "tag": "Assemble.Handguard.Other.TS5"
+    },
+    {
+      "id": 201080088,
+      "name": "SG550 Premium Handguard",
+      "tag": "Assemble.Handguard.Other.SG550"
+    },
+    {
+      "id": 201080089,
+      "name": "SG550 Standard Handguard",
+      "tag": "Assemble.Handguard.Other.SG550"
+    },
+    {
+      "id": 201080090,
+      "name": "SG550 Short Handguard",
+      "tag": "Assemble.Handguard.Other.SG550"
+    },
+    {
+      "id": 201080091,
+      "name": "SG550 Tactical Short Handguard",
+      "tag": "Assemble.Handguard.Other.SG550"
+    },
+    {
+      "id": 201080092,
+      "name": "G3 Standard Handguard",
+      "tag": "Assemble.Handguard.Other.G3"
+    },
+    {
+      "id": 201080094,
+      "name": "G3 Portable Handguard",
+      "tag": "Assemble.Handguard.Other.G3"
+    },
+    {
+      "id": 201080096,
+      "name": "G3 Improved Modular Locking Handguard",
+      "tag": "Assemble.Handguard.Other.G3"
+    },
+    {
+      "id": 201080097,
+      "name": "G3 Modular Locking Handguard",
+      "tag": "Assemble.Handguard.Other.G3"
+    },
+    {
+      "id": 201080099,
+      "name": "H416 Improved Handguard",
+      "tag": "Assemble.Handguard.AR.HK416"
+    },
+    {
+      "id": 201080101,
+      "name": "AK12 Standard Handguard",
+      "tag": "Assemble.Handguard.AK.AK12"
+    },
+    {
+      "id": 201080102,
+      "name": "AK12 Special Handguard",
+      "tag": "Assemble.Handguard.AK.AK12"
+    },
+    {
+      "id": 201080103,
+      "name": "AK12 Multi-Port Tactical Handguard",
+      "tag": "Assemble.Handguard.AK.AK12"
+    },
+    {
+      "id": 201080104,
+      "name": "Dedicated MCX Handguard",
+      "tag": "Assemble.Handguard.Other.MCX"
+    },
+    {
+      "id": 201080105,
+      "name": "MCX Tactical Handguard",
+      "tag": "Assemble.Handguard.Other.MCX"
+    },
+    {
+      "id": 201080113,
+      "name": "M4A1 Tactical Handguard",
+      "tag": "Assemble.Handguard.AR.AR15"
+    },
+    {
+      "id": 201080117,
+      "name": "DBR Standard Handguard",
+      "tag": "Assemble.Handguard.Other.DBR"
+    },
+    {
+      "id": 201080118,
+      "name": "DBR Tactical Handguard",
+      "tag": "Assemble.Handguard.Other.DBR"
+    },
+    {
+      "id": 201100002,
+      "name": "MP5 Upper Receiver",
+      "tag": "Assemble.UpperReceiver.MP5"
+    },
+    {
+      "id": 201100003,
+      "name": "G17 Pistol Classic Slide",
+      "tag": "Assemble.UpperReceiver.Glock17"
+    },
+    {
+      "id": 201100004,
+      "name": "M4A1 Upper Receiver",
+      "tag": "Assemble.UpperReceiver.AR15"
+    },
+    {
+      "id": 201100005,
+      "name": "FAL Standard Receiver Cover",
+      "tag": "Assemble.UpperReceiver.FAL"
+    },
+    {
+      "id": 201100006,
+      "name": "FAL Sight Mount Receiver Cover",
+      "tag": "Assemble.UpperReceiver.FAL"
+    },
+    {
+      "id": 201100007,
+      "name": "AKM Series Standard Dust Cover",
+      "tag": "Assemble.UpperReceiver.AK"
+    },
+    {
+      "id": 201100008,
+      "name": "MPX Gen 1 Upper Receiver",
+      "tag": "Assemble.UpperReceiver.MPX"
+    },
+    {
+      "id": 201100009,
+      "name": "Dedicated H416 A5 Upper Receiver",
+      "tag": "Assemble.UpperReceiver.HK416"
+    },
+    {
+      "id": 201100010,
+      "name": "M9A3 Pistol Slide",
+      "tag": "Assemble.UpperReceiver.M9A3"
+    },
+    {
+      "id": 201100011,
+      "name": "P90 Upper Receiver",
+      "tag": "Assemble.UpperReceiver.P90"
+    },
+    {
+      "id": 201100013,
+      "name": "SVDS Standard-Issue Dust Cover",
+      "tag": "Assemble.UpperReceiver.SVD"
+    },
+    {
+      "id": 201100015,
+      "name": "VSS Standard-Issue Dust Cover",
+      "tag": "Assemble.UpperReceiver.VSS"
+    },
+    {
+      "id": 201100016,
+      "name": "G Series 18C Classic Pistol Slide",
+      "tag": "Assemble.UpperReceiver.Glock18c"
+    },
+    {
+      "id": 201100018,
+      "name": "AKS-74U Standard Dust Cover",
+      "tag": "Assemble.UpperReceiver.AKS74U"
+    },
+    {
+      "id": 201100019,
+      "name": "MP5 High-Performance SD Upper Receiver",
+      "tag": "Assemble.UpperReceiver.MP5SD"
+    },
+    {
+      "id": 201100020,
+      "name": "RPK-16 Standard Receiver Cover",
+      "tag": "Assemble.UpperReceiver.RPK16"
+    },
+    {
+      "id": 201100021,
+      "name": "S12K Standard Receiver Cover",
+      "tag": "Assemble.UpperReceiver.Saiga12"
+    },
+    {
+      "id": 201100022,
+      "name": "G17 Carbon Fiber Receiver",
+      "tag": "Assemble.UpperReceiver.Glock17"
+    },
+    {
+      "id": 201100023,
+      "name": "G17 Desert Carbon Fiber Receiver",
+      "tag": "Assemble.UpperReceiver.Glock17"
+    },
+    {
+      "id": 201100024,
+      "name": "G17 Metal Machined Receiver",
+      "tag": "Assemble.UpperReceiver.Glock17"
+    },
+    {
+      "id": 201100025,
+      "name": "M110 Standard Receiver",
+      "tag": "Assemble.UpperReceiver.SR25"
+    },
+    {
+      "id": 201100026,
+      "name": "M1911 Standard Upper Receiver",
+      "tag": "Assemble.UpperReceiver.M1911"
+    },
+    {
+      "id": 201100027,
+      "name": "MAC-10 Standard Upper Receiver",
+      "tag": "Assemble.UpperReceiver.MAC10"
+    },
+    {
+      "id": 201100028,
+      "name": "MAC-10 Rail Upper Receiver",
+      "tag": "Assemble.UpperReceiver.MAC10"
+    },
+    {
+      "id": 201100029,
+      "name": "SVDS Standard Upper Receiver",
+      "tag": "Assemble.UpperReceiver.SVD"
+    },
+    {
+      "id": 201100030,
+      "name": "Dedicated M45A1 Upper Receiver",
+      "tag": "Assemble.UpperReceiver.M45A1"
+    },
+    {
+      "id": 201100031,
+      "name": "QC61 Standard Dust Cover",
+      "tag": "Assemble.UpperReceiver.QC61"
+    },
+    {
+      "id": 201100032,
+      "name": "QC61 Rail Dust Cover",
+      "tag": "Assemble.UpperReceiver.QC61"
+    },
+    {
+      "id": 201100033,
+      "name": "MPF45 Standard Upper Receiver",
+      "tag": "Assemble.UpperReceiver.MPF45"
+    },
+    {
+      "id": 201100034,
+      "name": "MPF45 Rail Upper Receiver",
+      "tag": "Assemble.UpperReceiver.MPF45"
+    },
+    {
+      "id": 201100035,
+      "name": "Vector Standard Upper Receiver",
+      "tag": "Assemble.UpperReceiver.Vector"
+    },
+    {
+      "id": 201100036,
+      "name": "Vector Buttstock Upper Receiver Set",
+      "tag": "Assemble.UpperReceiver.Vector"
+    },
+    {
+      "id": 201100037,
+      "name": "Dedicated CZ 52 Upper Receiver",
+      "tag": "Assemble.UpperReceiver.CZ52"
+    },
+    {
+      "id": 201100038,
+      "name": "Dedicated F57 Upper Receiver",
+      "tag": "Assemble.UpperReceiver.F57"
+    },
+    {
+      "id": 201100039,
+      "name": "ACE31 Upper Receiver",
+      "tag": "Assemble.UpperReceiver.ACE31"
+    },
+    {
+      "id": 201100040,
+      "name": "Dedicated AEK Standard Dust Cover",
+      "tag": "Assemble.UpperReceiver.AEK"
+    },
+    {
+      "id": 201100041,
+      "name": "Dedicated AEK Picatinny Dust Cover",
+      "tag": "Assemble.UpperReceiver.AEK"
+    },
+    {
+      "id": 201100042,
+      "name": "Dedicated AN-94 Upper Receiver",
+      "tag": "Assemble.UpperReceiver.AN94"
+    },
+    {
+      "id": 201100043,
+      "name": "M16 Upper Receiver",
+      "tag": "Assemble.UpperReceiver.AR15"
+    },
+    {
+      "id": 201100044,
+      "name": "VSS Modern Design Dust Cover",
+      "tag": "Assemble.UpperReceiver.VSS"
+    },
+    {
+      "id": 201100045,
+      "name": "FAMAS Upper Receiver",
+      "tag": "Assemble.UpperReceiver.FAMAS"
+    },
+    {
+      "id": 201100046,
+      "name": "SCAR-L Upper Receiver",
+      "tag": "Assemble.UpperReceiver.SCAR"
+    },
+    {
+      "id": 201100047,
+      "name": "BIZON Receiver Cover",
+      "tag": "Assemble.UpperReceiver.BIZON"
+    },
+    {
+      "id": 201100048,
+      "name": "T951 Standard Handle",
+      "tag": "Assemble.UpperReceiver.T951"
+    },
+    {
+      "id": 201100049,
+      "name": "T951 Longbow Rail Handle",
+      "tag": "Assemble.UpperReceiver.T951"
+    },
+    {
+      "id": 201100050,
+      "name": "G3 Standard Upper Receiver",
+      "tag": "Assemble.UpperReceiver.G3"
+    },
+    {
+      "id": 201100051,
+      "name": "G3 Modern Upper Receiver",
+      "tag": "Assemble.UpperReceiver.G3"
+    },
+    {
+      "id": 201100052,
+      "name": "AK12 Dust Cover",
+      "tag": "Assemble.UpperReceiver.AK12"
+    },
+    {
+      "id": 201100053,
+      "name": "T951 Tactical Handle",
+      "tag": "Assemble.UpperReceiver.T951"
+    },
+    {
+      "id": 201100054,
+      "name": "T951 Enhanced Handle",
+      "tag": "Assemble.UpperReceiver.T951"
+    },
+    {
+      "id": 201100057,
+      "name": "M4 Special Upper Receiver",
+      "tag": "Assemble.UpperReceiver.AR15"
+    },
+    {
+      "id": 201110001,
+      "name": "G17 Classic Barrel",
+      "tag": "Assemble.Barrel.Glock17"
+    },
+    {
+      "id": 201110002,
+      "name": "G17 Threaded Barrel",
+      "tag": "Assemble.Barrel.Glock17"
+    },
+    {
+      "id": 201110021,
+      "name": "M9A3 Threaded Barrel",
+      "tag": "Assemble.Barrel.M9A3"
+    },
+    {
+      "id": 201110022,
+      "name": "Dedicated P90 Short Barrel",
+      "tag": "Assemble.Barrel.P90"
+    },
+    {
+      "id": 201110031,
+      "name": "MDR Regulation Barrel",
+      "tag": "Assemble.Barrel.DTMDR"
+    },
+    {
+      "id": 201110032,
+      "name": "G Series 18C Pistol Barrel",
+      "tag": "Assemble.Barrel.Glock18c"
+    },
+    {
+      "id": 201110040,
+      "name": "M1911 Standard Barrel",
+      "tag": "Assemble.Barrel.M1911"
+    },
+    {
+      "id": 201110041,
+      "name": "M1911 Threaded Barrel",
+      "tag": "Assemble.Barrel.M1911"
+    },
+    {
+      "id": 201110057,
+      "name": "Dedicated F57 Barrel",
+      "tag": "Assemble.Barrel.F57"
+    },
+    {
+      "id": 201110058,
+      "name": "F57 Thunder Barrel",
+      "tag": "Assemble.Barrel.F57"
+    },
+    {
+      "id": 201110063,
+      "name": "M300 Standard Barrel",
+      "tag": "Assemble.Barrel.M300"
+    },
+    {
+      "id": 201110069,
+      "name": "FAMAS Standard Barrel",
+      "tag": "Assemble.Barrel.FAMAS"
+    },
+    {
+      "id": 201110076,
+      "name": "SG550 Carbine Barrel",
+      "tag": "Assemble.Barrel.SG550"
+    },
+    {
+      "id": 201140002,
+      "name": "AKM Standard Gas Tube",
+      "tag": "Assemble.GasBlock.Gastube.AKM"
+    },
+    {
+      "id": 201140003,
+      "name": "M4 Standard Front Sight",
+      "tag": "Assemble.GasBlock.GasBlock.M4A1"
+    },
+    {
+      "id": 201140004,
+      "name": "Dedicated H416 Gas Block",
+      "tag": "Assemble.GasBlock.GasBlock.HK416"
+    },
+    {
+      "id": 201140005,
+      "name": "SVDS Standard Gas Block",
+      "tag": "Assemble.GasBlock.Gastube.SVDS"
+    },
+    {
+      "id": 201140010,
+      "name": "AKS-74U Series Universal Gas Tube",
+      "tag": "Assemble.GasBlock.Gastube.AKS74U"
+    },
+    {
+      "id": 201140011,
+      "name": "G3 Basic Charging Handle",
+      "tag": "Assemble.GasBlock.Gastube.G3"
+    },
+    {
+      "id": 201150003,
+      "name": "MP5 Standard-Issue Charging Handle",
+      "tag": "Assemble.Bolt.MP5"
+    },
+    {
+      "id": 201150004,
+      "name": "MPX Single-Clip Charging Handle",
+      "tag": "Assemble.Bolt.MPX"
+    },
+    {
+      "id": 201150006,
+      "name": "MPX Double-Clip Charging Handle",
+      "tag": "Assemble.Bolt.MPX"
+    },
+    {
+      "id": 201150007,
+      "name": "H416 Extended Charging Handle",
+      "tag": "Assemble.Bolt.AR"
+    },
+    {
+      "id": 201150010,
+      "name": "M110 Standard Charging Handle",
+      "tag": "Assemble.Bolt.SR25"
+    },
+    {
+      "id": 201150011,
+      "name": "M110 Tactical Charging Handle",
+      "tag": "Assemble.Bolt.SR25"
+    },
+    {
+      "id": 201150012,
+      "name": "SCAR-L Charging Handle",
+      "tag": "Assemble.Bolt.SCAR"
+    },
+    {
+      "id": 201150014,
+      "name": "USAS-12 Standard Charging Handle Cap",
+      "tag": "Assemble.Bolt.USAS12"
+    },
+    {
+      "id": 201150015,
+      "name": "USAS-12 Premium Charging Handle Cap",
+      "tag": "Assemble.Bolt.USAS12"
+    },
+    {
+      "id": 201150016,
+      "name": "SG550 Charging Handle",
+      "tag": "Assemble.Bolt.SG550"
+    },
+    {
+      "id": 201150017,
+      "name": "MCX Standard Charging Handle",
+      "tag": "Assemble.Bolt.MCX"
+    }
+  ],
+  "pass2": [
+    {
+      "id": 201010011,
+      "name": "AR Compact Tactical Front Grip",
+      "tag": "Assemble.Foregrip.Common.Vertical",
+      "family": "AR"
+    },
+    {
+      "id": 201020001,
+      "name": "AK Series Standard Rear Grip",
+      "tag": "Assemble.PistolGrip.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201020002,
+      "name": "AK Series Tactical Rear Grip",
+      "tag": "Assemble.PistolGrip.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201020003,
+      "name": "AR Compatible Rear Grip",
+      "tag": "Assemble.PistolGrip.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201020004,
+      "name": "Lightweight AR Rear Grip",
+      "tag": "Assemble.PistolGrip.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201020012,
+      "name": "AK Compatible Rear Grip",
+      "tag": "Assemble.PistolGrip.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201020013,
+      "name": "Lightweight Skeleton AR Rear Grip",
+      "tag": "Assemble.PistolGrip.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201020014,
+      "name": "Lightweight AK Rear Grip",
+      "tag": "Assemble.PistolGrip.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201020015,
+      "name": "KGB Lightweight AK Rear Grip",
+      "tag": "Assemble.PistolGrip.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201020016,
+      "name": "RK-3 Industrial AK Rear Grip",
+      "tag": "Assemble.PistolGrip.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201020017,
+      "name": "SAW Tactical AK Rear Grip",
+      "tag": "Assemble.PistolGrip.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201020018,
+      "name": "Industrial AK Rear Grip",
+      "tag": "Assemble.PistolGrip.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201020019,
+      "name": "Polymer Lightweight AR Rear Grip",
+      "tag": "Assemble.PistolGrip.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201020020,
+      "name": "Universal Tactical AR Rear Grip",
+      "tag": "Assemble.PistolGrip.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201020021,
+      "name": "Industrial AR Rear Grip",
+      "tag": "Assemble.PistolGrip.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201020022,
+      "name": "Standard Polymer AR Rear Grip",
+      "tag": "Assemble.PistolGrip.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201020023,
+      "name": "Lightweight Tactical AR Rear Grip",
+      "tag": "Assemble.PistolGrip.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201020024,
+      "name": "Stable Industrial AR Rear Grip",
+      "tag": "Assemble.PistolGrip.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201030401,
+      "name": "3.5x AK Series Scope",
+      "tag": "Assemble.Sight.AssualtScope_ReflexSight.ScopeWithoutSightBase.Long",
+      "family": "AK"
+    },
+    {
+      "id": 201030605,
+      "name": "AR-15 Standard Rear Sight",
+      "tag": "Assemble.Sight.AssualtScope_ReflexSight.ScopeWithoutSightBase.Long",
+      "family": "AR"
+    },
+    {
+      "id": 201030610,
+      "name": "AR-15 Handle Rear Sight",
+      "tag": "Assemble.Sight.AssualtScope_ReflexSight.ScopeWithoutSightBase.Long",
+      "family": "AR"
+    },
+    {
+      "id": 201030627,
+      "name": "AK Series Multipurpose Rear Sight",
+      "tag": "Assemble.Sight.AssualtScope_ReflexSight.ScopeWithoutSightBase.Long",
+      "family": "AK"
+    },
+    {
+      "id": 201030631,
+      "name": "AK Integrated Rail Rear Sight",
+      "tag": "Assemble.Sight.AssualtScope_ReflexSight.ScopeWithoutSightBase.Long",
+      "family": "AK"
+    },
+    {
+      "id": 201030657,
+      "name": "AR-15 Oblique Front Sight",
+      "tag": "Assemble.Sight.AssualtScope_ReflexSight.ScopeWithoutSightBase.Long",
+      "family": "AR"
+    },
+    {
+      "id": 201030658,
+      "name": "AR-15 Oblique Rear Sight",
+      "tag": "Assemble.Sight.AssualtScope_ReflexSight.ScopeWithoutSightBase.Long",
+      "family": "AR"
+    },
+    {
+      "id": 201040101,
+      "name": "AK PT1 Stock",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040102,
+      "name": "AK PT3 Stock",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040109,
+      "name": "AK-100 Standard Polymer Stock",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040111,
+      "name": "AK-74 Wooden Stock",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040136,
+      "name": "AR Integrated Stock",
+      "tag": "Assemble.Stocks.StockAdapter.ARBufferTube",
+      "family": "AR"
+    },
+    {
+      "id": 201040143,
+      "name": "AK-74 Polymer Buttstock",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040144,
+      "name": "AK Series High-Performance Buttstock",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040145,
+      "name": "AK Series FAB Buttstock",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040149,
+      "name": "AR Recoil Buffer",
+      "tag": "Assemble.Stocks.StockAdapter.ARBufferTube",
+      "family": "AR"
+    },
+    {
+      "id": 201040168,
+      "name": "AK Integrated Stock",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040191,
+      "name": "Gen 2 AR Integrated Stock",
+      "tag": "Assemble.Stocks.StockAdapter.ARBufferTube",
+      "family": "AR"
+    },
+    {
+      "id": 201040201,
+      "name": "AR Tube Adapter",
+      "tag": "Assemble.Stocks.StockAdapter.ARBufferTube",
+      "family": "AR"
+    },
+    {
+      "id": 201040204,
+      "name": "AK-100 Series Universal Tube",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040205,
+      "name": "AR Premium Extended Tube",
+      "tag": "Assemble.Stocks.StockAdapter.ARBufferTube",
+      "family": "AR"
+    },
+    {
+      "id": 201040301,
+      "name": "AK Collapsible Tube Adapter",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040302,
+      "name": "AK to PT Adapter",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040309,
+      "name": "Vector AR Buttstock Adapter",
+      "tag": "Assemble.Stocks.StockAdapter.ARBufferTube",
+      "family": "AR"
+    },
+    {
+      "id": 201040310,
+      "name": "AR-30 AR Buttstock Adapter",
+      "tag": "Assemble.Stocks.StockAdapter.ARBufferTube",
+      "family": "AR"
+    },
+    {
+      "id": 201040401,
+      "name": "AK Stock Recoil Pad",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040404,
+      "name": "AR-30 Rubber Pad",
+      "tag": "Assemble.Stocks.StockAdapter.ARBufferTube",
+      "family": "AR"
+    },
+    {
+      "id": 201040417,
+      "name": "AK-Series SF Lightweight Stock Cushion",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040418,
+      "name": "AK-Series SF Gen 2 Stock Cushion",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040419,
+      "name": "AK-100 Lightweight Buttstock Cushion",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040503,
+      "name": "AK-Series SF Lightweight Buttstock",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040504,
+      "name": "AK-Series SF Gen 2 Stock",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040505,
+      "name": "AK-100 Lightweight Buttstock",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201040510,
+      "name": "AR-30 Modern Stock",
+      "tag": "Assemble.Stocks.StockAdapter.ARBufferTube",
+      "family": "AR"
+    },
+    {
+      "id": 201040518,
+      "name": "AR Precision Stock",
+      "tag": "Assemble.Stocks.StockAdapter.ARBufferTube",
+      "family": "AR"
+    },
+    {
+      "id": 201040519,
+      "name": "AK Series AP Tactical Stock",
+      "tag": "Assemble.Stocks.AK.AKPad",
+      "family": "AK"
+    },
+    {
+      "id": 201050007,
+      "name": "AR 60-Round High-Capacity Magazine",
+      "tag": "Assemble.Magazine.556x45mm.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201050026,
+      "name": "Universal AR 10-Round Polymer Magazine",
+      "tag": "Assemble.Magazine.556x45mm.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201050027,
+      "name": "Universal AR 20-Round Polymer Magazine",
+      "tag": "Assemble.Magazine.556x45mm.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201050029,
+      "name": "Universal AR 40-Round Polymer Magazine",
+      "tag": "Assemble.Magazine.556x45mm.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201050033,
+      "name": "AK-100 Series 30-Round Standard Magazine",
+      "tag": "Assemble.Magazine.545x39mm.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201050034,
+      "name": "AK-100 Series 30-Round Polymer Magazine",
+      "tag": "Assemble.Magazine.545x39mm.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201050039,
+      "name": "AK-74 30-Round Compatible",
+      "tag": "Assemble.Magazine.545x39mm.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201050040,
+      "name": "AK-74 Compatible 60-Round Magazine",
+      "tag": "Assemble.Magazine.545x39mm.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201050049,
+      "name": "Universal AR 60-Round Polymer Drum",
+      "tag": "Assemble.Magazine.556x45mm.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201050050,
+      "name": "AR 100-Round Extended Drum Magazine",
+      "tag": "Assemble.Magazine.556x45mm.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201050091,
+      "name": "AK-74 Compatible 100-Round Magazine",
+      "tag": "Assemble.Magazine.545x39mm.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201050094,
+      "name": "AK-74 Novice Magazine",
+      "tag": "Assemble.Magazine.545x39mm.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201050129,
+      "name": "AK Window 30-Round Magazine",
+      "tag": "Assemble.Magazine.545x39mm.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201050139,
+      "name": "AK-74 30-Round Compatible",
+      "tag": "Assemble.Magazine.545x39mm.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201060115,
+      "name": "AK Series Dust Cover Rail",
+      "tag": "Assemble.Mount.Scope.SightBase.ACOG",
+      "family": "AK"
+    },
+    {
+      "id": 201060307,
+      "name": "AK Series B13 Rail Cover",
+      "tag": "Assemble.Mount.Scope.SightBase.ACOG",
+      "family": "AK"
+    },
+    {
+      "id": 201070112,
+      "name": "AK-series Hexagon Suppressor",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AK"
+    },
+    {
+      "id": 201070114,
+      "name": "AK Series 5.45x39 Suppressor",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AK"
+    },
+    {
+      "id": 201070117,
+      "name": "AK Series 7.62x39 Suppressor",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AK"
+    },
+    {
+      "id": 201070202,
+      "name": "AR-15 Universal Flash Suppressor",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AR"
+    },
+    {
+      "id": 201070205,
+      "name": "AK-102 Muzzle Flash Suppressor",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AK"
+    },
+    {
+      "id": 201070207,
+      "name": "AR-10 Muzzle Flash Suppressor",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AR"
+    },
+    {
+      "id": 201070211,
+      "name": "AK-Series Classic Flash Suppressor",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AK"
+    },
+    {
+      "id": 201070214,
+      "name": "AR Series Multi-Caliber Flash Suppressor",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AR"
+    },
+    {
+      "id": 201070217,
+      "name": "AK-74 Stable Flash Suppressor",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AK"
+    },
+    {
+      "id": 201070218,
+      "name": "AK-74 Long Multi-Port Flash Suppressor",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AK"
+    },
+    {
+      "id": 201070251,
+      "name": "AR Universal Muzzle Brake",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AR"
+    },
+    {
+      "id": 201070265,
+      "name": "AK-74 Muzzle Brake",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AK"
+    },
+    {
+      "id": 201070304,
+      "name": "AK Series 5.56x45 Adapter",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AK"
+    },
+    {
+      "id": 201070307,
+      "name": "AK-74 Series Special Flash Suppressor",
+      "tag": "Assemble.Muzzle.DT.Adapter",
+      "family": "AK"
+    },
+    {
+      "id": 201080001,
+      "name": "AK Custom Composite Handguard",
+      "tag": "Assemble.Handguard.AK.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201080002,
+      "name": "AK Custom Alloy Rail Handguard",
+      "tag": "Assemble.Handguard.AK.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201080005,
+      "name": "AR-series Standard Handguard",
+      "tag": "Assemble.Handguard.AR.AR15",
+      "family": "AR"
+    },
+    {
+      "id": 201080012,
+      "name": "AR Special Universal Handguard",
+      "tag": "Assemble.Handguard.AR.AR15",
+      "family": "AR"
+    },
+    {
+      "id": 201080017,
+      "name": "AR 15 Modular Lock 10-inch Handguard",
+      "tag": "Assemble.Handguard.AR.AR15",
+      "family": "AR"
+    },
+    {
+      "id": 201080018,
+      "name": "AR 15 Modular Lock 14.5-inch Handguard",
+      "tag": "Assemble.Handguard.AR.AR15",
+      "family": "AR"
+    },
+    {
+      "id": 201080025,
+      "name": "AK-series Polymer Handguard",
+      "tag": "Assemble.Handguard.AK.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201080026,
+      "name": "AR-series Carbine Handguard",
+      "tag": "Assemble.Handguard.AR.AR15",
+      "family": "AR"
+    },
+    {
+      "id": 201080027,
+      "name": "AR-series Mid-long Handguard",
+      "tag": "Assemble.Handguard.AR.AR15",
+      "family": "AR"
+    },
+    {
+      "id": 201080029,
+      "name": "AK Series Wooden 10/63 Handguard",
+      "tag": "Assemble.Handguard.AK.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201080030,
+      "name": "AK Series Aluminum Alloy Handguard",
+      "tag": "Assemble.Handguard.AK.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201080034,
+      "name": "AK-series CAA Polymer Front Handguard",
+      "tag": "Assemble.Handguard.AK.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201080044,
+      "name": "AK-series Wooden Handguard",
+      "tag": "Assemble.Handguard.AK.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201080056,
+      "name": "AK Quick-mod Handguard",
+      "tag": "Assemble.Handguard.AK.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201080058,
+      "name": "AR Series Lightweight Fiber Handguard",
+      "tag": "Assemble.Handguard.AR.AR15",
+      "family": "AR"
+    },
+    {
+      "id": 201080098,
+      "name": "AR Free-Float Handguard",
+      "tag": "Assemble.Handguard.AR.AR15",
+      "family": "AR"
+    },
+    {
+      "id": 201080100,
+      "name": "AK Series CRC Extended Handguard",
+      "tag": "Assemble.Handguard.AK.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201080114,
+      "name": "AK Tactical Handguard",
+      "tag": "Assemble.Handguard.AK.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201100001,
+      "name": "AK Custom Rail Dust Cover",
+      "tag": "Assemble.UpperReceiver.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201100017,
+      "name": "AK Compatible Rail In-Line Dust Cover",
+      "tag": "Assemble.UpperReceiver.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201110004,
+      "name": "Dedicated AR Standard Barrel",
+      "tag": "Assemble.Barrel.AR15",
+      "family": "AR"
+    },
+    {
+      "id": 201140001,
+      "name": "AR Series Custom Gas Block",
+      "tag": "Assemble.GasBlock.GasBlock.M4A1",
+      "family": "AR"
+    },
+    {
+      "id": 201140007,
+      "name": "AR-15 Short Rail Gas Block",
+      "tag": "Assemble.GasBlock.GasBlock.M4A1",
+      "family": "AR"
+    },
+    {
+      "id": 201140008,
+      "name": "AK Series VS Combination Gas Block",
+      "tag": "Assemble.GasBlock.Gastube.AKM",
+      "family": "AK"
+    },
+    {
+      "id": 201140009,
+      "name": "AK-74 Series Universal Gas Block",
+      "tag": "Assemble.GasBlock.Gastube.AKM",
+      "family": "AK"
+    },
+    {
+      "id": 201150001,
+      "name": "AK Series Alloy Charging Handle Cap",
+      "tag": "Assemble.Bolt.AK",
+      "family": "AK"
+    },
+    {
+      "id": 201150002,
+      "name": "AR-15 Series Universal Charging Handle",
+      "tag": "Assemble.Bolt.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201150008,
+      "name": "AR-15 Customized Charging Handle",
+      "tag": "Assemble.Bolt.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201150009,
+      "name": "AR-15 Alloy Bolt Charging Handle",
+      "tag": "Assemble.Bolt.AR",
+      "family": "AR"
+    },
+    {
+      "id": 201150013,
+      "name": "AK-Series Premium Charging Handle Cap",
+      "tag": "Assemble.Bolt.AK",
+      "family": "AK"
+    }
+  ],
+  "unclassified": [
+    {
+      "id": 201010002,
+      "name": "Aluminum Vertical Front Grip",
+      "category": "Foregrip"
+    },
+    {
+      "id": 201010003,
+      "name": "Alloy Tactical Front Grip",
+      "category": "Foregrip"
+    },
+    {
+      "id": 201010004,
+      "name": "Lightweight Tactical Front Grip",
+      "category": "Foregrip"
+    },
+    {
+      "id": 201010005,
+      "name": "Stable Triangular Front Grip",
+      "category": "Foregrip"
+    },
+    {
+      "id": 201010006,
+      "name": "B25 Tilt Front Grip",
+      "category": "Foregrip"
+    },
+    {
+      "id": 201010007,
+      "name": "Short Vertical Front Grip",
+      "category": "Foregrip"
+    },
+    {
+      "id": 201010008,
+      "name": "Vertical Front Grip",
+      "category": "Foregrip"
+    },
+    {
+      "id": 201010009,
+      "name": "Lightweight Tactical Vertical Front Grip",
+      "category": "Foregrip"
+    },
+    {
+      "id": 201010010,
+      "name": "RK-0 Control Front Grip",
+      "category": "Foregrip"
+    },
+    {
+      "id": 201010012,
+      "name": "Lightweight Tilt Front Grip",
+      "category": "Foregrip"
+    },
+    {
+      "id": 201010018,
+      "name": "KIR Tilt Front GripKIR Tilt Front Grip",
+      "category": "Foregrip"
+    },
+    {
+      "id": 201020029,
+      "name": "G Series Rubber Grip Cover",
+      "category": "PistolGrip"
+    },
+    {
+      "id": 201030101,
+      "name": "Classic Red Dot Reflex Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030102,
+      "name": "Classic Holographic Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030103,
+      "name": "Simple Red Dot Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030104,
+      "name": "PK-06 Reflex Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030105,
+      "name": "EKP-8-18 Reflex Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030106,
+      "name": "Full-vision Triangle Reflex Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030107,
+      "name": "Compact Reflex Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030108,
+      "name": "553 Holographic Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030109,
+      "name": "EKP-8-02 Reflex Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030110,
+      "name": "OKP-7 Reflex Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030113,
+      "name": "2x Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030114,
+      "name": "2x Red Dot Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030115,
+      "name": "Triangle Precision Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030116,
+      "name": "2x Tactical Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030117,
+      "name": "Tactical Red Dot Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030118,
+      "name": "Hybrid Tactical Red Dot Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030119,
+      "name": "M1 Tactical Red Dot",
+      "category": "Sight"
+    },
+    {
+      "id": 201030201,
+      "name": "4x Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030202,
+      "name": "3x Combination Holographic Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030204,
+      "name": "3.5x Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030205,
+      "name": "1x/4x Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030206,
+      "name": "4x Holographic Triangle Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030207,
+      "name": "PSO 4x Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030208,
+      "name": "PZ3 Thermal Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030209,
+      "name": "3x Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030210,
+      "name": "4x Hybrid Red Dot Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030211,
+      "name": "3x Hybrid Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030212,
+      "name": "2.5x/10x Hybrid Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030301,
+      "name": "Alpha3 1x/6x Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030302,
+      "name": "6.5x/20x Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030303,
+      "name": "1x/6x Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030304,
+      "name": "4x/16x Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030305,
+      "name": "2x/7x Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030306,
+      "name": "PSPU 2.5x/5x Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030307,
+      "name": "PSPU 4x/10x Scope",
+      "category": "Sight"
+    },
+    {
+      "id": 201030501,
+      "name": "1x/4x Thermal Imaging Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030502,
+      "name": "2x Adjustable Thermal Imaging Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030503,
+      "name": "5x/20x Thermal Imaging Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030504,
+      "name": "NIT-A Thermal Imaging Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030601,
+      "name": "Folding Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030604,
+      "name": "FAL Standard Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030606,
+      "name": "AKM Standard Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030607,
+      "name": "G Series Pistol FS Classic Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030608,
+      "name": "G Series Pistol RS Classic Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030609,
+      "name": "MP5 Drum Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030611,
+      "name": "SKS Standard Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030612,
+      "name": "Folding Quick Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030613,
+      "name": "M9A3 Classic Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030614,
+      "name": "M9A3 Classic Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030616,
+      "name": "SVDS Standard Tactical Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030617,
+      "name": "SVDS Standard Tactical Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030619,
+      "name": "Folding Quick Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030620,
+      "name": "VSS Standard Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030621,
+      "name": "SIG Standard Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030622,
+      "name": "SIG Standard Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030623,
+      "name": "G Series Pistol TFX Linear Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030624,
+      "name": "G Series Pistol SE Red Ring Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030625,
+      "name": "G Series Pistol TFX Linear Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030626,
+      "name": "G Series Pistol SE Red Ring Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030628,
+      "name": "M14 U-Shaped Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030629,
+      "name": "M14 V-Shaped Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030630,
+      "name": "M14 Enlarged Military Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030632,
+      "name": "OK RS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030633,
+      "name": "Thumbs Up FS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030634,
+      "name": "RPK-16 Standard Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030635,
+      "name": "S12K Standard Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030637,
+      "name": "M1911 Standard Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030638,
+      "name": "M1911 Standard Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030639,
+      "name": "MG 3 RS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030640,
+      "name": "QC61 FS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030641,
+      "name": "QC61 RS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030642,
+      "name": "T85 RS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030643,
+      "name": "T85 FS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030644,
+      "name": "BM 59 RS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030645,
+      "name": "SJ16 FS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030646,
+      "name": "SJ16 RS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030647,
+      "name": "F57 FS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030648,
+      "name": "F57 RS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030649,
+      "name": "M24 FS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030650,
+      "name": "M24 RS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030651,
+      "name": "ACE31 FS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030652,
+      "name": "ACE31 RS",
+      "category": "Sight"
+    },
+    {
+      "id": 201030653,
+      "name": "Dedicated Vector Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030654,
+      "name": "Dedicated Vector Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030655,
+      "name": "D45 Oblique Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030656,
+      "name": "D45 Oblique Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030659,
+      "name": "Suomi Standard Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030660,
+      "name": "SCAR-L Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030661,
+      "name": "SCAR-L Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030662,
+      "name": "BIZON Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030663,
+      "name": "SG550 Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030664,
+      "name": "SG550 Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030665,
+      "name": "G3 Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030666,
+      "name": "AK12 Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030671,
+      "name": "DBR Front Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201030672,
+      "name": "DBR Rear Sight",
+      "category": "Sight"
+    },
+    {
+      "id": 201040103,
+      "name": "Collapsible Lightweight Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040104,
+      "name": "Carbine Lightweight Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040105,
+      "name": "M4 Standard Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040106,
+      "name": "AKS 74 Metal Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040110,
+      "name": "FA Gen 3 Precision Rifle Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040112,
+      "name": "Carbine Industrial Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040113,
+      "name": "FA Gen 2 Collapsible Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040114,
+      "name": "Collapsible Compatible Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040126,
+      "name": "MPX Standard-Issue Collapsible Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040128,
+      "name": "P90 OEM Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040130,
+      "name": "MP-133 Wooden Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040131,
+      "name": "MP-133 Polymer Grip",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040132,
+      "name": "MP-133 Polymer Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040137,
+      "name": "M4A1 Simple Recoil Buffer",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040138,
+      "name": "GL Shock Lightweight Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040147,
+      "name": "Professional Collapsible Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040148,
+      "name": "FA Desert Tan Gen 2 Collapsible Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040150,
+      "name": "FA Gen 4 Tactical Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040157,
+      "name": "S12K Standard Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040159,
+      "name": "Mk14 Standard Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040160,
+      "name": "Mk14 Quick Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040164,
+      "name": "T79 Classic Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040166,
+      "name": "Type 81 Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040178,
+      "name": "Vector Standard Buttstock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040181,
+      "name": "AR30 Standard Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040184,
+      "name": "M24 Forest Camo Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040185,
+      "name": "M24 Modern Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040186,
+      "name": "M24 Foldable Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040188,
+      "name": "AEK Standard Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040189,
+      "name": "AN94 Special Foldable Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040193,
+      "name": "M16 Standard Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040195,
+      "name": "Mk14 Special Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040198,
+      "name": "SCAR-L Collapsible Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040202,
+      "name": "H416 Premium Stock Tube",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040303,
+      "name": "AKS to PT Adapter",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040304,
+      "name": "MPX Stock Adapter",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040305,
+      "name": "MP-133 Stock Adapter",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040307,
+      "name": "T79 Stock Adapter",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040311,
+      "name": "AEK Stock Adapter",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040312,
+      "name": "AN-94 Stock Adapter",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040402,
+      "name": "Carbine Stock Recoil Pad",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040403,
+      "name": "AR30 Cheek Rest",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040405,
+      "name": "M24 Cheek Rest",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040410,
+      "name": "P90 Buffer Rear Cushion",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040411,
+      "name": "P90 Standard Rear Cushion",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040420,
+      "name": "DBR Cheek Rest",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040506,
+      "name": "AN-94 Modernized Buttstock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040507,
+      "name": "AEK Stable Buttstock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040509,
+      "name": "Dedicated RPK Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040538,
+      "name": "DBR Standard Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040539,
+      "name": "DBR Tactical Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201040551,
+      "name": "SCAR-L Stable StockSCAR-L Stable Stock",
+      "category": "Stocks"
+    },
+    {
+      "id": 201050038,
+      "name": "G Series Pistol 50-Round Drum",
+      "category": "Magazine"
+    },
+    {
+      "id": 201050041,
+      "name": "RPK 95-Round High Capacity Drum",
+      "category": "Magazine"
+    },
+    {
+      "id": 201050085,
+      "name": "AK74 Compatible 10-round Small Magazine",
+      "category": "Magazine"
+    },
+    {
+      "id": 201050086,
+      "name": "G Series Pistol 10-round Magazine",
+      "category": "Magazine"
+    },
+    {
+      "id": 201050142,
+      "name": "T-Series 30-Round Magazine",
+      "category": "Magazine"
+    },
+    {
+      "id": 201050143,
+      "name": "T-Series 75-Round Drum",
+      "category": "Magazine"
+    },
+    {
+      "id": 201060101,
+      "name": "Mosin Rifle Sight Mount",
+      "category": "Mount"
+    },
+    {
+      "id": 201060102,
+      "name": "3.5x Scope Ring Base",
+      "category": "Mount"
+    },
+    {
+      "id": 201060103,
+      "name": "Compact Universal Sight Base",
+      "category": "Mount"
+    },
+    {
+      "id": 201060104,
+      "name": "Mini Red Dot Sight Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060105,
+      "name": "Cross Slot Sight Mount",
+      "category": "Mount"
+    },
+    {
+      "id": 201060106,
+      "name": "30mm Rail Sight Mount",
+      "category": "Mount"
+    },
+    {
+      "id": 201060107,
+      "name": "Compact Magnifying Sight Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060108,
+      "name": "Compact Sight Top Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060109,
+      "name": "Compact Sight Bottom Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060110,
+      "name": "Mosin Sight Extension Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060112,
+      "name": "Universal Inclined Side Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060118,
+      "name": "Mosin-Nagant Rifle Iron Sight Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060119,
+      "name": "Mosin-Nagant Rifle Iron Sight Tri-Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060120,
+      "name": "34mm Hybrid Sight Mount",
+      "category": "Mount"
+    },
+    {
+      "id": 201060121,
+      "name": "34mm Scope Ring",
+      "category": "Mount"
+    },
+    {
+      "id": 201060123,
+      "name": "RPK-16 Rear Sight Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060126,
+      "name": "Compact Leather Rail Booster Pad",
+      "category": "Mount"
+    },
+    {
+      "id": 201060127,
+      "name": "Full-Size Leather Rail Booster Pad",
+      "category": "Mount"
+    },
+    {
+      "id": 201060128,
+      "name": "Groza Handle Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060201,
+      "name": "P90 Upper Receiver Top Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060202,
+      "name": "P90 Upper Receiver Side Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060203,
+      "name": "2.5\" Modular Lock Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060204,
+      "name": "4.1\" Modular Lock Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060205,
+      "name": "2\" Modular Lock Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060206,
+      "name": "6\" Modular Lock Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060207,
+      "name": "Groza Side Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060208,
+      "name": "FAMAS Bottom Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060301,
+      "name": "Pistol Tactical Scope Base",
+      "category": "Mount"
+    },
+    {
+      "id": 201060302,
+      "name": "G Series Pistol Sight Base",
+      "category": "Mount"
+    },
+    {
+      "id": 201060303,
+      "name": "SVDS Bottom Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060304,
+      "name": "SVDS Handguard Ring",
+      "category": "Mount"
+    },
+    {
+      "id": 201060305,
+      "name": "VSS B3 Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060306,
+      "name": "VSS B-3 Combo Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060308,
+      "name": "Aluminum Sight Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060309,
+      "name": "SVD Bottom Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060313,
+      "name": "M14 Hollow Top Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060314,
+      "name": "VSS Tri-Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060316,
+      "name": "RPK-16 Tactical Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060320,
+      "name": "M1911 Tactical Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060321,
+      "name": "Dedicated M1911 Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060330,
+      "name": "MPF45 Scope Top Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060331,
+      "name": "MPF45 Front Grip Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060332,
+      "name": "Vector Side Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060333,
+      "name": "Vector Bottom Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060337,
+      "name": "Sniper Rifle Bipod Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060338,
+      "name": "Dedicated SVTU Sight Base",
+      "category": "Mount"
+    },
+    {
+      "id": 201060339,
+      "name": "Dedicated SVTU Picatinny Sight Base",
+      "category": "Mount"
+    },
+    {
+      "id": 201060345,
+      "name": "SCAR-L Bottom Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060348,
+      "name": "T951 3-Sided Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060349,
+      "name": "T951 Top Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060350,
+      "name": "T951 Side Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201060353,
+      "name": "Dedicated T951 Sight Rail",
+      "category": "Mount"
+    },
+    {
+      "id": 201070101,
+      "name": "7.62x39 Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070102,
+      "name": "5.56x45 Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070103,
+      "name": "9x19 Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070104,
+      "name": "9x19 Lightweight Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070110,
+      "name": "46 Multi-Caliber Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070115,
+      "name": "12x70 Shotgun Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070118,
+      "name": "AKM Compatible Hexagon Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070119,
+      "name": "7.62x51 Lightweight Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070120,
+      "name": "9x19 Conventional Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070121,
+      "name": "7.62 Titanium Alloy Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070122,
+      "name": "S12K Hexagon Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070124,
+      "name": "Dedicated M110 Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070125,
+      "name": "M1911 Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070128,
+      "name": "Vector 45 Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070130,
+      "name": ".338 Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070133,
+      "name": ".45 Caliber Universal Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070135,
+      "name": "7.62x25 Universal Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070137,
+      "name": "Dedicated MP9 Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070142,
+      "name": "MCX Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070150,
+      "name": "7.62x51mm Caliber SureFire Suppressor7.62x51mm Caliber SureFire Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070201,
+      "name": "AKM Standard Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070203,
+      "name": "G17 Exclusive Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070204,
+      "name": "Shotgun Tactical Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070208,
+      "name": "MG 3 Muzzle Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070209,
+      "name": "Shotgun Claw Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070210,
+      "name": "RPK-16 Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070213,
+      "name": "Tapered Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070215,
+      "name": "MDR Standard Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070216,
+      "name": "FA Precision Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070219,
+      "name": "AKS-74U Standard Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070220,
+      "name": "AKM stabilized flash suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070221,
+      "name": "Long Barrel Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070222,
+      "name": "AKM Precision Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070223,
+      "name": "Precision Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070224,
+      "name": "Multi-Port Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070225,
+      "name": "Classic Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070226,
+      "name": "AKM Premium Stable Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070227,
+      "name": "Multi-Port Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070228,
+      "name": "S12K Multi-Port Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070230,
+      "name": "M1911 Muzzle Brake",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070236,
+      "name": "Vector 45 Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070237,
+      "name": "Vector 45 Muzzle Brake",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070239,
+      "name": ".338 Muzzle Brake",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070242,
+      "name": "Dedicated Vector 9 Muzzle Brake",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070245,
+      "name": ".45 Caliber Universal Muzzle Brake",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070247,
+      "name": "9mm Muzzle Brake",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070248,
+      "name": "9mm Lightweight Muzzle Brake",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070263,
+      "name": "MCX Muzzle Flash Suppressor",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070305,
+      "name": "DT Threaded Muzzle Adapter",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070309,
+      "name": "12x70 Shotgun Adapter",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070310,
+      "name": "S12K Muzzle Adapter",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070314,
+      "name": "7.62x51 Flash Suppressor Adapter",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070316,
+      "name": "M1911 Muzzle Adapter",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070317,
+      "name": "Vector Barrel Shroud",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201070319,
+      "name": "Dedicated MP9 Muzzle Adapter",
+      "category": "Muzzle"
+    },
+    {
+      "id": 201080035,
+      "name": "AX1 Extension Front Handguard",
+      "category": "Handguard"
+    },
+    {
+      "id": 201080060,
+      "name": "P90 Special Handguard",
+      "category": "Handguard"
+    },
+    {
+      "id": 201120001,
+      "name": "Dedicated Vector Flashlight",
+      "category": "Mod"
+    },
+    {
+      "id": 201120002,
+      "name": "X300U-A Tactical Flashlight",
+      "category": "Mod"
+    },
+    {
+      "id": 201160001,
+      "name": "Mini Blue Laser",
+      "category": "Mod"
+    },
+    {
+      "id": 201160002,
+      "name": "IR Laser Sight",
+      "category": "Mod"
+    },
+    {
+      "id": 201160003,
+      "name": "Multipurpose Laser",
+      "category": "Mod"
+    },
+    {
+      "id": 201160004,
+      "name": "Quick Laser",
+      "category": "Mod"
+    },
+    {
+      "id": 201160005,
+      "name": "Green Laser",
+      "category": "Mod"
+    },
+    {
+      "id": 201160006,
+      "name": "Blue-Violet Laser",
+      "category": "Mod"
+    }
+  ]
+}
