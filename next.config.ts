@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  basePath: "/abi-maps",
   output: "standalone",
   images: {
     unoptimized: true,
