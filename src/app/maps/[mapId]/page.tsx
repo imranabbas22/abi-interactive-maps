@@ -788,6 +788,7 @@ export default function MapViewerPage() {
           </div>
         )}
 
+        {stableMapData && (
         <MapView
           mapData={stableMapData}
           activeCategories={activeCategories}
@@ -806,6 +807,7 @@ export default function MapViewerPage() {
           onToggleSelectMarker={handleToggleSelectMarker}
           onSelectMarkersInRect={handleSelectMarkersInRect}
         />
+        )}
       </main>
     </div>
   );

@@ -141,7 +141,7 @@ export default function AimLabPage() {
   const [dmgOverview, setDmgOverview] = useState<Map<string, DamageOverviewRow[]>>(new Map());
   const [avgShots, setAvgShots] = useState<Map<string, AvgShotsRow[]>>(new Map());
   const [armors, setArmors] = useState<Array<{ id: number; nativeArmorType?: string; type?: number; durabilityMax?: number; stats?: Record<string, unknown> }>>([]);
-  const [simArmor, setSimArmor] = useState<{ id: number; durabilityMax?: number; stats?: Record<string, unknown> } | null>(null);
+  const [simArmor, setSimArmor] = useState<{ id: number; nativeArmorType?: string; type?: number; durabilityMax?: number; stats?: Record<string, unknown> } | null>(null);
   const [simResult, setSimResult] = useState<SimResult | null>(null);
   const [showDmgPanel, setShowDmgPanel] = useState(true);
   const [showTTKPanel, setShowTTKPanel] = useState(true);
