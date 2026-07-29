@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import {
   GUNSMITH_CATEGORIES, getAllPartsInCategory, getCompatibleParts, buildTagIndex,
@@ -64,6 +64,10 @@ export default function GunsmithCompatPage() {
   const [weaponSearch, setWeaponSearch] = useState('');
   const [draft, setDraft] = useState<WeaponOverrides>({});
   const [exported, setExported] = useState(false);
+
+  // ── Keyword filter across all categories ──
+  const [keyword, setKeyword] = useState('');
+  const filterRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     Promise.all([
@@ -167,6 +171,22 @@ export default function GunsmithCompatPage() {
 
   const reviewedWeaponCount = Object.keys(draft).length;
 
+  // ── Keyboard shortcut: Ctrl+F / Cmd+F focuses the keyword filter ──
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+        // Only intercept if the focus isn't already inside an input/textarea
+        const tag = (e.target as HTMLElement)?.tagName;
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+          e.preventDefault();
+          filterRef.current?.focus();
+        }
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
+
   if (loading) return (
     <main className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
       <div className="w-8 h-8 border-2 border-[#D4AF37] border-t-transparent rounded-full animate-spin" />
@@ -234,9 +254,35 @@ export default function GunsmithCompatPage() {
                   </h2>
                 </div>
 
+                {/* ── Global keyword filter bar across all categories ── */}
+                <div className="glass rounded-xl p-3">
+                  <div className="flex items-center gap-2">
+                    <svg className="w-3.5 h-3.5 text-[#6B7280] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input ref={filterRef} type="text" value={keyword} autoComplete="off"
+                      onChange={e => setKeyword(e.target.value)}
+                      placeholder="Filter parts by name across all categories… (Ctrl+F)"
+                      className="flex-1 bg-transparent text-xs text-white outline-none placeholder:text-[#6B7280]" />
+                    {keyword && (
+                      <button onClick={() => setKeyword('')}
+                        className="text-[9px] text-[#6B7280] hover:text-white transition-colors shrink-0">
+                        Clear
+                      </button>
+                    )}
+                  </div>
+                </div>
+
                 {attachmentCategories.map(category => {
                   const allPartsInCat = getAllPartsInCategory(category, accessories, partCatalog, names);
                   if (allPartsInCat.length === 0) return null;
+
+                  // ── Apply keyword filter (visual only — selection state untouched) ──
+                  const kw = keyword.toLowerCase().trim();
+                  const visibleParts = kw
+                    ? allPartsInCat.filter(p => p.name.toLowerCase().includes(kw))
+                    : allPartsInCat;
+
                   const checked = getCheckedIds(selectedWeapon, category);
                   const isExplicit = !!draft[String(selectedWeapon.id)]?.[category];
 
@@ -257,7 +303,12 @@ export default function GunsmithCompatPage() {
                         </span>
                       </summary>
                       <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-1">
-                        {allPartsInCat.map(part => {
+                        {visibleParts.length === 0 && keyword.trim() && (
+                          <div className="col-span-full text-center text-[10px] text-[#6B7280] py-4">
+                            No parts match &ldquo;{keyword}&rdquo; in {category}
+                          </div>
+                        )}
+                        {visibleParts.map(part => {
                           const isChecked = checked.has(part.id);
                           const badge = part.source === 'accessory'
                             ? { label: 'tag', cls: 'text-emerald-400' }
