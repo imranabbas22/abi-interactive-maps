@@ -1,31 +1,32 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { simulate, getBranchLabel, calcDistanceFactor, type SimResult, type DamageDistance } from '@/lib/abiSim';
 import { indexDamageOverview, indexAvgShots, parseShotCell, lookupByWeapon,
          type DamageOverviewRow, type AvgShotsRow } from '@/lib/damageData';
-import { getBuildForWeapon } from '@/lib/gunsmith';
-import { getCompatibleParts, buildTagIndex, GUNSMITH_CATEGORIES, type CompatiblePart, type WeaponOverrides } from '@/lib/partCompat';
 
 interface Weapon {
   id: number;
   caliber?: string;
   stats?: Record<string, unknown>;
-  supportedTags?: string[];
   damageDistance?: Record<string, unknown>;
-}
-
-interface Accessory {
-  id: number;
-  tag: string;
-  stats?: Record<string, unknown>;
 }
 
 interface Bullet {
   id: number;
   caliber?: string;
   stats?: Record<string, unknown>;
+}
+
+interface CustomStats {
+  vRecoil: number;        // vertical recoil control (0-100, higher = less kick)
+  hRecoil: number;        // horizontal recoil control
+  ergonomics: number;     // 0-100, higher = faster crosshair recovery
+  stability: number;      // weapon stability 0-100, higher = slower bloom
+  accuracy: number;       // 0-100, spread ceiling
+  hipFireStability: number; // 0-100, tighter hip-fire cone
+  effectiveRange: number; // meters — falloff step + max zero
 }
 
 interface Shot {
@@ -93,8 +94,11 @@ function getRecoilProfile(accuracy: number, vControl: number, hControl: number):
 // control reaches the full rated circle within a few rounds.
 const FIRST_SHOT_FRACTION = 0.22;
 const BLOOM_RATE = 0.35;
-function getBloomMult(sustainedCount: number, avgKick: number): number {
-  const bloomProgress = 1 - Math.exp(-sustainedCount * BLOOM_RATE * avgKick);
+function getBloomMult(sustainedCount: number, avgKick: number, stability = 0): number {
+  // Higher weapon stability = slower bloom toward the accuracy ceiling
+  // (1.5x rate at 0 stability → 0.9x at 100).
+  const stabScale = 1.5 - (Math.max(0, Math.min(100, stability)) / 100) * 0.6;
+  const bloomProgress = 1 - Math.exp(-sustainedCount * BLOOM_RATE * avgKick * stabScale);
   return FIRST_SHOT_FRACTION + (1 - FIRST_SHOT_FRACTION) * bloomProgress;
 }
 
@@ -114,10 +118,6 @@ function WeaponThumb({ src, alt, size = 48 }: { src: string; alt: string; size?:
 
 export default function AimLabPage() {
   const [weapons, setWeapons] = useState<Weapon[]>([]);
-  const [accessories, setAccessories] = useState<Accessory[]>([]);
-  const [partCatalog, setPartCatalog] = useState<Record<string, Record<string, string>>>({});
-  const [partCompatOverrides, setPartCompatOverrides] = useState<Record<string, string>>({});
-  const [weaponOverrides, setWeaponOverrides] = useState<WeaponOverrides>({});
   const [bullets, setBullets] = useState<Bullet[]>([]);
   const [names, setNames] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
@@ -125,6 +125,8 @@ export default function AimLabPage() {
 
   const [selectedWeapon, setSelectedWeapon] = useState<Weapon | null>(null);
   const [selectedBullet, setSelectedBullet] = useState<Bullet | null>(null);
+  const [customStats, setCustomStats] = useState<CustomStats | null>(null);
+  const [stance, setStance] = useState<'ads' | 'hip'>('ads');
   const [distance, setDistance] = useState(25);
   const [fireMode, setFireMode] = useState<'semi' | 'auto'>('semi');
   const [ammoTier, setAmmoTier] = useState(-1);
@@ -147,26 +149,13 @@ export default function AimLabPage() {
   const [showTTKPanel, setShowTTKPanel] = useState(true);
   const [showSimPanel, setShowSimPanel] = useState(true);
 
-  // Smart attachment system
-  const [selectedAttachments, setSelectedAttachments] = useState<Record<string, CompatiblePart | null>>({});
-
-  const tagIndex = useMemo(
-    () => buildTagIndex(accessories, partCompatOverrides),
-    [accessories, partCompatOverrides],
-  );
-
-  // Which of the fixed categories this weapon actually supports, in display order.
-  const attachmentCategories = selectedWeapon
-    ? GUNSMITH_CATEGORIES.filter(cat =>
-        selectedWeapon.supportedTags?.some(t => t.startsWith('Assemble.' + cat + '.')))
-    : [];
-
   const autoTimer = useRef<NodeJS.Timeout | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const burstCount = useRef(0);
   const lastRecoil = useRef({ x: 0, y: 0 });
   const settleCenter = useRef({ x: 0, y: 0 }); // plateau the pattern climbs to before it settles into shake
   const mouseAim = useRef({ x: 0, y: 0 }); // live mouse-tracked aim (cm), updated on every mousemove regardless of fire state
+  const ergonomicsRef = useRef(0); // for rAF recovery speed
 
   // ── Animation state (refs for smooth 60fps interpolation) ──
   const displayAim = useRef({ aimCmX: 0, aimCmY: 0 }); // smoothly interpolated crosshair
@@ -192,19 +181,12 @@ export default function AimLabPage() {
       fetch('/abi-maps/data/weapon-detail.json').then(r => r.json()),
       fetch('/abi-maps/data/bullet-detail.json').then(r => r.json()),
       fetch('/abi-maps/data/item_names.json').then(r => r.json()),
-      fetch('/abi-maps/data/weapon-parts.json').then(r => r.json()).catch(() => ({})),
       fetch('/abi-maps/data/damage_overview.json').then(r => r.json()).catch(() => []),
       fetch('/abi-maps/data/avg_shots.json').then(r => r.json()).catch(() => []),
       fetch('/abi-maps/data/armor-detail.json').then(r => r.json()).catch(() => []),
-      fetch('/abi-maps/data/weapon-part-compat.json').then(r => r.json()).catch(() => ({})),
-      fetch('/abi-maps/data/weapon-part-overrides.json').then(r => r.json()).catch(() => ({})),
-    ]).then(([wd, bd, nm, pc, dov, avg, ad, compat, overrides]) => {
+    ]).then(([wd, bd, nm, dov, avg, ad]) => {
       setNames(nm);
       setWeapons(wd.weapons || []);
-      setAccessories(wd.accessories || []);
-      setPartCatalog(pc || {});
-      setWeaponOverrides(overrides || {});
-      setPartCompatOverrides(compat || {});
       setBullets(Array.isArray(bd) ? bd : (bd.bullets || []));
       setDmgOverview(indexDamageOverview(Array.isArray(dov) ? dov : []));
       setAvgShots(indexAvgShots(Array.isArray(avg) ? avg : []));
@@ -224,62 +206,57 @@ export default function AimLabPage() {
       })
     : [];
 
-  // ── Effective stats ──
+  // ── Preset loader: weapon change fills the editable stats ──
+  useEffect(() => {
+    if (!selectedWeapon) return;
+    const ws = selectedWeapon.stats as Record<string, unknown>;
+    setCustomStats({
+      vRecoil: Number(ws?.VerticalRecoil || 0),
+      hRecoil: Number(ws?.HorizontalRecoil || 0),
+      ergonomics: Number(ws?.Engonomics || 0),
+      stability: Number(ws?.WeaponStability || 0),
+      accuracy: Number(ws?.Accuracy || 70),
+      hipFireStability: 0,
+      effectiveRange: Math.round(Number(ws?.ZeroDropDistance || 5000) / 100),
+    });
+  }, [selectedWeapon?.id]);
+
+  // ── Effective stats (user-editable, preset from weapon) ──
   const getEffectiveStats = useCallback(() => {
     if (!selectedWeapon) return null;
     const ws = selectedWeapon.stats as Record<string, unknown>;
     if (!ws) return null;
+    const bs = selectedBullet?.stats as Record<string, unknown>;
+    const cs = customStats;
 
-    let vRec = Number(ws?.VerticalRecoil || 0);
-    let hRec = Number(ws?.HorizontalRecoil || 0);
-    let accStat = Number(ws?.Accuracy || 70);
-    let adsMoaX = Number(ws?.AdsMoaX || 30);
-    let adsMoaY = Number(ws?.AdsMoaY || 30);
-    let velocity = Number(ws?.MuzzleVelocity || 800);
-    let weaponZero = Number(ws?.ZeroDropDistance || 5000) / 100;
-    let stability = Number(ws?.WeaponStability || 0);
-    let ergonomics = Number(ws?.Engonomics || 0);
-    let dmgMod = Number(ws?.AdapterAdjustDamage || 0);
-
-    for (const [, part] of Object.entries(selectedAttachments)) {
-      if (!part) continue;
-      const isCatalog = part.source === 'catalog';
-      const as = isCatalog ? part.raw : part.stats;
-      if (!as) continue;
-      if (isCatalog) {
-        const cat = as as Record<string, string>;
-        vRec += Number(cat['sVerticalRearSeatControl'] || 0);
-        hRec += Number(cat['sHorizontalRearSeatControl'] || 0);
-        ergonomics += Number(cat['sHumanMachineEfficiency'] || 0);
-        accStat += Number(cat['sAccuracy'] || 0);
-        stability += Number(cat['sLumbarStability'] || 0);
-      } else {
-        if (as.VerticalRecoil !== undefined) vRec += Number(as.VerticalRecoil);
-        if (as.HorizontalRecoil !== undefined) hRec += Number(as.HorizontalRecoil);
-        if (as.Accuracy !== undefined) accStat += Number(as.Accuracy);
-        if (as.AdsMoaX !== undefined) adsMoaX += Number(as.AdsMoaX);
-        if (as.AdsMoaY !== undefined) adsMoaY += Number(as.AdsMoaY);
-        if (as.MuzzleVelocity !== undefined) velocity += Number(as.MuzzleVelocity);
-        if (as.WeaponStability !== undefined) stability += Number(as.WeaponStability);
-        if (as.Engonomics !== undefined) ergonomics += Number(as.Engonomics);
-        if (as.AdapterAdjustDamage !== undefined) dmgMod += Number(as.AdapterAdjustDamage);
-        if (as.MoaScale !== undefined) { adsMoaX += Number(as.MoaScale); adsMoaY += Number(as.MoaScale); }
-      }
-    }
+    const vRec = (cs?.vRecoil ?? Number(ws?.VerticalRecoil || 0)) + Number(bs?.VerticalRecoil || 0);
+    const hRec = (cs?.hRecoil ?? Number(ws?.HorizontalRecoil || 0)) + Number(bs?.HorizontalRecoil || 0);
+    const accStat = cs?.accuracy ?? Number(ws?.Accuracy || 70);
+    const stability = cs?.stability ?? Number(ws?.WeaponStability || 0);
+    const ergonomics = cs?.ergonomics ?? Number(ws?.Engonomics || 0);
+    const hipStab = cs?.hipFireStability ?? 0;
+    const weaponZero = cs?.effectiveRange ?? Number(ws?.ZeroDropDistance || 5000) / 100;
+    const velocity = Number(ws?.MuzzleVelocity || 800);
+    const dmgMod = Number(ws?.AdapterAdjustDamage || 0);
 
     return {
       vRecoil: Math.max(0, vRec),
       hRecoil: Math.max(0, hRec),
       accuracy: Math.max(1, accStat),
-      adsMoaX: Math.max(0.5, adsMoaX),
-      adsMoaY: Math.max(0.5, adsMoaY),
       velocity,
       zeroDist: weaponZero,
       stability,
       ergonomics,
+      hipFireStability: hipStab,
       dmgMod,
     };
-  }, [selectedWeapon, selectedAttachments]);
+  }, [selectedWeapon, selectedBullet, customStats]);
+
+  // Ergonomics → crosshair recovery speed (rAF reads the ref)
+  useEffect(() => {
+    const eff = getEffectiveStats();
+    ergonomicsRef.current = eff?.ergonomics ?? 0;
+  }, [getEffectiveStats]);
 
   // ── Calculate spread & recoil for a shot ──
   const calcShot = useCallback((shotNum: number, type: 'semi' | 'auto', aimCmX: number, aimCmY: number) => {
@@ -311,9 +288,13 @@ export default function AimLabPage() {
     const ceilingMoaY = Math.max(0.5, ceilingMoaBase + bulletMoaY);
 
     const sustainedCount = type === 'semi' ? 0 : burstCount.current;
-    const bloomMult = getBloomMult(sustainedCount, avgKick);
-    const spreadMoaX = ceilingMoaX * bloomMult;
-    const spreadMoaY = ceilingMoaY * bloomMult;
+    const bloomMult = getBloomMult(sustainedCount, avgKick, eff.stability);
+
+    // Hip fire: much wider cone, tightened by hip-fire stability; kicks harder too.
+    const stanceSpread = stance === 'hip' ? Math.max(1.5, 4.5 - (eff.hipFireStability / 100) * 3) : 1;
+    const stanceKick = stance === 'hip' ? 1.5 : 1;
+    const spreadMoaX = ceilingMoaX * bloomMult * stanceSpread;
+    const spreadMoaY = ceilingMoaY * bloomMult * stanceSpread;
 
     const spreadX_cm = spreadMoaX * MOA_TO_CM;
     const spreadY_cm = spreadMoaY * MOA_TO_CM;
@@ -328,9 +309,9 @@ export default function AimLabPage() {
     const BASE_SETTLE_MOA = 0.9;
     const BASE_CLIMB_MOA = 1.6;
     const BASE_DRIFT_MOA = 1.0;
-    const recoilMoa = BASE_SETTLE_MOA * avgKick;
-    const climbMoa = BASE_CLIMB_MOA * vKick;
-    const driftMoa = BASE_DRIFT_MOA * hKick;
+    const recoilMoa = BASE_SETTLE_MOA * avgKick * stanceKick;
+    const climbMoa = BASE_CLIMB_MOA * vKick * stanceKick;
+    const driftMoa = BASE_DRIFT_MOA * hKick * stanceKick;
     const SETTLED_RADIUS_cm = recoilMoa * MOA_TO_CM;
     const CLIMB_cm = climbMoa * MOA_TO_CM;
     const DRIFT_cm = driftMoa * MOA_TO_CM;
@@ -396,7 +377,7 @@ export default function AimLabPage() {
       spreadX_cm, spreadY_cm,
       bloomFactor: bloomMult,
     };
-  }, [selectedWeapon, selectedBullet, distance, getEffectiveStats, zeroDistance]);
+  }, [selectedWeapon, selectedBullet, distance, getEffectiveStats, zeroDistance, stance]);
 
   // ── Firing ──
   const fireOnce = useCallback(() => {
@@ -516,13 +497,14 @@ export default function AimLabPage() {
       dAim.aimCmX = lerp(dAim.aimCmX, ch.aimCmX, lerpSpeed);
       dAim.aimCmY = lerp(dAim.aimCmY, ch.aimCmY, lerpSpeed);
 
-      // Handle smooth recoil recovery
+      // Handle smooth recoil recovery — speed scales with ergonomics
       if (recoveryRef.current && !isFiringRef.current) {
         const rTarget = recoveryTarget.current;
-        ch.aimCmX = lerp(ch.aimCmX, rTarget.aimCmX, 0.04);
-        ch.aimCmY = lerp(ch.aimCmY, rTarget.aimCmY, 0.04);
-        dAim.aimCmX = lerp(dAim.aimCmX, rTarget.aimCmX, 0.06);
-        dAim.aimCmY = lerp(dAim.aimCmY, rTarget.aimCmY, 0.06);
+        const ergoLerp = 0.02 + (ergonomicsRef.current / 100) * 0.06; // 0.02 slow → 0.08 fast (ergo 100)
+        ch.aimCmX = lerp(ch.aimCmX, rTarget.aimCmX, ergoLerp);
+        ch.aimCmY = lerp(ch.aimCmY, rTarget.aimCmY, ergoLerp);
+        dAim.aimCmX = lerp(dAim.aimCmX, rTarget.aimCmX, ergoLerp + 0.02);
+        dAim.aimCmY = lerp(dAim.aimCmY, rTarget.aimCmY, ergoLerp + 0.02);
         // Stop recovery when close enough
         if (Math.abs(ch.aimCmX - rTarget.aimCmX) < 0.05 &&
             Math.abs(ch.aimCmY - rTarget.aimCmY) < 0.05) {
@@ -573,36 +555,6 @@ export default function AimLabPage() {
       if (autoTimer.current) clearInterval(autoTimer.current);
     };
   }, []);
-
-  // ── Load Gunsmith build for selected weapon ──
-  useEffect(() => {
-    if (!selectedWeapon) { setSelectedAttachments({}); return; }
-    const build = getBuildForWeapon(selectedWeapon.id);
-    if (build) {
-      // Convert gunsmith build (category→partId) to aim-lab format
-      const mapped: Record<string, CompatiblePart | null> = {};
-      for (const [cat, partId] of Object.entries(build.attachments)) {
-        if (partId > 0) {
-          const acc = accessories.find(a => a.id === partId);
-          if (acc) {
-            mapped[cat] = {
-              id: acc.id, name: names[String(acc.id)] || String(acc.id),
-              tag: acc.tag, source: 'accessory', stats: acc.stats,
-              raw: acc as unknown as Record<string, unknown>,
-            };
-          } else {
-            const catalogPart = partCatalog[String(partId)];
-            mapped[cat] = {
-              id: partId, name: catalogPart?.n ? String(catalogPart.n) : String(partId),
-              tag: tagIndex.get(partId), source: 'catalog',
-              raw: (catalogPart as unknown as Record<string, unknown>) || {},
-            };
-          }
-        }
-      }
-      setSelectedAttachments(mapped);
-    }
-  }, [selectedWeapon?.id, accessories, partCatalog, tagIndex, names]);
 
   // ── Live Simulation Effect (runs on weapon/bullet/armor/distance change) ──
   useEffect(() => {
@@ -731,13 +683,16 @@ export default function AimLabPage() {
     const getSpreading = (): number => {
       if (!profile) return FIRST_SHOT_FRACTION;
       const sustainedCount = fireMode === 'auto' ? burstCount.current : 0;
-      return getBloomMult(sustainedCount, profile.avgKick);
+      return getBloomMult(sustainedCount, profile.avgKick, eff?.stability ?? 0);
     };
+    const stanceSpreadMult = stance === 'hip'
+      ? Math.max(1.5, 4.5 - ((eff?.hipFireStability ?? 0) / 100) * 3)
+      : 1;
 
     if (showSpreadPreview && eff && profile && selectedBullet && hoveringCanvas) {
       const bloomMult = getSpreading();
-      const previewMoaX = Math.max(0.5, profile.ceilingMoaBase + bulletMoaX2) * bloomMult;
-      const previewMoaY = Math.max(0.5, profile.ceilingMoaBase + bulletMoaY2) * bloomMult;
+      const previewMoaX = Math.max(0.5, profile.ceilingMoaBase + bulletMoaX2) * bloomMult * stanceSpreadMult;
+      const previewMoaY = Math.max(0.5, profile.ceilingMoaBase + bulletMoaY2) * bloomMult * stanceSpreadMult;
       const { rx, ry } = trueSpreadPx(previewMoaX, previewMoaY);
 
       // Use the smoothly interpolated crosshair position for the preview center
@@ -779,10 +734,10 @@ export default function AimLabPage() {
       // ellipse radius matches exactly where bullets land (same calcShot math).
       const bloomMult = getSpreading();
       const crossMoaX = profile
-        ? Math.max(0.5, profile.ceilingMoaBase + bulletMoaX3) * bloomMult
+        ? Math.max(0.5, profile.ceilingMoaBase + bulletMoaX3) * bloomMult * stanceSpreadMult
         : 3;
       const crossMoaY = profile
-        ? Math.max(0.5, profile.ceilingMoaBase + bulletMoaY3) * bloomMult
+        ? Math.max(0.5, profile.ceilingMoaBase + bulletMoaY3) * bloomMult * stanceSpreadMult
         : 3;
       const { rx, ry } = trueSpreadPx(crossMoaX, crossMoaY);
 
@@ -883,7 +838,7 @@ export default function AimLabPage() {
       ctx.fillText(zeroText, 12, H - 10);
     }
 
-  }, [shots, distance, crosshair, hoveringCanvas, fireMode, selectedWeapon, selectedBullet,
+  }, [shots, distance, crosshair, hoveringCanvas, fireMode, stance, selectedWeapon, selectedBullet,
       getEffectiveStats, showSpreadPreview, isFiring, zeroDistance, drawTick]);
 
   // ── Canvas mouse handlers ──
@@ -971,7 +926,7 @@ export default function AimLabPage() {
             Back to Tracker
           </Link>
           <h1 className="text-2xl font-bold font-display text-gradient">Aim Lab</h1>
-          <p className="text-xs text-[#9CA3AF]">Aim with mouse crosshair — each shot is a ballistics roll. Adjust Zero In, see patterns instantly.</p>
+          <p className="text-xs text-[#9CA3AF]">Aim with mouse crosshair — each shot is a ballistics roll. Stats are editable to match the game's gunsmith; Muzzle Vel comes from the weapon.</p>
         </div>
       </div>
 
@@ -986,7 +941,6 @@ export default function AimLabPage() {
               if (w) {
                 setSelectedWeapon(w);
                 clearTarget();
-                setSelectedAttachments({});
                 const wZero = Number((w.stats as Record<string, unknown>)?.ZeroDropDistance || 5000) / 100;
                 setZeroDistance(prev => Math.min(prev, Math.max(5, Math.round(wZero))));
               }
@@ -1050,80 +1004,12 @@ export default function AimLabPage() {
             </div>
           </div>
           <div className="glass rounded-xl p-3">
-            <label className="block text-[10px] text-[#D4AF37] uppercase mb-1">Weapon Zero</label>
+            <label className="block text-[10px] text-[#D4AF37] uppercase mb-1">Effective Range</label>
             <div className="text-[11px] text-white font-mono mt-2">
-              Base: {eff?.zeroDist.toFixed(0) || '?'}m
+              Set: {eff?.zeroDist.toFixed(0) || '?'}m
             </div>
             <div className="text-[9px] text-[#6B7280] mt-1">Velocity: {eff?.velocity || '?'} m/s</div>
           </div>
-        </div>
-
-        {/* Smart Attachment Tree */}
-        <div className="mb-4">
-          <details className="glass rounded-xl p-3" open>
-            <summary className="text-[10px] text-[#D4AF37] uppercase tracking-wider cursor-pointer select-none">
-              Attachments ({attachmentCategories.length} categories)
-              <span className="text-[#6B7280] font-normal lowercase ml-1">— only parts that fit this weapon are listed</span>
-            </summary>
-            <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
-              {attachmentCategories.map(category => {
-                if (!selectedWeapon) return null;
-                const allItems = getCompatibleParts(selectedWeapon, category, accessories, partCatalog, tagIndex, names, weaponOverrides);
-                const selected = selectedAttachments[category] || null;
-
-                return (
-                  <div key={category} className="bg-white/5 rounded-lg p-2">
-                    <div className="text-[9px] text-[#D4AF37] uppercase mb-1 font-semibold">
-                      {category}
-                      {allItems.length > 0 && <span className="text-[#6B7280] font-normal"> ({allItems.length})</span>}
-                    </div>
-                    {allItems.length > 0 ? (
-                      <select value={selected?.id ?? 0}
-                        onChange={e => {
-                          const id = Number(e.target.value);
-                          setSelectedAttachments(prev => ({ ...prev, [category]: id > 0 ? (allItems.find(a => a.id === id) ?? null) : null }));
-                          clearTarget();
-                        }}
-                        className="w-full text-[9px] bg-[#1a1a1a] text-[#9CA3AF] border border-white/5 rounded outline-none">
-                        <option value={0} className="bg-[#1a1a1a]">None (stock)</option>
-                        {allItems.map(part => {
-                          const isCatalog = part.source === 'catalog';
-                          const s = (isCatalog ? part.raw : part.stats) || {};
-                          const parts: string[] = [];
-                          const vr = isCatalog ? Number((s as Record<string, string>)['sVerticalRearSeatControl'] || 0) : Number((s as Record<string, unknown>).VerticalRecoil ?? 0);
-                          const hr = isCatalog ? Number((s as Record<string, string>)['sHorizontalRearSeatControl'] || 0) : Number((s as Record<string, unknown>).HorizontalRecoil ?? 0);
-                          const ergo = isCatalog ? Number((s as Record<string, string>)['sHumanMachineEfficiency'] || 0) : 0;
-                          const acc = isCatalog ? Number((s as Record<string, string>)['sAccuracy'] || 0) : Number((s as Record<string, unknown>).Accuracy ?? 0);
-                          const dmg = isCatalog ? 0 : Number((s as Record<string, unknown>).AdapterAdjustDamage ?? 0);
-                          const moa = isCatalog ? 0 : Number((s as Record<string, unknown>).AdsMoaX ?? 0);
-                          if (vr !== 0) parts.push(`V${vr > 0 ? '+' : ''}${vr}`);
-                          if (hr !== 0) parts.push(`H${hr > 0 ? '+' : ''}${hr}`);
-                          if (ergo !== 0) parts.push(`E${ergo > 0 ? '+' : ''}${ergo}`);
-                          if (acc !== 0) parts.push(`Acc${acc > 0 ? '+' : ''}${acc}`);
-                          if (dmg !== 0) parts.push(`Dmg${dmg}`);
-                          if (moa !== 0) parts.push(`Moa${moa > 0 ? '+' : ''}${moa}`);
-                          return (
-                            <option key={String(part.id)} value={String(part.id)} className="bg-[#1a1a1a]">
-                              {part.name}{parts.length > 0 ? ` (${parts.join(' ')})` : ''}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    ) : (
-                      <div className="text-[8px] text-[#4B5563] leading-tight opacity-50">
-                        No compatible parts found
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-            <div className="mt-2 text-[8px] text-[#4B5563] leading-relaxed">
-              <span className="text-[#D4AF37]">Barrel</span> → changes DMG,Recoil,MOA &nbsp;|&nbsp;
-              <span className="text-[#D4AF37]">Stock</span> → changes Recoil &nbsp;|&nbsp;
-              <span className="text-[#D4AF37]">Handguard → Rail → Grip</span> hierarchy supported
-            </div>
-          </details>
         </div>
 
         {/* Target + Controls side by side */}
@@ -1168,6 +1054,32 @@ export default function AimLabPage() {
                     }`}
                   >
                     AUTO
+                  </button>
+                </div>
+
+                <span className="text-[10px] text-[#6B7280]">|</span>
+
+                {/* Stance toggle */}
+                <div className="flex gap-1 bg-[#1A1A1A] rounded-lg p-0.5">
+                  <button
+                    onClick={() => setStance('ads')}
+                    className={`px-2 py-1.5 rounded-md text-[10px] font-medium transition-all ${
+                      stance === 'ads'
+                        ? 'bg-[#4ade80]/20 text-[#4ade80]'
+                        : 'text-[#9CA3AF] hover:text-white'
+                    }`}
+                  >
+                    ADS
+                  </button>
+                  <button
+                    onClick={() => setStance('hip')}
+                    className={`px-2 py-1.5 rounded-md text-[10px] font-medium transition-all ${
+                      stance === 'hip'
+                        ? 'bg-orange-500/20 text-orange-400'
+                        : 'text-[#9CA3AF] hover:text-white'
+                    }`}
+                  >
+                    HIP
                   </button>
                 </div>
 
@@ -1240,20 +1152,47 @@ export default function AimLabPage() {
                   <h3 className="text-xs text-[#D4AF37] uppercase tracking-wider">{getName(String(selectedWeapon.id))}</h3>
                 </div>
               )}
-              {eff && (
-                <div className="text-[11px] space-y-1 text-[#9CA3AF] font-mono">
-                  <div className="flex justify-between"><span>ADS MOA</span><span className="text-white">{eff.adsMoaX.toFixed(1)}x{eff.adsMoaY.toFixed(1)}</span></div>
-                  <div className="flex justify-between"><span>Accuracy</span><span className="text-white">{eff.accuracy}%</span></div>
-                  <div className="flex justify-between"><span>Stability</span><span className="text-white">{eff.stability}</span></div>
-                  <div className="flex justify-between"><span>Velocity</span><span className="text-white">{eff.velocity} m/s</span></div>
-                  <div className="flex justify-between"><span>Weapon Zero</span><span className="text-white">{eff.zeroDist.toFixed(0)}m</span></div>
-                  <div className="flex justify-between"><span>Zero In (set)</span><span className="text-[#4ade80]">{zeroDistance}m</span></div>
-                  <div className="flex justify-between"><span>RPM</span><span className="text-white">{String((selectedWeapon?.stats as Record<string, unknown>)?.FireRate ?? '?')}</span></div>
-                  <div className="flex justify-between border-t border-white/5 pt-1 mt-1">
-                    <span>Bound Circle Bloom</span>
-                    <span className={isFiring ? 'text-orange-400' : 'text-[#6B7280]'}>
-                      {(recoilProfile ? getBloomMult(fireMode === 'auto' ? burstCount.current : 0, recoilProfile.avgKick) * 100 : 22).toFixed(0)}% of ceiling
-                    </span>
+              {/* Editable stats — preset loaded from the weapon, tweak to match the game */}
+              {customStats && (
+                <div className="text-[10px] space-y-1.5 text-[#9CA3AF] font-mono">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[#D4AF37] text-[9px] uppercase tracking-wider">Weapon Stats (editable)</span>
+                    <button onClick={() => {
+                      const ws = selectedWeapon?.stats as Record<string, unknown> | undefined;
+                      if (!ws) return;
+                      setCustomStats({
+                        vRecoil: Number(ws.VerticalRecoil || 0),
+                        hRecoil: Number(ws.HorizontalRecoil || 0),
+                        ergonomics: Number(ws.Engonomics || 0),
+                        stability: Number(ws.WeaponStability || 0),
+                        accuracy: Number(ws.Accuracy || 70),
+                        hipFireStability: 0,
+                        effectiveRange: Math.round(Number(ws.ZeroDropDistance || 5000) / 100),
+                      });
+                    }} className="text-[8px] text-[#6B7280] hover:text-[#D4AF37]">↺ reset</button>
+                  </div>
+                  {([
+                    ['vRecoil', 'V.Recoil Ctl', 0, 100, 1],
+                    ['hRecoil', 'H.Recoil Ctl', 0, 100, 1],
+                    ['accuracy', 'Accuracy', 1, 100, 1],
+                    ['stability', 'Weapon Stability', 0, 100, 1],
+                    ['ergonomics', 'Ergonomics', 0, 100, 1],
+                    ['hipFireStability', 'Hip-Fire Stability', 0, 100, 1],
+                    ['effectiveRange', 'Effective Range (m)', 10, 300, 5],
+                  ] as [keyof CustomStats, string, number, number, number][]).map(([key, label, min, max, step]) => (
+                    <div key={key} className="flex items-center justify-between gap-2">
+                      <span className="text-[#9CA3AF]">{label}</span>
+                      <input type="number" min={min} max={max} step={step} value={customStats[key]}
+                        onChange={e => setCustomStats(prev => prev ? { ...prev, [key]: Number(e.target.value) } : prev)}
+                        className="w-16 bg-[#1a1a1a] text-white border border-white/10 rounded px-1.5 py-0.5 text-right outline-none focus:border-[#D4AF37]" />
+                    </div>
+                  ))}
+                  <div className="border-t border-white/5 pt-1.5 mt-1.5 space-y-1">
+                    <div className="flex justify-between"><span>Muzzle Vel (auto)</span><span className="text-white">{eff?.velocity ?? '?'} m/s</span></div>
+                    <div className="flex justify-between"><span>RPM (auto)</span><span className="text-white">{String((selectedWeapon?.stats as Record<string, unknown>)?.FireRate ?? '?')}</span></div>
+                    <div className="flex justify-between"><span>Stance</span><span className={stance === 'hip' ? 'text-orange-400' : 'text-[#4ade80]'}>
+                      {stance === 'hip' ? `HIP — ×${(eff ? Math.max(1.5, 4.5 - (eff.hipFireStability / 100) * 3) : 4.5).toFixed(1)} spread` : 'ADS — ×1.0'}
+                    </span></div>
                   </div>
                 </div>
               )}
@@ -1269,15 +1208,21 @@ export default function AimLabPage() {
               )}
               {eff && recoilProfile && (
                 <div className="text-[11px] space-y-1 text-[#9CA3AF] font-mono mt-2 pt-2 border-t border-white/5">
-                  <div className="flex justify-between"><span>V.Recoil Control</span><span className="text-orange-400">{eff.vRecoil}</span></div>
-                  <div className="flex justify-between"><span>H.Recoil Control</span><span className="text-orange-400">{eff.hRecoil}</span></div>
-                  <div className="flex justify-between"><span>Settled radius</span><span className="text-white">{(0.9 * recoilProfile.avgKick * distance / 100 * 2.9089).toFixed(1)} cm</span></div>
+                  <div className="flex justify-between"><span>V.Recoil (eff)</span><span className="text-orange-400">{eff.vRecoil.toFixed(0)}</span></div>
+                  <div className="flex justify-between"><span>H.Recoil (eff)</span><span className="text-orange-400">{eff.hRecoil.toFixed(0)}</span></div>
+                  <div className="flex justify-between"><span>Settled radius</span><span className="text-white">{(0.9 * recoilProfile.avgKick * (stance === 'hip' ? 1.5 : 1) * distance / 100 * 2.9089).toFixed(1)} cm</span></div>
                   <div className="flex justify-between"><span>Opening shot @ {distance}m</span><span className="text-white">
-                    {((recoilProfile.ceilingMoaBase + Number((selectedBullet?.stats as Record<string, unknown>)?.MoaX || 0)) * FIRST_SHOT_FRACTION * distance / 100 * 2.9089).toFixed(1)} cm
+                    {((recoilProfile.ceilingMoaBase + Number((selectedBullet?.stats as Record<string, unknown>)?.MoaX || 0)) * FIRST_SHOT_FRACTION * (stance === 'hip' ? Math.max(1.5, 4.5 - (eff.hipFireStability / 100) * 3) : 1) * distance / 100 * 2.9089).toFixed(1)} cm
                   </span></div>
                   <div className="flex justify-between"><span>Bloomed ceiling @ {distance}m</span><span className="text-white">
-                    {((recoilProfile.ceilingMoaBase + Number((selectedBullet?.stats as Record<string, unknown>)?.MoaX || 0)) * distance / 100 * 2.9089).toFixed(1)} cm
+                    {((recoilProfile.ceilingMoaBase + Number((selectedBullet?.stats as Record<string, unknown>)?.MoaX || 0)) * (stance === 'hip' ? Math.max(1.5, 4.5 - (eff.hipFireStability / 100) * 3) : 1) * distance / 100 * 2.9089).toFixed(1)} cm
                   </span></div>
+                  <div className="flex justify-between border-t border-white/5 pt-1 mt-1">
+                    <span>Bound Circle Bloom</span>
+                    <span className={isFiring ? 'text-orange-400' : 'text-[#6B7280]'}>
+                      {(getBloomMult(fireMode === 'auto' ? burstCount.current : 0, recoilProfile.avgKick, eff.stability) * 100).toFixed(0)}% of ceiling
+                    </span>
+                  </div>
                 </div>
               )}
             </div>
@@ -1436,12 +1381,13 @@ export default function AimLabPage() {
                 <h3 className="text-xs text-[#D4AF37] uppercase tracking-wider mb-2">How to Use</h3>
                 <div className="text-[10px] text-[#9CA3AF] space-y-2 leading-relaxed">
                   <p>1. Move mouse over target → crosshair follows</p>
-                  <p>2. Crosshair size = spread cone at current range</p>
+                  <p>2. Crosshair ellipse = TRUE spread cone (bullets land inside it)</p>
                   <p>3. Click or press FIRE to shoot</p>
                   <p>4. Each shot = random ballistics roll</p>
                   <p>5. <span className="text-[#4ade80]">Zero In</span>: adjust aim distance</p>
                   <p>6. AUTO mode: hold to see recoil pattern</p>
-                  <p>7. Instant pattern shows expected spread zone</p>
+                  <p>7. <span className="text-[#D4AF37]">Weapon Stats</span>: type the game's gunsmith values to compare placement</p>
+                  <p>8. <span className="text-orange-400">HIP</span> mode: wider cone scaled by hip-fire stability</p>
                 </div>
               </div>
             )}
