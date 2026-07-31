@@ -37,10 +37,13 @@ export interface SimResult {
   rpm: number;
 }
 
-// ── Distance Factor (step function) ─────────────────────────────
-export function calcDistanceFactor(range: number, dd: DamageDistance | null | undefined): { factor: number; effectiveRange: number } {
+// ── Distance Factor (falloff) ──────────────────────────────
+// Effective range = weapon ZeroDropDistance/100 (matches the game's
+// displayed "Range Xm" — verified: AEK 5900→59m, AKM 5400→54m vs
+// abi-tracker avg_shots combo labels). Fallback to damageModifyZeroDistance.
+export function calcDistanceFactor(range: number, dd: DamageDistance | null | undefined, zeroDropUnits?: number): { factor: number; effectiveRange: number } {
   if (!dd || !dd.damageModifyZeroDistance) return { factor: 1.0, effectiveRange: 0 };
-  const effRange = dd.damageModifyZeroDistance / 100;
+  const effRange = ((zeroDropUnits && zeroDropUnits > 0 ? zeroDropUnits : dd.damageModifyZeroDistance)) / 100;
   if (range <= effRange) return { factor: 1.0, effectiveRange: effRange };
   const minRatio = dd.damage > 0 ? dd.damageMin / dd.damage : 0;
   const scaled = 1.0 - dd.damageDistanceModifier * (range - effRange);

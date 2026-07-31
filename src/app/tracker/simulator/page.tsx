@@ -95,7 +95,8 @@ export default function SimulatorPage() {
     const rpm = Number(ws?.FireRate || 0);
     const fireInterval = rpm > 0 ? 60 / rpm : 0;
     const dd = selectedWeapon.damageDistance;
-    const { factor: distFactor, effectiveRange } = calcDistanceFactor(range, dd);
+    const zeroDrop = Number(ws?.ZeroDropDistance ?? 0);
+    const { factor: distFactor, effectiveRange } = calcDistanceFactor(range, dd, zeroDrop);
 
     // ── Helmet simulation ──
     if (selectedHelmet) {

@@ -612,7 +612,7 @@ export default function AimLabPage() {
     const fireInterval = rpm > 0 ? 60 / rpm : 0;
     const vel = Math.max(Number(ws?.MuzzleVelocity || 0), Number(s?.BaseSpeed || 0) / 100) || 800;
     const travelTime = distance > 0 ? distance / vel : 0;
-    const { factor, effectiveRange } = calcDistanceFactor(distance, selectedWeapon.damageDistance as unknown as DamageDistance);
+    const { factor, effectiveRange } = calcDistanceFactor(distance, selectedWeapon.damageDistance as unknown as DamageDistance, Number((selectedWeapon.stats as Record<string, unknown>)?.ZeroDropDistance ?? 0));
     const as = simArmor.stats as Record<string, unknown>;
     const al = Number(as?.armor_level ?? 0);
     const adur = Number(simArmor.durabilityMax ?? 0) / 10;
