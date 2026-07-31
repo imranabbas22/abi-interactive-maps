@@ -338,13 +338,20 @@ export default function AimLabPage() {
     let recoilX: number, recoilY: number;
 
     if (type === 'semi') {
-      recoilX = (Math.random() - 0.5) * 2 * DRIFT_cm;
-      recoilY = Math.random() * CLIMB_cm; // recoil always kicks the muzzle up, never down
+      // A single tap's bullet exits before the muzzle rises — it lands at
+      // the aim point + spread only, NO recoil offset (fixes the systematic
+      // up-bias that made every tap land above the crosshair).
+      recoilX = 0;
+      recoilY = 0;
       burstCount.current = 0;
       lastRecoil.current = { x: 0, y: 0 };
       settleCenter.current = { x: 0, y: 0 };
     } else {
-      if (burstCount.current < 5) {
+      if (burstCount.current === 0) {
+        // First auto shot: no climb yet (bullet exits before muzzle rise)
+        recoilX = (Math.random() - 0.5) * DRIFT_cm * 0.3;
+        recoilY = 0;
+      } else if (burstCount.current < 5) {
         const c = (5 - burstCount.current) / 5;
         recoilX = lastRecoil.current.x + (Math.random() - 0.5) * DRIFT_cm;
         recoilY = lastRecoil.current.y + CLIMB_cm * (1.5 - c * 0.5); // climb UP (+Y) as the burst progresses
@@ -411,9 +418,8 @@ export default function AimLabPage() {
       aimX, aimY,
     }]);
     setRoundCount(r => r + 1);
-    // Start recovery animation after semi shot
-    recoveryRef.current = true;
-    recoveryTarget.current = { aimCmX: aimX * 0.3, aimCmY: aimY * 0.3 };
+    // Semi taps leave the crosshair on the aim point (no recoil to recover —
+    // the bullet lands at aim + spread). Flash/shake still animate.
     startAnimLoop();
   }
   }, [calcShot, roundCount, hoveringCanvas]);
@@ -702,11 +708,12 @@ export default function AimLabPage() {
       ctx.translate(shakeX, shakeY);
     }
 
-    // ── Helper: visual spread radius in pixels (capped for display) ──
-    const visualSpreadPx = (moaX: number, moaY: number): number => {
-      const avgCm = ((moaX + moaY) / 2) * (distance / 100) * 2.9089;
-      const ratio = Math.min(1, avgCm / 15); // fraction of target radius
-      return 4 + ratio * 36; // 4px (tight) to 40px (max spread)
+    // ── Helper: TRUE spread ellipse in pixels (matches calcShot exactly) ──
+    const trueSpreadPx = (moaX: number, moaY: number): { rx: number; ry: number } => {
+      const cmPerMoa = (distance / 100) * 2.9089;
+      const rx = Math.min(maxRadius, Math.max(2, moaX * cmPerMoa * cmToPx));
+      const ry = Math.min(maxRadius, Math.max(2, moaY * cmPerMoa * cmToPx));
+      return { rx, ry };
     };
 
     // ── Expected spread pattern (ghost zone preview) ──
@@ -731,28 +738,30 @@ export default function AimLabPage() {
       const bloomMult = getSpreading();
       const previewMoaX = Math.max(0.5, profile.ceilingMoaBase + bulletMoaX2) * bloomMult;
       const previewMoaY = Math.max(0.5, profile.ceilingMoaBase + bulletMoaY2) * bloomMult;
-      const sp = visualSpreadPx(previewMoaX, previewMoaY);
+      const { rx, ry } = trueSpreadPx(previewMoaX, previewMoaY);
 
       // Use the smoothly interpolated crosshair position for the preview center
       const aimPxX = cx + displayAim.current.aimCmX * cmToPx;
       const aimPxY = cy - displayAim.current.aimCmY * cmToPx;
 
-      // Spread preview as translucent circle
-      ctx.beginPath(); ctx.arc(aimPxX, aimPxY, sp, 0, Math.PI * 2);
+      // Spread preview as translucent ellipse — TRUE scale, matches calcShot
+      ctx.beginPath(); ctx.ellipse(aimPxX, aimPxY, rx, ry, 0, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(212, 175, 55, 0.07)';
       ctx.fill();
-      ctx.strokeStyle = 'rgba(212, 175, 55, 0.2)';
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.25)';
       ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // For auto, show expected recoil trajectory (deterministic dots)
-      // with increasing spread bloom per shot
+      // For auto, show expected recoil trajectory (deterministic dots) at TRUE
+      // climb scale (1.6 MOA × vKick per shot). First shot stays on the aim line.
       if (fireMode === 'auto') {
-        const climbPxStep = sp * 0.12;
+        const climbPx = 1.6 * profile.vKick * (distance / 100) * 2.9089 * cmToPx;
+        const driftPx = 1.0 * profile.hKick * (distance / 100) * 2.9089 * cmToPx;
+        const climbFactors = [0, 1.1, 2.3, 3.6, 5.0, 5.0, 5.0, 5.0]; // cumulative, matches calcShot ramp
         for (let s = 1; s <= 8; s++) {
-          const sx = aimPxX + (s % 3 === 0 ? sp * 0.15 : s % 3 === 1 ? -sp * 0.1 : 0);
-          const sy = aimPxY - climbPxStep * Math.min(s, 5) - (s > 5 ? (s - 5) * climbPxStep * 0.1 : 0);
+          const sx = aimPxX + (s % 3 === 0 ? driftPx * 0.8 : s % 3 === 1 ? -driftPx * 0.5 : 0);
+          const sy = aimPxY - climbPx * climbFactors[s - 1];
           ctx.beginPath(); ctx.arc(sx, sy, 2 + s * 0.3, 0, Math.PI * 2); // bigger dots = bigger bloom
           ctx.fillStyle = `rgba(212, 175, 55, ${0.04 + s * 0.015})`;
           ctx.fill();
@@ -760,17 +769,22 @@ export default function AimLabPage() {
       }
     }
 
-    // ── Crosshair (circle + dot) ──
+    // ── Crosshair (ellipse + dot) ──
     if (hoveringCanvas) {
       const bs3 = selectedBullet?.stats as Record<string, unknown>;
       const bulletMoaX3 = Number(bs3?.MoaX || 0);
-      // Crosshair shows current bloom: tight on the opening shot, opens up
-      // toward the accuracy ceiling during sustained auto fire
+      const bulletMoaY3 = Number(bs3?.MoaY || 0);
+      // Crosshair shows current bloom at TRUE scale: tight on the opening shot,
+      // opens up toward the accuracy ceiling during sustained auto fire — the
+      // ellipse radius matches exactly where bullets land (same calcShot math).
       const bloomMult = getSpreading();
-      const crossMoa = profile
+      const crossMoaX = profile
         ? Math.max(0.5, profile.ceilingMoaBase + bulletMoaX3) * bloomMult
         : 3;
-      const crossRadius_px = visualSpreadPx(crossMoa, crossMoa);
+      const crossMoaY = profile
+        ? Math.max(0.5, profile.ceilingMoaBase + bulletMoaY3) * bloomMult
+        : 3;
+      const { rx, ry } = trueSpreadPx(crossMoaX, crossMoaY);
 
       // Use smoothly interpolated display position (not the raw state)
       const aimPxX = cx + displayAim.current.aimCmX * cmToPx;
@@ -788,9 +802,9 @@ export default function AimLabPage() {
         ctx.fillStyle = flashGrad; ctx.fill();
       }
 
-      // Outer circle (spread indicator) — pulses slightly when firing
-      const pulseRadius = isFiring ? crossRadius_px + flashIntensity.current * 3 : crossRadius_px;
-      ctx.beginPath(); ctx.arc(aimPxX, aimPxY, Math.max(4, pulseRadius), 0, Math.PI * 2);
+      // Outer ellipse (spread indicator) — pulses slightly when firing
+      const pulse = isFiring ? flashIntensity.current * 3 : 0;
+      ctx.beginPath(); ctx.ellipse(aimPxX, aimPxY, Math.max(3, rx + pulse), Math.max(3, ry + pulse), 0, 0, Math.PI * 2);
       ctx.strokeStyle = isFiring ? 'rgba(255,80,80,0.7)' : 'rgba(255,255,255,0.7)';
       ctx.lineWidth = isFiring ? 2 : 1.5; ctx.stroke();
 
