@@ -127,8 +127,8 @@ export default function ArmorSellPage() {
     ? [selectedItem[2], selectedItem[3], selectedItem[4], selectedItem[0], selectedItem[5], selectedItem[6]]
     : [0, 0, 0, '', '', ''];
 
-  const maxDur = parseInt(currentMax) || factoryMax || 0;
-  const currentDurability = parseInt(currentDur) || 0;
+  const maxDur = parseFloat(currentMax) || factoryMax || 0;
+  const currentDurability = parseFloat(currentDur) || 0;
 
   // ── Core repair math ──
   const repairLoss = selectedItem ? calcRepairLoss(factoryMax, material) : 0;
@@ -237,13 +237,13 @@ export default function ArmorSellPage() {
                   <div className="grid grid-cols-2 gap-3 mb-3">
                     <div>
                       <label className="block text-xs text-[#D4AF37] uppercase tracking-wider mb-1.5">Current Durability</label>
-                      <input type="number" min={0} max={maxDur} value={currentDur} onChange={e => setCurrentDur(e.target.value)}
-                        placeholder="e.g. 73"
+                      <input type="number" min={0} max={maxDur} step="any" value={currentDur} onChange={e => setCurrentDur(e.target.value)}
+                        placeholder="e.g. 48.7"
                         className="w-full glass rounded-lg px-3 py-2 text-sm text-white placeholder-[#6B7280] outline-none focus:border-[#D4AF37]/50 transition-colors font-mono" />
                     </div>
                     <div>
                       <label className="block text-xs text-[#D4AF37] uppercase tracking-wider mb-1.5">Current Max Durability</label>
-                      <input type="number" min={0} max={factoryMax} value={currentMax} onChange={e => setCurrentMax(e.target.value)}
+                      <input type="number" min={0} max={factoryMax} step="any" value={currentMax} onChange={e => setCurrentMax(e.target.value)}
                         placeholder={String(factoryMax)}
                         className="w-full glass rounded-lg px-3 py-2 text-sm text-white placeholder-[#6B7280] outline-none focus:border-[#D4AF37]/50 transition-colors font-mono" />
                       {currentMax !== '' && maxDur < factoryMax && (
