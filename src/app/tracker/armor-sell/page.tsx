@@ -134,16 +134,21 @@ export default function ArmorSellPage() {
   const repairLoss = selectedItem ? calcRepairLoss(factoryMax, material) : 0;
   const afterRepairMax = maxDur > 0 ? Math.max(0, Math.round((maxDur - repairLoss) * 10) / 10) : 0;
 
-  // As-is category (blue if full durability)
-  const isFullDurability = currentDurability > 0 && currentDurability === maxDur && maxDur === factoryMax;
-  const asIsCategory: SellCategory = isFullDurability
+  // ── Market listing status ──
+  // The market force-repairs the item before listing whenever current dura < max,
+  // so the listed durability is always the post-repair max (or current, if already full).
+  const needsForcedRepair = currentDurability > 0 && maxDur > 0 && currentDurability < maxDur;
+  const listedDurability = currentDurability > 0
+    ? (needsForcedRepair ? afterRepairMax : currentDurability)
+    : 0;
+  const listedCategory: SellCategory = listedDurability >= factoryMax
     ? 'full'
-    : currentDurability > 0
-      ? evaluateCategory(currentDurability, wornMin, likeNewMin)
-      : 'unsellable';
-
-  const marketPossibleAfter = afterRepairMax >= wornMin;
-  const marketPossibleNow = currentDurability >= wornMin;
+    : listedDurability >= likeNewMin
+      ? 'like_new'
+      : listedDurability >= wornMin
+        ? 'worn'
+        : 'unsellable';
+  const marketListable = listedCategory !== 'unsellable';
 
   const filtered = THRESHOLD_DATA.filter(d => filter === 'all' || d[5] === filter);
   const types = [...new Set(THRESHOLD_DATA.map(d => d[5]))];
@@ -156,8 +161,8 @@ export default function ArmorSellPage() {
   const likeNewPct = maxDur > 0 ? Math.min(100, Math.round((likeNewMin / maxDur) * 100)) : 0;
   const afterRepairPct = maxDur > 0 ? Math.min(100, Math.round((afterRepairMax / maxDur) * 100)) : 0;
 
-  const shortCat = (c: SellCategory): string =>
-    c === 'full' ? 'Full' : c === 'like_new' ? 'Like New' : c === 'worn' ? 'Worn' : 'Cannot list';
+  const listedLabel = (c: SellCategory): string =>
+    c === 'full' ? 'New' : c === 'like_new' ? 'Like New' : c === 'worn' ? 'Worn' : 'Not applicable';
 
   return (
     <main className="min-h-screen bg-[#0A0A0A]">
@@ -169,7 +174,7 @@ export default function ArmorSellPage() {
             Back to Tracker
           </Link>
           <h1 className="text-3xl font-bold font-display text-gradient">Armor Sell Calculator</h1>
-          <p className="mt-1 text-sm text-[#9CA3AF]">Found armor in a raid? Enter its durability and instantly know: is it sellable on the market, and would a repair help? No prices needed.</p>
+          <p className="mt-1 text-sm text-[#9CA3AF]">Found armor in a raid? Enter its durability and instantly know: is it sellable on the market, and what will it list as? No prices needed.</p>
         </div>
       </div>
 
@@ -276,7 +281,7 @@ export default function ArmorSellPage() {
                 {currentDur !== '' && (
                   <div className="glass rounded-xl p-5">
                     <h3 className="text-sm font-display font-bold text-white mb-3">🔧 Repair Summary</h3>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-center">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
                       <div className="rounded-lg bg-white/5 p-2">
                         <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Repair Loss</div>
                         <div className="text-sm font-mono font-bold text-[#F59E0B]">-{repairLoss} pts</div>
@@ -285,31 +290,20 @@ export default function ArmorSellPage() {
                         <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Max After Repair</div>
                         <div className="text-sm font-mono font-bold text-white">{afterRepairMax} / {afterRepairMax}</div>
                       </div>
-                      <div className={`rounded-lg p-2 ${marketPossibleNow ? 'bg-[#22C55E]/10' : 'bg-[#EF4444]/10'}`}>
-                        <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Market Now</div>
-                        <div className={`text-sm font-mono font-bold ${marketPossibleNow ? 'text-[#22C55E]' : 'text-[#EF4444]'}`}>
-                          {currentDurability > 0 ? (marketPossibleNow ? '✓ Listable' : '✗ Not listable') : '—'}
+                      <div className={`rounded-lg p-2 ${marketListable ? 'bg-[#22C55E]/10' : 'bg-[#EF4444]/10'}`}>
+                        <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Market</div>
+                        <div className={`text-sm font-mono font-bold ${marketListable ? 'text-[#22C55E]' : 'text-[#EF4444]'}`}>
+                          {currentDurability > 0 ? (marketListable ? '✓ Listable' : '✗ Unlistable') : '—'}
                         </div>
                       </div>
-                      <div className={`rounded-lg p-2 ${asIsCategory === 'unsellable' ? 'bg-[#EF4444]/10' : asIsCategory === 'worn' ? 'bg-[#F59E0B]/10' : 'bg-[#22C55E]/10'}`}>
-                        <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Sells As Now</div>
-                        <div className={`text-sm font-mono font-bold ${asIsCategory === 'unsellable' ? 'text-[#EF4444]' : asIsCategory === 'worn' ? 'text-[#F59E0B]' : 'text-[#22C55E]'}`}>
-                          {currentDurability > 0 ? shortCat(asIsCategory) : '—'}
-                        </div>
-                      </div>
-                      <div className={`rounded-lg p-2 ${afterRepairMax < wornMin ? 'bg-[#EF4444]/10' : afterRepairMax < likeNewMin ? 'bg-[#F59E0B]/10' : 'bg-[#22C55E]/10'}`}>
-                        <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Sells As After Repair</div>
-                        <div className={`text-sm font-mono font-bold ${afterRepairMax < wornMin ? 'text-[#EF4444]' : afterRepairMax < likeNewMin ? 'text-[#F59E0B]' : 'text-[#22C55E]'}`}>
-                          {currentDur !== '' ? (afterRepairMax >= wornMin ? (afterRepairMax >= likeNewMin ? 'Like New' : 'Worn') : 'Cannot list') : '—'}
-                        </div>
-                      </div>
-                      <div className={`rounded-lg p-2 ${marketPossibleAfter ? 'bg-[#22C55E]/10' : 'bg-[#EF4444]/10'}`}>
-                        <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Market After Repair</div>
-                        <div className={`text-sm font-mono font-bold ${marketPossibleAfter ? 'text-[#22C55E]' : 'text-[#EF4444]'}`}>
-                          {currentDur !== '' ? (marketPossibleAfter ? '✓ Listable' : '✗ Not listable') : '—'}
+                      <div className={`rounded-lg p-2 ${listedCategory === 'unsellable' ? 'bg-[#EF4444]/10' : listedCategory === 'worn' ? 'bg-[#F59E0B]/10' : 'bg-[#22C55E]/10'}`}>
+                        <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Listed As</div>
+                        <div className={`text-sm font-mono font-bold ${listedCategory === 'unsellable' ? 'text-[#EF4444]' : listedCategory === 'worn' ? 'text-[#F59E0B]' : 'text-[#22C55E]'}`}>
+                          {currentDurability > 0 ? listedLabel(listedCategory) : '—'}
                         </div>
                       </div>
                     </div>
+                    <p className="text-[9px] text-[#6B7280] mt-2">Market listing applies a forced repair whenever current dura &lt; max — the listed durability is the post-repair max.</p>
                   </div>
                 )}
 
@@ -371,7 +365,7 @@ export default function ArmorSellPage() {
               <div className="glass rounded-xl p-12 flex flex-col items-center justify-center text-center">
                 <span className="text-4xl mb-3">🛡️</span>
                 <h3 className="text-lg font-display font-bold text-white mb-1">Select an Armor Item</h3>
-                <p className="text-sm text-[#6B7280]">Choose an armor, helmet, rig, or face mask, enter its durability, and instantly see if it's sellable on the market — as-is and after repair.</p>
+                <p className="text-sm text-[#6B7280]">Choose an armor, helmet, rig, or face mask, enter its durability, and instantly see if it's sellable on the market and what it lists as.</p>
                 <p className="text-xs text-[#6B7280] mt-4">Repair loss formula verified from live data &middot; thresholds from Skrux sheet 15/04/2026</p>
               </div>
             )}
