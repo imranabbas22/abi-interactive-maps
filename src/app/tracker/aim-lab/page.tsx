@@ -616,14 +616,13 @@ export default function AimLabPage() {
     const as = simArmor.stats as Record<string, unknown>;
     const al = Number(as?.armor_level ?? 0);
     const adur = Number(simArmor.durabilityMax ?? 0) / 10;
-    const adest = Number(as?.armor_destructibility ?? 0.3);
     const apCoeff = Number(as?.armor_penetrate_coefficient ?? 1);
     const apConst = Number(as?.armor_penetrate_coefficient_constant ?? 0);
     const seed = 12345 + Math.floor(Number(selectedWeapon.id) % 99999);
     const isHelmet = simArmor.nativeArmorType === 'Helmet';
     const hp = isHelmet ? 40 : 85;
     const sim = simulate(bDmg, wMod, 0, bPen, bArmorDmg, bluntCoeff, factor,
-      al, adur, adest, -1, isHelmet, 65, 0, 0, 0, apCoeff, apConst, hp, seed);
+      al, adur, -1, isHelmet, 65, 0, 0, 0, apCoeff, apConst, hp, seed);
     const ttk = travelTime + Math.max(0, (sim.shots.findIndex(x => x.kill) + 1 || sim.shots.length) - 1) * fireInterval;
     setSimResult({ ...sim, effectiveRange, travelTime, fireInterval, ttk, rpm });
   }, [selectedWeapon, selectedBullet, simArmor, distance]);

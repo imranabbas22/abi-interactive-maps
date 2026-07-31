@@ -102,7 +102,6 @@ export default function SimulatorPage() {
       const hs = selectedHelmet.stats as Record<string, unknown>;
       const hl = Number(hs?.armor_level ?? 0);
       const hd = Number(selectedHelmet.durabilityMax ?? 0) / 10;
-      const hdest = Number(hs?.armor_destructibility ?? 0.3);
       const hblunt = Number(hs?.armor_damagescaleforblock ?? 0.01);
       const hrAng = Number(hs?.armor_ricochetangle ?? 0);
       const hrMin = Number(hs?.armor_ricochetprobabilitymin ?? 0);
@@ -112,7 +111,7 @@ export default function SimulatorPage() {
       const hp = 40; // head HP
 
       const sim = simulate(bDmg, wMod, 0, bPen, bArmorDmg, bluntCoeff, distFactor,
-        hl, hd, hdest, hblunt,
+        hl, hd, hblunt,
         true, impactAngle, hrAng, hrMin, hrMax, hpCoeff, hpConst,
         hp, seed);
       const headTtk = travelTime + Math.max(0, (sim.shots.findIndex(s => s.kill) + 1 || sim.shots.length) - 1) * fireInterval;
@@ -124,13 +123,12 @@ export default function SimulatorPage() {
       const as = selectedArmor.stats as Record<string, unknown>;
       const al = Number(as?.armor_level ?? 0);
       const ad = Number(selectedArmor.durabilityMax ?? 0) / 10;
-      const adest = Number(as?.armor_destructibility ?? 0.3);
       const apCoeff = Number(as?.armor_penetrate_coefficient ?? 1);
       const apConst = Number(as?.armor_penetrate_coefficient_constant ?? 0);
       const chestHP = 85;
 
       const sim = simulate(bDmg, wMod, 0, bPen, bArmorDmg, bluntCoeff, distFactor,
-        al, ad, adest, -1,
+        al, ad, -1,
         false, 0, 0, 0, 0, apCoeff, apConst,
         chestHP, seed + 9999);
       const chestTtk = travelTime + Math.max(0, (sim.shots.findIndex(s => s.kill) + 1 || sim.shots.length) - 1) * fireInterval;

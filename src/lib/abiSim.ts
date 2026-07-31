@@ -124,12 +124,22 @@ export function seededRandom(seed: number): () => number {
   };
 }
 
+// ── Pen Damage Scale (verified vs abi-tracker Damage Overview) ──
+// Based on BASE diff (bulletPen - armorLevel*10), NOT effective protection.
+// diff=3 → 0.665, diff=8 → 0.69, diff=11 → 0.91 (all verified)
+export function calcPenDamageScale(baseDiff: number): number {
+  if (baseDiff < -10) return 0.60;
+  if (baseDiff <= 9) return 0.65 + baseDiff * 0.005;
+  if (baseDiff <= 19) return 0.80 + baseDiff * 0.01;
+  return 1.0;
+}
+
 // ── Run Full Simulation ──────────────────────────────────────────
 export function simulate(
   bulletDmg: number, weaponMod: number, barrelMod: number,
   bulletPen: number, bulletArmorDmg: number, bluntCoeff: number,
   distanceFactor: number,
-  armorLevel: number, armorDur: number, armorDestruct: number,
+  armorLevel: number, armorDur: number,
   armorDamageScaleForBlock: number,
   isHelmet: boolean, impactAngle: number,
   ricochetAngle: number, ricochetProbMin: number, ricochetProbMax: number,
@@ -143,6 +153,10 @@ export function simulate(
   const scaledDmg = bulletDmg * distanceFactor;
   const scaledPen = bulletPen * distanceFactor;
   const scaledArmorDmg = bulletArmorDmg * distanceFactor;
+
+  // Pen damage scale from BASE protection (verified — durability loss uses the SAME scale)
+  const baseArmorProt = armorLevel * 10;
+  const penDamageScale = calcPenDamageScale(bulletPen - baseArmorProt);
 
   for (let i = 1; i <= 30 && remainingHP > 0; i++) {
     const effectiveProt = calcEffectiveProtection(armorLevel, currentDur, armorDur);
@@ -169,21 +183,13 @@ export function simulate(
       penetrated = roll <= penChance;
     }
 
-    // Pen damage scale based on BASE armor protection
-    const baseArmorProt = armorLevel * 10;
-    const baseDiff = bulletPen - baseArmorProt;
-    let penDamageScale: number;
-    if (baseDiff < -10) penDamageScale = 0.60;
-    else if (baseDiff <= 9) penDamageScale = 0.65 + baseDiff * 0.005;
-    else if (baseDiff <= 19) penDamageScale = 0.80 + baseDiff * 0.01;
-    else penDamageScale = 1.0;
-
-    // Durability loss
+    // Durability loss = armor dmg × pen damage scale (same for block AND pen).
+    // armor_destructibility is NOT used — verified against Damage Overview data.
     let durLoss: number;
     if (ricochet) {
       durLoss = 0;
     } else {
-      durLoss = scaledArmorDmg * armorDestruct;
+      durLoss = scaledArmorDmg * penDamageScale;
     }
 
     // Damage calculation
