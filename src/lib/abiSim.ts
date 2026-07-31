@@ -39,15 +39,16 @@ export interface SimResult {
 
 // ── Distance Factor (falloff) ──────────────────────────────
 // Effective range = weapon ZeroDropDistance/100 (matches the game's
-// displayed "Range Xm" — verified: AEK 5900→59m, AKM 5400→54m vs
-// abi-tracker avg_shots combo labels). Fallback to damageModifyZeroDistance.
+// displayed "Range Xm" — verified: AEK 5900→59m, AKM 5400→54m, MG3
+// 15000→150m vs abi-tracker avg_shots labels; in-game: G3-12" 36m).
+// Past effective range: FLAT ×0.70 step (30% lost) — verified from
+// skrux "DAMAGE IN AND OUT OF RANGE" sheet (130 weapon×ammo rows, all
+// 0.70) and in-game readings (G3 47→33, MK14 58→41 at out-of-range).
 export function calcDistanceFactor(range: number, dd: DamageDistance | null | undefined, zeroDropUnits?: number): { factor: number; effectiveRange: number } {
   if (!dd || !dd.damageModifyZeroDistance) return { factor: 1.0, effectiveRange: 0 };
   const effRange = ((zeroDropUnits && zeroDropUnits > 0 ? zeroDropUnits : dd.damageModifyZeroDistance)) / 100;
   if (range <= effRange) return { factor: 1.0, effectiveRange: effRange };
-  const minRatio = dd.damage > 0 ? dd.damageMin / dd.damage : 0;
-  const scaled = 1.0 - dd.damageDistanceModifier * (range - effRange);
-  return { factor: Math.max(minRatio, scaled), effectiveRange: effRange };
+  return { factor: 0.70, effectiveRange: effRange };
 }
 
 // ── Durability Protection Rate ──────────────────────────────────

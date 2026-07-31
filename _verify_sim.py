@@ -137,11 +137,7 @@ def run_combo(combo, armor_name, dfmode, seeds=300, dlscale=1.0):
     elif dfmode == "zerodrop":
         zd = float(ws.get("ZeroDropDistance") or 0)
         eff = zd / 100 if zd > 0 else (dd.get("damageModifyZeroDistance") or 0) / 100
-        if rng <= eff:
-            df = 1.0
-        else:
-            minRatio = (dd["damageMin"] / dd["damage"]) if dd.get("damage") else 0
-            df = max(minRatio, 1.0 - dd["damageDistanceModifier"] * (rng - eff))
+        df = 1.0 if rng <= eff else 0.70  # flat -30% step (skrux sheet)
     else:
         eff = (dd.get("damageModifyZeroDistance") or 0) / (10 if dfmode == "tenth" else 100)
         if rng <= eff:
