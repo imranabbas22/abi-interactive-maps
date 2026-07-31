@@ -3384,23 +3384,6 @@
    }
   },
   {
-   "id": 101020021,
-   "caliber": "5.7×28",
-   "ammoTag": "Ammo.57x28mm",
-   "tag": "Assemble.WeaponBase.Banshee",
-   "stats": {
-    "FireRate": "750",
-    "AdapterAdjustDamage": 3,
-    "MuzzleVelocity": 792,
-    "ZeroDropDistance": 3300,
-    "MoveSpeedRatio": 0,
-    "ImpactResistance": 0
-   },
-   "supportedTags": [
-    "Ammo.57x28mm"
-   ]
-  },
-  {
    "id": 101030001,
    "caliber": "7.62×54",
    "ammoTag": "Ammo.762x54mmR",
