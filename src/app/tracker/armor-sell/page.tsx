@@ -150,6 +150,21 @@ export default function ArmorSellPage() {
         : 'unsellable';
   const marketListable = listedCategory !== 'unsellable';
 
+  const listedLabel = (c: SellCategory): string =>
+    c === 'full' ? 'New' : c === 'like_new' ? 'Like New' : c === 'worn' ? 'Worn' : 'Not applicable';
+
+  // ── Repair advice (notice under the summary) ──
+  let repairAdvice: { kind: 'good' | 'warn' | 'bad'; text: string } | null = null;
+  if (currentDurability > 0) {
+    if (listedCategory === 'unsellable') {
+      repairAdvice = { kind: 'bad', text: 'Not worth repairing — even after repair it can never be listed. Every repair drops the max further.' };
+    } else if (afterRepairMax < currentDurability) {
+      repairAdvice = { kind: 'warn', text: `Not worth repairing — repairing will bring the current durability down from ${currentDurability} to ${afterRepairMax} pts.` };
+    } else {
+      repairAdvice = { kind: 'good', text: `Worth repairing & listing — durability goes ${currentDurability} → ${afterRepairMax} pts, lists as ${listedLabel(listedCategory)}.` };
+    }
+  }
+
   const filtered = THRESHOLD_DATA.filter(d => filter === 'all' || d[5] === filter);
   const types = [...new Set(THRESHOLD_DATA.map(d => d[5]))];
   const typeCounts: Record<string, number> = {};
@@ -160,9 +175,6 @@ export default function ArmorSellPage() {
   const wornPct = maxDur > 0 ? Math.min(100, Math.round((wornMin / maxDur) * 100)) : 0;
   const likeNewPct = maxDur > 0 ? Math.min(100, Math.round((likeNewMin / maxDur) * 100)) : 0;
   const afterRepairPct = maxDur > 0 ? Math.min(100, Math.round((afterRepairMax / maxDur) * 100)) : 0;
-
-  const listedLabel = (c: SellCategory): string =>
-    c === 'full' ? 'New' : c === 'like_new' ? 'Like New' : c === 'worn' ? 'Worn' : 'Not applicable';
 
   return (
     <main className="min-h-screen bg-[#0A0A0A]">
@@ -303,6 +315,15 @@ export default function ArmorSellPage() {
                         </div>
                       </div>
                     </div>
+                    {repairAdvice && (
+                      <div className={`mt-3 rounded-lg border px-3 py-2 text-xs font-medium ${
+                        repairAdvice.kind === 'good' ? 'border-[#22C55E]/30 bg-[#22C55E]/10 text-[#22C55E]' :
+                        repairAdvice.kind === 'warn' ? 'border-[#F59E0B]/30 bg-[#F59E0B]/10 text-[#F59E0B]' :
+                        'border-[#EF4444]/30 bg-[#EF4444]/10 text-[#EF4444]'
+                      }`}>
+                        {repairAdvice.kind === 'good' ? '✅' : repairAdvice.kind === 'warn' ? '⚠️' : '⛔'} {repairAdvice.text}
+                      </div>
+                    )}
                     <p className="text-[9px] text-[#6B7280] mt-2">Market listing applies a forced repair whenever current dura &lt; max — the listed durability is the post-repair max.</p>
                   </div>
                 )}
