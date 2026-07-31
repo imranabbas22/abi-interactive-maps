@@ -134,6 +134,15 @@ export default function TrackerPage() {
           href: '/tracker/gunsmith',
           color: 'from-[#D4AF37]/20 to-yellow-600/10',
         },
+        {
+          id: 'armor-sell',
+          title: 'Armor Sell Calculator',
+          description: 'Check if your armor/helmet is worth selling — input current durability, get Like New / Worn / Unsellable verdict',
+          icon: '💰',
+          count: 41,
+          href: '/tracker/armor-sell',
+          color: 'from-green-500/20 to-emerald-600/10',
+        },
       ]);
       setLoading(false);
     }
