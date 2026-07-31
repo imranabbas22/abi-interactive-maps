@@ -45,8 +45,9 @@ export interface SimResult {
 // skrux "DAMAGE IN AND OUT OF RANGE" sheet (130 weapon×ammo rows, all
 // 0.70) and in-game readings (G3 47→33, MK14 58→41 at out-of-range).
 export function calcDistanceFactor(range: number, dd: DamageDistance | null | undefined, zeroDropUnits?: number): { factor: number; effectiveRange: number } {
-  if (!dd || !dd.damageModifyZeroDistance) return { factor: 1.0, effectiveRange: 0 };
-  const effRange = ((zeroDropUnits && zeroDropUnits > 0 ? zeroDropUnits : dd.damageModifyZeroDistance)) / 100;
+  const zeroDrop = zeroDropUnits && zeroDropUnits > 0 ? zeroDropUnits : dd?.damageModifyZeroDistance;
+  if (!zeroDrop) return { factor: 1.0, effectiveRange: 0 };
+  const effRange = zeroDrop / 100;
   if (range <= effRange) return { factor: 1.0, effectiveRange: effRange };
   return { factor: 0.70, effectiveRange: effRange };
 }
