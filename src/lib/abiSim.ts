@@ -154,9 +154,11 @@ export function simulate(
   let currentDur = armorDur;
   let remainingHP = hp;
   const rand = seededRandom(seed);
-  const scaledDmg = bulletDmg * distanceFactor;
-  const scaledPen = bulletPen * distanceFactor;
-  const scaledArmorDmg = bulletArmorDmg * distanceFactor;
+  // Distance factor applies to BASE DAMAGE only — pen and armor damage
+  // stay full out of effective range (user-verified game behavior).
+  // Applied to TOTAL (bullet + weapon mods): G3-12" M62 47→33 = 47×0.7.
+  const scaledPen = bulletPen;
+  const scaledArmorDmg = bulletArmorDmg;
 
   // Pen damage scale from BASE protection (verified — durability loss uses the SAME scale)
   const baseArmorProt = armorLevel * 10;
@@ -201,7 +203,7 @@ export function simulate(
     if (ricochet) {
       damage = 0;
     } else if (penetrated) {
-      const base = scaledDmg + weaponMod + barrelMod;
+      const base = (bulletDmg + weaponMod + barrelMod) * distanceFactor;
       damage = Math.round(base * penDamageScale);
     } else {
       if (isHelmet && armorDamageScaleForBlock > 0) {

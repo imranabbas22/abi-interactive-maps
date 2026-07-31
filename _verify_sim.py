@@ -69,7 +69,7 @@ def simulate_chest(bDmg, wMod, bPen, bArmorDmg, blunt, df, level, dur, penCoeff,
         s = (s * 1664525 + 1013904223) % 4294967296
         return s / 4294967296
     cur = dur
-    scaledDmg, scaledPen, scaledArmorDmg = bDmg * df, bPen * df, bArmorDmg * df
+    scaledPen, scaledArmorDmg = bPen, bArmorDmg
     pds = calcPenDamageScale(bPen - level * 10)
     n = 0
     while n < 30 and hp > 0:
@@ -78,7 +78,7 @@ def simulate_chest(bDmg, wMod, bPen, bArmorDmg, blunt, df, level, dur, penCoeff,
         ch = calcPenChance(scaledPen, effProt, cur, dur, penCoeff)
         pen = rand() * 100 <= ch
         if pen:
-            dmg = round((scaledDmg + wMod) * pds)
+            dmg = round((bDmg + wMod) * df * pds)
         else:
             dmg = max(1, round((bDmg + wMod) * blunt * df))
         cur = max(0, round((cur - scaledArmorDmg * pds) * 100) / 100)
