@@ -517,7 +517,7 @@ export default function SimulatorPage() {
             <div className="flex items-center justify-between mb-2">
               <h2 className="text-sm font-bold text-purple-400">
                 Limb Sim (leg meta)
-                <span className="text-[10px] text-[#6B7280] ml-1">leg → abdomen → chest · arm → chest · overflow bypasses armor</span>
+                <span className="text-[10px] text-[#6B7280] ml-1">leg → abdomen → arms → chest → head · chest/head floor at 1 · overflow bypasses armor</span>
               </h2>
               {limbResult && (
                 <span className="text-xs text-white font-mono">

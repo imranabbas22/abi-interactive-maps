@@ -234,12 +234,14 @@ export function simulate(
 }
 
 // ── Limb Model (leg meta) ─────────────────────────────────────
-// User-verified: each leg 65, abdomen 70, chest 85, each arm 60, head 40 HP.
-// Unarmored limbs take FULL damage (no multipliers — verified: leg hit does
-// full ammo damage). Overflow when a limb reaches 0: leg → abdomen → chest,
-// arm → chest, abdomen → chest. Overflow BYPASSES armor (that's the point of
-// leg meta). Chest 0 = DOWN (revivable; dead if solo). Head 0 = instant KILL
-// regardless of other limbs.
+// User-verified (game guide): each leg 65, abdomen 70, chest 85, each arm 60,
+// head 40 HP. Unarmored limbs take FULL damage (no multipliers). Overflow
+// when a limb reaches 0 follows: leg → abdomen → arms → chest → head,
+// BYPASSING armor (that's the point of leg meta). Chest and head floor at
+// 1 HP from overflow ("last stand") — the next bullet that hits them downs
+// the player. Direct head hit: head 0 = instant DEATH (40+ dmg one-shots
+// the face). Direct chest hit: chest 0 = DOWN (revivable; dead if solo).
+// Revive state shows every limb black except chest + head at 1 HP.
 
 export type LimbName = 'head' | 'chest' | 'abdomen' | 'l_arm' | 'r_arm' | 'l_leg' | 'r_leg';
 
@@ -252,11 +254,15 @@ export const LIMB_LABELS: Record<LimbName, string> = {
   l_leg: 'L Leg', r_leg: 'R Leg',
 };
 
+// Overflow chain (aimed limb first, then the sequence below).
+// chest → head: overflow passes a FLOORED chest (1 HP) on to the head.
 export const LIMB_SPREAD: Record<LimbName, LimbName | null> = {
   l_leg: 'abdomen', r_leg: 'abdomen',
-  abdomen: 'chest',
-  l_arm: 'chest', r_arm: 'chest',
-  chest: null, head: null,
+  abdomen: 'l_arm',
+  l_arm: 'r_arm',
+  r_arm: 'chest',
+  chest: 'head',
+  head: null,
 };
 
 export interface LimbArmorParams {
@@ -352,13 +358,37 @@ export function simulateLimb(opts: {
       };
     }
 
-    // Cascade damage through limbs starting at the aimed limb
+    // Cascade damage through limbs starting at the aimed limb.
+    // The aimed limb takes DIRECT damage (no floor); overflow into chest/head
+    // floors at 1 HP — the next overflow hit downs the player.
     let remaining = entry.damage;
     let limb: LimbName | null = opts.target;
+    let direct = true;
+    let downedByOverflow = false;
     const applied: LimbHit[] = [];
-    while (remaining > 0 && limb) {
+    while (remaining > 0 && limb && !downedByOverflow) {
       const hpLeft = hp[limb];
+      const vital = limb === 'chest' || limb === 'head';
       if (hpLeft > 0) {
+        if (!direct && vital) {
+          // Overflow into vitals: floor at 1; hitting an already-floored
+          // vital = the "one more bullet" that downs the player.
+          if (hpLeft <= 1) {
+            hp[limb] = 0;
+            dmgByLimb[limb] += 1;
+            applied.push({ limb, dmg: 1 });
+            remaining = 0;
+            downedByOverflow = true;
+            break;
+          }
+          const take = Math.min(hpLeft - 1, remaining);
+          hp[limb] = Math.max(1, Math.round((hpLeft - take) * 1000) / 1000);
+          dmgByLimb[limb] += take;
+          applied.push({ limb, dmg: take });
+          remaining = Math.max(0, Math.round((remaining - take) * 1000) / 1000);
+          limb = LIMB_SPREAD[limb];
+          continue;
+        }
         const take = Math.min(hpLeft, remaining);
         hp[limb] = Math.max(0, Math.round((hpLeft - take) * 1000) / 1000);
         dmgByLimb[limb] += take;
@@ -367,10 +397,12 @@ export function simulateLimb(opts: {
       }
       if (hp[limb] <= 0) limb = LIMB_SPREAD[limb];
       else break;
+      direct = false;
     }
 
     log.push({ shot: i, entryDamage: entry.damage, applied, penetrated: entry.penetrated, ricochet: entry.ricochet, branchName: entry.branch, penChance: entry.penChance });
 
+    if (downedByOverflow) { outcome = opts.solo ? 'dead_solo' : 'down'; break; }
     if (hp.head <= 0) { outcome = 'dead_head'; break; }
     if (hp.chest <= 0) { outcome = opts.solo ? 'dead_solo' : 'down'; break; }
   }
