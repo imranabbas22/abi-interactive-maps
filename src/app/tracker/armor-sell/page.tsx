@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 
 // ── Threshold data from Skrux DURABILITY sheet (updated 15/04/2026) ──
@@ -122,40 +122,17 @@ export default function ArmorSellPage() {
   const [currentDur, setCurrentDur] = useState<string>('');
   const [currentMax, setCurrentMax] = useState<string>('');
 
-  // Live game inputs (repair screen / market screen)
-  const [repairFee, setRepairFee] = useState<string>('');
-  const [contactsNow, setContactsNow] = useState<string>('');
-  const [contactsAfter, setContactsAfter] = useState<string>('');
-  const [showLivePrices, setShowLivePrices] = useState<boolean>(false);
-
   const selectedItem = THRESHOLD_DATA.find(d => d[1] === selectedId);
-  const [factoryMax, wornMin, likeNewMin, itemName, , material, storedMarket] = selectedItem
-    ? [selectedItem[2], selectedItem[3], selectedItem[4], selectedItem[0], selectedItem[5], selectedItem[6], selectedItem[7]]
-    : [0, 0, 0, '', '', '', 0];
+  const [factoryMax, wornMin, likeNewMin, itemName, , material] = selectedItem
+    ? [selectedItem[2], selectedItem[3], selectedItem[4], selectedItem[0], selectedItem[5], selectedItem[6]]
+    : [0, 0, 0, '', '', ''];
 
   const maxDur = parseInt(currentMax) || factoryMax || 0;
   const currentDurability = parseInt(currentDur) || 0;
-  const contactsNowPrice = parseInt(contactsNow) || 0;
-  const contactsAfterPrice = parseInt(contactsAfter) || 0;
-
-  // Market price estimate: catalog reference ±5% (lower / upper bound)
-  const marketLow = Math.round(storedMarket * 0.95);
-  const marketHigh = Math.round(storedMarket * 1.05);
-  const marketMid = Math.round((marketLow + marketHigh) / 2);
 
   // ── Core repair math ──
   const repairLoss = selectedItem ? calcRepairLoss(factoryMax, material) : 0;
   const afterRepairMax = maxDur > 0 ? Math.max(0, Math.round((maxDur - repairLoss) * 10) / 10) : 0;
-
-  // ── Repair fee: manual entry wins; otherwise auto-estimate = tier rate × restored points ──
-  const restoredPoints = currentDurability > 0 && maxDur > 0
-    ? Math.max(0, Math.round((afterRepairMax - currentDurability) * 10) / 10)
-    : 0;
-  const tier = selectedItem ? ARMOR_TIER[selectedItem[1]] : undefined;
-  const tierRate = tier ? TIER_FEE_RATE[tier] : 0;
-  const estimatedFee = restoredPoints > 0 && tierRate > 0 ? Math.round(restoredPoints * tierRate) : 0;
-  const fee = parseInt(repairFee) || estimatedFee || 0;
-  const feeIsEstimated = repairFee === '' && estimatedFee > 0;
 
   // As-is category (blue if full durability)
   const isFullDurability = currentDurability > 0 && currentDurability === maxDur && maxDur === factoryMax;
@@ -165,104 +142,8 @@ export default function ArmorSellPage() {
       ? evaluateCategory(currentDurability, wornMin, likeNewMin)
       : 'unsellable';
 
-  const afterRepairCategory = afterRepairMax > 0 ? evaluateCategory(afterRepairMax, wornMin, likeNewMin) : 'unsellable';
   const marketPossibleAfter = afterRepairMax >= wornMin;
   const marketPossibleNow = currentDurability >= wornMin;
-  const marketTrap = maxDur > 0 && maxDur < wornMin; // max below floor → never listable again
-
-  // ── Scenario profits ──
-  type Scenario = { key: string; label: string; profit: number; enabled: boolean; note?: string; best?: boolean; display?: string; math?: string };
-  const scenarios: Scenario[] = [];
-  if (currentDurability > 0) {
-    scenarios.push({
-      key: 'contacts_now', label: 'Sell as-is → Contacts', profit: contactsNowPrice - 0,
-      enabled: contactsNowPrice > 0,
-    });
-    if (marketPossibleNow && !isFullDurability) {
-      scenarios.push({
-        key: 'market_now', label: 'Sell as-is → Market',
-        profit: asIsCategory === 'like_new' || asIsCategory === 'full' ? marketMid : 0,
-        enabled: asIsCategory === 'like_new' || asIsCategory === 'full',
-        display: asIsCategory === 'like_new' || asIsCategory === 'full'
-          ? `+${marketLow.toLocaleString()} ~ +${marketHigh.toLocaleString()}`
-          : undefined,
-        note: asIsCategory === 'worn'
-          ? `Listable as Worn — below like-new range (~${marketLow.toLocaleString()}-${marketHigh.toLocaleString()})`
-          : `Like New — est. ${marketLow.toLocaleString()}–${marketHigh.toLocaleString()}`,
-      });
-    }
-    if (fee > 0) {
-      const repairNet = contactsAfterPrice - fee;
-      const edgeVsAsIs = repairNet - contactsNowPrice; // > 0 → repair beats selling as-is
-      scenarios.push({
-        key: 'repair_contacts', label: 'Repair → Contacts', profit: repairNet,
-        enabled: contactsAfterPrice > 0,
-        note: afterRepairMax > 0 ? `After repair: ${afterRepairMax}/${afterRepairMax} pts${feeIsEstimated ? ' · fee auto-est' : ''}` : undefined,
-        math: contactsNowPrice > 0
-          ? `As-is +${contactsNowPrice.toLocaleString()} · Repair −${fee.toLocaleString()}${feeIsEstimated ? ' est' : ''} +${contactsAfterPrice.toLocaleString()} = +${repairNet.toLocaleString()} → ${edgeVsAsIs >= 0 ? 'better' : 'worse'} by ${Math.abs(edgeVsAsIs).toLocaleString()}`
-          : undefined,
-      });
-      if (marketPossibleAfter) {
-        scenarios.push({
-          key: 'repair_market', label: 'Repair → Market', profit: marketMid - fee,
-          enabled: marketMid > 0,
-          display: `+${(marketLow - fee).toLocaleString()} ~ +${(marketHigh - fee).toLocaleString()}`,
-          note: afterRepairCategory === 'like_new'
-            ? `After repair: ${afterRepairMax} pts → Like New (est. ${marketLow.toLocaleString()}–${marketHigh.toLocaleString()})`
-            : `After repair: ${afterRepairMax} pts → Worn only (below like-new range ${marketLow.toLocaleString()}–${marketHigh.toLocaleString()})`,
-        });
-      }
-    }
-  }
-  const enabledScenarios = scenarios.filter(s => s.enabled);
-  const maxProfit = Math.max(...enabledScenarios.map(s => s.profit), -Infinity);
-  enabledScenarios.forEach(s => { s.best = s.profit === maxProfit; });
-
-  // ── Verdict ──
-  type VerdictKind = 'market' | 'contacts' | 'no_repair' | 'trap' | 'full' | 'unclear';
-  let verdict: { kind: VerdictKind; title: string; message: string } | null = null;
-
-  if (currentDurability > 0) {
-    if (isFullDurability) {
-      verdict = {
-        kind: 'full',
-        title: 'Full Durability — sell at full price',
-        message: `New item at ${factoryMax}/${factoryMax} pts. No repair needed. Sell to market (~${marketLow.toLocaleString()}–${marketHigh.toLocaleString()}) or keep using.`,
-      };
-    } else if (marketTrap) {
-      verdict = {
-        kind: 'trap',
-        title: '⚠️ Market trap — this item will NEVER be listable again',
-        message: `Current max (${maxDur} pts) is already below the Worn floor (${wornMin} pts). Every repair drops max further (${repairLoss} pts per repair), so it can never reach the market again. Compare contacts prices only.`,
-      };
-    } else {
-      const best = enabledScenarios.find(s => s.best);
-      if (best?.key === 'repair_market') {
-        verdict = {
-          kind: 'market',
-          title: `REPAIR & SELL TO MARKET — +${(marketLow - fee).toLocaleString()} ~ +${(marketHigh - fee).toLocaleString()}`,
-          message: `Pay ${fee.toLocaleString()}${feeIsEstimated ? ' (est.)' : ''} repair fee, max drops ${maxDur} → ${afterRepairMax} pts, sells as ${afterRepairCategory === 'like_new' ? 'Like New' : 'Worn'} (est. market ${marketLow.toLocaleString()}–${marketHigh.toLocaleString()}). Best option.`,
-        };
-      } else if (best?.key === 'repair_contacts') {
-        verdict = {
-          kind: 'contacts',
-          title: `Repair & sell to CONTACTS — +${best.profit.toLocaleString()}`,
-          message: contactsNowPrice > 0
-            ? `Repair beats selling as-is by ${(best.profit - contactsNowPrice).toLocaleString()} (+${best.profit.toLocaleString()} vs +${contactsNowPrice.toLocaleString()} as-is). After repair: ${afterRepairMax} pts → contacts ${contactsAfterPrice.toLocaleString()} − fee ${fee.toLocaleString()}${feeIsEstimated ? ' (est.)' : ''}.`
-            : `After repair: ${afterRepairMax} pts → contacts ${contactsAfterPrice.toLocaleString()} − fee ${fee.toLocaleString()}${feeIsEstimated ? ' (est.)' : ''}.`,
-        };
-      } else if (best?.key === 'contacts_now' || best?.key === 'market_now') {
-        const isContacts = best.key === 'contacts_now';
-        verdict = {
-          kind: 'no_repair',
-          title: `DON'T REPAIR — sell as-is${isContacts ? ' to contacts' : ' to market'} (${isContacts ? '+' + best.profit.toLocaleString() : `+${marketLow.toLocaleString()} ~ +${marketHigh.toLocaleString()}`})`,
-          message: isContacts
-            ? `Repair would cost ${fee > 0 ? fee.toLocaleString() + (feeIsEstimated ? ' (est.)' : '') : '? (enter repair fee)'} and only bring contacts ${contactsAfterPrice > 0 ? contactsAfterPrice.toLocaleString() : '?'} — not worth it. ${marketPossibleAfter ? 'Also check market after repair: +' + (marketLow - fee).toLocaleString() + ' ~ +' + (marketHigh - fee).toLocaleString() + ' net.' : 'After repair it still cannot be listed on market (' + afterRepairMax + ' < ' + wornMin + ').'}`
-            : `Your current durability (${currentDurability} pts) is already ${asIsCategory === 'like_new' ? 'Like New' : 'Worn'}. Selling to market now beats repairing.`,
-        };
-      }
-    }
-  }
 
   const filtered = THRESHOLD_DATA.filter(d => filter === 'all' || d[5] === filter);
   const types = [...new Set(THRESHOLD_DATA.map(d => d[5]))];
@@ -275,14 +156,8 @@ export default function ArmorSellPage() {
   const likeNewPct = maxDur > 0 ? Math.min(100, Math.round((likeNewMin / maxDur) * 100)) : 0;
   const afterRepairPct = maxDur > 0 ? Math.min(100, Math.round((afterRepairMax / maxDur) * 100)) : 0;
 
-  const verdictColor: Record<VerdictKind, string> = {
-    market: 'border-[#22C55E]/40 bg-[#22C55E]/10 text-[#22C55E]',
-    contacts: 'border-[#3B82F6]/40 bg-[#3B82F6]/10 text-[#3B82F6]',
-    no_repair: 'border-[#F59E0B]/40 bg-[#F59E0B]/10 text-[#F59E0B]',
-    trap: 'border-[#EF4444]/40 bg-[#EF4444]/10 text-[#EF4444]',
-    full: 'border-[#3B82F6]/40 bg-[#3B82F6]/10 text-[#3B82F6]',
-    unclear: 'border-white/20 bg-white/5 text-[#9CA3AF]',
-  };
+  const shortCat = (c: SellCategory): string =>
+    c === 'full' ? 'Full' : c === 'like_new' ? 'Like New' : c === 'worn' ? 'Worn' : 'Cannot list';
 
   return (
     <main className="min-h-screen bg-[#0A0A0A]">
@@ -294,7 +169,7 @@ export default function ArmorSellPage() {
             Back to Tracker
           </Link>
           <h1 className="text-3xl font-bold font-display text-gradient">Armor Sell Calculator</h1>
-          <p className="mt-1 text-sm text-[#9CA3AF]">Repair or sell? Enter your armor's durability + the live repair fee, contacts &amp; market prices — get the best route.</p>
+          <p className="mt-1 text-sm text-[#9CA3AF]">Found armor in a raid? Enter its durability and instantly know: is it sellable on the market, and would a repair help? No prices needed.</p>
         </div>
       </div>
 
@@ -320,7 +195,7 @@ export default function ArmorSellPage() {
                 {filtered.map(([name, id, maxD, worn, likeNew, type, mat]) => {
                   const typeIcon = type === 'Vest' ? '🦺' : type === 'Rig' ? '🎒' : type === 'Helmet' ? '⛑️' : '😷';
                   return (
-                    <button key={id} onClick={() => { setSelectedId(id); setCurrentDur(''); setCurrentMax(''); setRepairFee(''); setContactsNow(''); setContactsAfter(''); }}
+                    <button key={id} onClick={() => { setSelectedId(id); setCurrentDur(''); setCurrentMax(''); }}
                       className={`w-full text-left px-4 py-2.5 transition-colors hover:bg-white/[0.03] ${
                         selectedId === id ? 'bg-[#D4AF37]/10 border-l-2 border-[#D4AF37]' : ''
                       }`}>
@@ -390,146 +265,18 @@ export default function ArmorSellPage() {
                         </button>
                       );
                     })}
-                    <button onClick={() => { setCurrentMax(''); setCurrentDur(''); setRepairFee(''); setContactsNow(''); setContactsAfter(''); }}
+                    <button onClick={() => { setCurrentMax(''); setCurrentDur(''); }}
                       className="px-2 py-1 rounded text-[10px] bg-white/5 text-[#6B7280] hover:text-white transition-colors">
                       Reset
                     </button>
                   </div>
-
-                  {/* Live price inputs (collapsible) */}
-                  <div className="mt-4 border-t border-white/5 pt-4">
-                    <button onClick={() => setShowLivePrices(v => !v)}
-                      className="w-full flex items-center justify-between rounded-lg px-3 py-2.5 bg-white/5 hover:bg-white/[0.08] border border-white/5 transition-colors">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-[#9CA3AF] uppercase tracking-wider">Live Prices</span>
-                        {repairFee !== '' ? (
-                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#22C55E]/15 text-[#22C55E] font-mono">live fee</span>
-                        ) : feeIsEstimated ? (
-                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#D4AF37]/15 text-[#D4AF37] font-mono">est. fee</span>
-                        ) : null}
-                      </div>
-                      <span className="text-xs text-[#D4AF37] flex items-center gap-1">
-                        {showLivePrices ? 'Hide' : 'Show'}
-                        <svg className={`w-3.5 h-3.5 transition-transform ${showLivePrices ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                      </span>
-                    </button>
-
-                    {showLivePrices ? (
-                      <>
-                        <p className="text-[10px] text-[#6B7280] uppercase tracking-wider mt-3 mb-2">From repair screen &amp; contacts</p>
-                        <div className="grid grid-cols-3 gap-2">
-                          <div>
-                            <label className="block text-[10px] text-[#9CA3AF] mb-1">Repair Fee</label>
-                            <input type="number" min={0} value={repairFee} onChange={e => setRepairFee(e.target.value)}
-                              placeholder={estimatedFee > 0 ? `est. ${estimatedFee.toLocaleString()}` : 'e.g. 30005'}
-                              className="w-full glass rounded-lg px-2 py-1.5 text-xs text-white placeholder-[#6B7280] outline-none focus:border-[#D4AF37]/50 transition-colors font-mono" />
-                            {feeIsEstimated && tier !== undefined && (
-                              <p className="text-[10px] text-[#D4AF37] mt-1">
-                                Auto-est: {estimatedFee.toLocaleString()} (T{tier} × ~{tierRate.toLocaleString()}/pt × {restoredPoints} pts) — type real fee to override
-                              </p>
-                            )}
-                          </div>
-                          <div>
-                            <label className="block text-[10px] text-[#9CA3AF] mb-1">Contacts Price Now</label>
-                            <input type="number" min={0} value={contactsNow} onChange={e => setContactsNow(e.target.value)}
-                              placeholder="e.g. 127952"
-                              className="w-full glass rounded-lg px-2 py-1.5 text-xs text-white placeholder-[#6B7280] outline-none focus:border-[#D4AF37]/50 transition-colors font-mono" />
-                          </div>
-                          <div>
-                            <label className="block text-[10px] text-[#9CA3AF] mb-1">Contacts After Repair</label>
-                            <input type="number" min={0} value={contactsAfter} onChange={e => setContactsAfter(e.target.value)}
-                              placeholder="e.g. 195084"
-                              className="w-full glass rounded-lg px-2 py-1.5 text-xs text-white placeholder-[#6B7280] outline-none focus:border-[#D4AF37]/50 transition-colors font-mono" />
-                          </div>
-                        </div>
-
-                        {/* Market price estimate (auto) */}
-                        <div className="mt-3 rounded-lg bg-[#D4AF37]/5 border border-[#D4AF37]/20 px-3 py-2">
-                          <div className="flex items-center justify-between gap-3">
-                            <div className="text-[10px] text-[#D4AF37] uppercase tracking-wider">Market Price Estimate (Like New)</div>
-                            <div className="text-sm font-mono font-bold text-white">
-                              {marketLow.toLocaleString()} – {marketHigh.toLocaleString()}
-                            </div>
-                          </div>
-                          <p className="text-[9px] text-[#6B7280] mt-0.5">Auto-estimated from market catalog reference ({storedMarket.toLocaleString()}) ± 5%</p>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="grid grid-cols-2 gap-2 mt-2">
-                        {/* Repair cost summary */}
-                        <div className="rounded-lg bg-white/5 border border-white/10 px-3 py-2">
-                          <div className="text-[10px] text-[#9CA3AF] uppercase tracking-wider">Repair Cost</div>
-                          <div className="text-sm font-mono font-bold text-white mt-0.5">
-                            {fee > 0 ? fee.toLocaleString() : '—'}
-                          </div>
-                          <p className="text-[9px] text-[#6B7280] mt-0.5">
-                            {repairFee !== ''
-                              ? 'Entered from repair screen'
-                              : estimatedFee > 0
-                                ? `Auto-est (T${tier} × ~${tierRate.toLocaleString()}/pt × ${restoredPoints} pts)`
-                                : 'Enter durability to estimate'}
-                          </p>
-                        </div>
-                        {/* Market price estimate */}
-                        <div className="rounded-lg bg-[#D4AF37]/5 border border-[#D4AF37]/20 px-3 py-2">
-                          <div className="text-[10px] text-[#D4AF37] uppercase tracking-wider">Market Price Estimate (Like New)</div>
-                          <div className="text-sm font-mono font-bold text-white mt-0.5">
-                            {marketLow.toLocaleString()} – {marketHigh.toLocaleString()}
-                          </div>
-                          <p className="text-[9px] text-[#6B7280] mt-0.5">Auto-estimated from market catalog reference ({storedMarket.toLocaleString()}) ± 5%</p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
                 </div>
-
-                {/* ── Verdict ── */}
-                {verdict && (
-                  <div className={`rounded-xl border p-4 ${verdictColor[verdict.kind]}`}>
-                    <div className="font-display font-bold text-base">{verdict.title}</div>
-                    <p className="text-xs mt-1 opacity-90 leading-relaxed">{verdict.message}</p>
-                  </div>
-                )}
-
-                {/* ── Scenario comparison ── */}
-                {scenarios.length > 0 && (
-                  <div className="glass rounded-xl p-5">
-                    <h3 className="text-sm font-display font-bold text-white mb-3">Compare Routes</h3>
-                    <div className="space-y-2">
-                      {scenarios.map(s => (
-                        <div key={s.key}
-                          className={`flex items-center justify-between gap-3 rounded-lg border px-3 py-2.5 text-sm ${
-                            !s.enabled ? 'opacity-35 border-white/5' :
-                            s.best ? 'border-[#D4AF37]/50 bg-[#D4AF37]/10' : 'border-white/5 bg-white/[0.02]'
-                          }`}>
-                          <div className="min-w-0">
-                            <div className="text-white font-medium">{s.label}</div>
-                            {s.note && <div className="text-[10px] text-[#6B7280] truncate">{s.note}</div>}
-                            {s.math && <div className="text-[10px] font-mono text-white/35 mt-0.5 leading-snug">{s.math}</div>}
-                          </div>
-                          <div className="text-right shrink-0">
-                            {!s.enabled ? (
-                              <span className="text-[10px] text-[#6B7280]">{s.note?.startsWith('Listable') ? 'below like-new' : 'enter price'}</span>
-                            ) : (
-                              <>
-                                <div className={`font-mono font-bold ${s.profit >= 0 ? 'text-[#22C55E]' : 'text-[#EF4444]'}`}>
-                                  {s.display ? s.display : `${s.profit >= 0 ? '+' : ''}${s.profit.toLocaleString()}`}
-                                </div>
-                                {s.best && <div className="text-[9px] text-[#D4AF37] font-bold uppercase">Best</div>}
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
 
                 {/* ── After-repair summary ── */}
                 {currentDur !== '' && (
                   <div className="glass rounded-xl p-5">
                     <h3 className="text-sm font-display font-bold text-white mb-3">🔧 Repair Summary</h3>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-center">
                       <div className="rounded-lg bg-white/5 p-2">
                         <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Repair Loss</div>
                         <div className="text-sm font-mono font-bold text-[#F59E0B]">-{repairLoss} pts</div>
@@ -538,16 +285,28 @@ export default function ArmorSellPage() {
                         <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Max After Repair</div>
                         <div className="text-sm font-mono font-bold text-white">{afterRepairMax} / {afterRepairMax}</div>
                       </div>
-                      <div className="rounded-lg bg-white/5 p-2">
-                        <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Sells As</div>
-                        <div className="text-sm font-mono font-bold text-white">
-                          {afterRepairMax >= wornMin ? (afterRepairMax >= likeNewMin ? 'Like New' : 'Worn') : 'Unsellable'}
+                      <div className={`rounded-lg p-2 ${marketPossibleNow ? 'bg-[#22C55E]/10' : 'bg-[#EF4444]/10'}`}>
+                        <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Market Now</div>
+                        <div className={`text-sm font-mono font-bold ${marketPossibleNow ? 'text-[#22C55E]' : 'text-[#EF4444]'}`}>
+                          {currentDurability > 0 ? (marketPossibleNow ? '✓ Listable' : '✗ Not listable') : '—'}
+                        </div>
+                      </div>
+                      <div className={`rounded-lg p-2 ${asIsCategory === 'unsellable' ? 'bg-[#EF4444]/10' : asIsCategory === 'worn' ? 'bg-[#F59E0B]/10' : 'bg-[#22C55E]/10'}`}>
+                        <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Sells As Now</div>
+                        <div className={`text-sm font-mono font-bold ${asIsCategory === 'unsellable' ? 'text-[#EF4444]' : asIsCategory === 'worn' ? 'text-[#F59E0B]' : 'text-[#22C55E]'}`}>
+                          {currentDurability > 0 ? shortCat(asIsCategory) : '—'}
+                        </div>
+                      </div>
+                      <div className={`rounded-lg p-2 ${afterRepairMax < wornMin ? 'bg-[#EF4444]/10' : afterRepairMax < likeNewMin ? 'bg-[#F59E0B]/10' : 'bg-[#22C55E]/10'}`}>
+                        <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Sells As After Repair</div>
+                        <div className={`text-sm font-mono font-bold ${afterRepairMax < wornMin ? 'text-[#EF4444]' : afterRepairMax < likeNewMin ? 'text-[#F59E0B]' : 'text-[#22C55E]'}`}>
+                          {currentDur !== '' ? (afterRepairMax >= wornMin ? (afterRepairMax >= likeNewMin ? 'Like New' : 'Worn') : 'Cannot list') : '—'}
                         </div>
                       </div>
                       <div className={`rounded-lg p-2 ${marketPossibleAfter ? 'bg-[#22C55E]/10' : 'bg-[#EF4444]/10'}`}>
                         <div className="text-[9px] text-[#6B7280] uppercase tracking-wider">Market After Repair</div>
                         <div className={`text-sm font-mono font-bold ${marketPossibleAfter ? 'text-[#22C55E]' : 'text-[#EF4444]'}`}>
-                          {marketPossibleAfter ? '✓ Eligible' : '✗ Not eligible'}
+                          {currentDur !== '' ? (marketPossibleAfter ? '✓ Listable' : '✗ Not listable') : '—'}
                         </div>
                       </div>
                     </div>
@@ -612,7 +371,7 @@ export default function ArmorSellPage() {
               <div className="glass rounded-xl p-12 flex flex-col items-center justify-center text-center">
                 <span className="text-4xl mb-3">🛡️</span>
                 <h3 className="text-lg font-display font-bold text-white mb-1">Select an Armor Item</h3>
-                <p className="text-sm text-[#6B7280]">Choose an armor, helmet, rig, or face mask, enter its durability + live prices, and get the best sell route: repair → market, repair → contacts, or sell as-is.</p>
+                <p className="text-sm text-[#6B7280]">Choose an armor, helmet, rig, or face mask, enter its durability, and instantly see if it's sellable on the market — as-is and after repair.</p>
                 <p className="text-xs text-[#6B7280] mt-4">Repair loss formula verified from live data &middot; thresholds from Skrux sheet 15/04/2026</p>
               </div>
             )}
