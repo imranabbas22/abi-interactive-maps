@@ -233,6 +233,156 @@ export function simulate(
   return { shots, durabilityLeft: currentDur, distanceFactor, effectiveRange: 0, travelTime: 0, fireInterval: 0, ttk: 0, rpm: 0 };
 }
 
+// ── Limb Model (leg meta) ─────────────────────────────────────
+// User-verified: each leg 65, abdomen 70, chest 85, each arm 60, head 40 HP.
+// Unarmored limbs take FULL damage (no multipliers — verified: leg hit does
+// full ammo damage). Overflow when a limb reaches 0: leg → abdomen → chest,
+// arm → chest, abdomen → chest. Overflow BYPASSES armor (that's the point of
+// leg meta). Chest 0 = DOWN (revivable; dead if solo). Head 0 = instant KILL
+// regardless of other limbs.
+
+export type LimbName = 'head' | 'chest' | 'abdomen' | 'l_arm' | 'r_arm' | 'l_leg' | 'r_leg';
+
+export const LIMB_HP: Record<LimbName, number> = {
+  head: 40, chest: 85, abdomen: 70, l_arm: 60, r_arm: 60, l_leg: 65, r_leg: 65,
+};
+
+export const LIMB_LABELS: Record<LimbName, string> = {
+  head: 'Head', chest: 'Chest', abdomen: 'Abdomen', l_arm: 'L Arm', r_arm: 'R Arm',
+  l_leg: 'L Leg', r_leg: 'R Leg',
+};
+
+export const LIMB_SPREAD: Record<LimbName, LimbName | null> = {
+  l_leg: 'abdomen', r_leg: 'abdomen',
+  abdomen: 'chest',
+  l_arm: 'chest', r_arm: 'chest',
+  chest: null, head: null,
+};
+
+export interface LimbArmorParams {
+  level: number; dur: number;
+  blockScale: number;           // helmet armor_damagescaleforblock
+  ricochetAngle: number; ricochetProbMin: number; ricochetProbMax: number;
+  penCoeff: number; penConst: number;
+  isHelmet: boolean;
+}
+
+export interface LimbHit { limb: LimbName; dmg: number }
+
+export interface LimbShotLog {
+  shot: number;
+  entryDamage: number;          // damage at the aimed limb (armored or not)
+  applied: LimbHit[];           // how it cascaded across limbs
+  penetrated: boolean;
+  ricochet: boolean;
+  branchName: string;
+  penChance: number;
+}
+
+export interface LimbSimResult {
+  shots: number;                // shots to outcome
+  outcome: 'down' | 'dead_head' | 'dead_solo' | 'survived';
+  finalHP: Record<LimbName, number>;
+  damageByLimb: Record<LimbName, number>;
+  log: LimbShotLog[];
+  ttk: number; distanceFactor: number; effectiveRange: number;
+  travelTime: number; fireInterval: number; rpm: number;
+}
+
+export function simulateLimb(opts: {
+  bulletDmg: number; weaponMod: number; barrelMod: number;
+  bulletPen: number; bulletArmorDmg: number; bluntCoeff: number;
+  distanceFactor: number; impactAngle: number;
+  target: LimbName;
+  chestArmor?: LimbArmorParams;   // applied when aiming at chest
+  headArmor?: LimbArmorParams;    // applied when aiming at head
+  solo: boolean;
+  seed: number;
+}): LimbSimResult {
+  const hp: Record<LimbName, number> = { ...LIMB_HP };
+  const dmgByLimb: Record<LimbName, number> = { head: 0, chest: 0, abdomen: 0, l_arm: 0, r_arm: 0, l_leg: 0, r_leg: 0 };
+  const rand = seededRandom(opts.seed);
+  const base = (opts.bulletDmg + opts.weaponMod + opts.barrelMod) * opts.distanceFactor;
+  let chestDur = opts.chestArmor?.dur ?? 0;
+  let headDur = opts.headArmor?.dur ?? 0;
+  const log: LimbShotLog[] = [];
+  let outcome: LimbSimResult['outcome'] = 'survived';
+
+  const armoredEntry = (zone: 'chest' | 'head', dur: number) => {
+    const armor = zone === 'chest' ? opts.chestArmor! : opts.headArmor!;
+    const effProt = calcEffectiveProtection(armor.level, dur, armor.dur);
+    let ricochet = false;
+    if (armor.isHelmet && dur > 0 && armor.ricochetAngle > 0 && opts.impactAngle >= armor.ricochetAngle) {
+      const rc = calcRicochetChance(true, opts.impactAngle, armor.ricochetAngle, armor.ricochetProbMin, armor.ricochetProbMax);
+      ricochet = rand() * 100 < rc * 100;
+    }
+    let penetrated = false;
+    let penChance = 0;
+    let branch = 'ricochet';
+    if (!ricochet) {
+      const res = calcPenChance(opts.bulletPen, effProt, dur, armor.dur, armor.isHelmet, armor.penCoeff, armor.penConst);
+      penChance = res.chance; branch = res.branch;
+      penetrated = rand() * 100 <= penChance;
+    }
+    const pds = calcPenDamageScale(opts.bulletPen - armor.level * 10);
+    const durLoss = ricochet ? 0 : opts.bulletArmorDmg * pds;
+    let damage: number;
+    if (ricochet) damage = 0;
+    else if (penetrated) damage = Math.round(base * pds);
+    else if (armor.isHelmet && armor.blockScale > 0) damage = Math.round(base * armor.blockScale);
+    else damage = Math.round(base * opts.bluntCoeff);
+    if (!ricochet && !penetrated && damage < 1) damage = 1;
+    return { damage, penetrated, ricochet, branch, penChance, durLoss };
+  };
+
+  for (let i = 1; i <= 30; i++) {
+    let entry: ReturnType<typeof armoredEntry> | { damage: number; penetrated: boolean; ricochet: boolean; branch: string; penChance: number; durLoss: number };
+    if (opts.target === 'chest' && opts.chestArmor && opts.chestArmor.level > 0 && chestDur > 0) {
+      entry = armoredEntry('chest', chestDur);
+      chestDur = Math.max(0, Math.round((chestDur - entry.durLoss) * 100) / 100);
+    } else if (opts.target === 'head' && opts.headArmor && opts.headArmor.level > 0 && headDur > 0) {
+      entry = armoredEntry('head', headDur);
+      headDur = Math.max(0, Math.round((headDur - entry.durLoss) * 100) / 100);
+    } else {
+      entry = {
+        damage: Math.max(1, Math.round(base)),
+        penetrated: true, ricochet: false, penChance: 100,
+        branch: (opts.target === 'chest' || opts.target === 'head') ? 'armor_destroyed' : 'unarmored_hit',
+        durLoss: 0,
+      };
+    }
+
+    // Cascade damage through limbs starting at the aimed limb
+    let remaining = entry.damage;
+    let limb: LimbName | null = opts.target;
+    const applied: LimbHit[] = [];
+    while (remaining > 0 && limb) {
+      const hpLeft = hp[limb];
+      if (hpLeft > 0) {
+        const take = Math.min(hpLeft, remaining);
+        hp[limb] = Math.max(0, Math.round((hpLeft - take) * 1000) / 1000);
+        dmgByLimb[limb] += take;
+        applied.push({ limb, dmg: take });
+        remaining = Math.max(0, Math.round((remaining - take) * 1000) / 1000);
+      }
+      if (hp[limb] <= 0) limb = LIMB_SPREAD[limb];
+      else break;
+    }
+
+    log.push({ shot: i, entryDamage: entry.damage, applied, penetrated: entry.penetrated, ricochet: entry.ricochet, branchName: entry.branch, penChance: entry.penChance });
+
+    if (hp.head <= 0) { outcome = 'dead_head'; break; }
+    if (hp.chest <= 0) { outcome = opts.solo ? 'dead_solo' : 'down'; break; }
+  }
+
+  return {
+    shots: outcome === 'survived' ? log.length : log.length,
+    outcome,
+    finalHP: hp, damageByLimb: dmgByLimb, log,
+    ttk: 0, distanceFactor: opts.distanceFactor, effectiveRange: 0, travelTime: 0, fireInterval: 0, rpm: 0,
+  };
+}
+
 // ── Branch Labels ─────────────────────────────────────────────────
 export function getBranchLabel(branch: string): string {
   const labels: Record<string, string> = {

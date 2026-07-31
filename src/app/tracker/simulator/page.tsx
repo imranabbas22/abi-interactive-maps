@@ -4,7 +4,9 @@ import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { simulate, getBranchLabel, calcDistanceFactor, calcDurProtRate,
          calcEffectiveProtection, calcRicochetChance, calcPenChance,
-         type SimResult, type ShotRecord, type DamageDistance } from '@/lib/abiSim';
+         simulateLimb, LIMB_HP, LIMB_LABELS,
+         type SimResult, type ShotRecord, type DamageDistance,
+         type LimbName, type LimbSimResult } from '@/lib/abiSim';
 
 interface Weapon {
   id: number;
@@ -40,7 +42,9 @@ export default function SimulatorPage() {
   const [selectedArmor, setSelectedArmor] = useState<ArmorItem | null>(null);
   const [helmetResult, setHelmetResult] = useState<SimResult | null>(null);
   const [armorResult, setArmorResult] = useState<SimResult | null>(null);
-  const [legResult, setLegResult] = useState<SimResult | null>(null);
+  const [limbResult, setLimbResult] = useState<LimbSimResult | null>(null);
+  const [limbTarget, setLimbTarget] = useState<LimbName>('l_leg');
+  const [solo, setSolo] = useState(false);
 
   const [weaponSearch, setWeaponSearch] = useState('');
   const [seed, setSeed] = useState(() => Math.floor(Date.now() / 1000));
@@ -136,81 +140,43 @@ export default function SimulatorPage() {
       setArmorResult({ ...sim, effectiveRange, travelTime, fireInterval, ttk: chestTtk, rpm });
     }
 
-    // ── Leg meta simulation (limb bleed-through) ──
-    // Body part chain: L Leg → R Leg → Abdomen → Chest
-    // L Leg: 65 HP, x0.7
-    // R Leg: 65 HP, x0.7
-    // Abdomen: 75 HP, x0.85
-    // Chest: 85 HP, x1.0 (no armor in leg-meta context)
-    const bodyParts = [
-      { name: 'L Leg', hp: 65, mult: 0.7 },
-      { name: 'R Leg', hp: 65, mult: 0.7 },
-      { name: 'Abdomen', hp: 75, mult: 0.85 },
-      { name: 'Chest', hp: 85, mult: 1.0 },
-    ];
-    const baseDmg = bDmg * distFactor + wMod;
-    const legShots: ShotRecord[] = [];
-    const curHP = bodyParts.map(b => b.hp);
-    for (let i = 1; i <= 30; i++) {
-      // Find the first body part that still has HP
-      let targetIdx = -1;
-      for (let j = 0; j < curHP.length; j++) {
-        if (curHP[j] > 0) { targetIdx = j; break; }
-      }
-      if (targetIdx < 0) break; // all body parts down
+    // ── Limb simulation (leg meta) ──
+    // Full limb model (user-verified): legs 65, abdomen 70, chest 85,
+    // arms 60, head 40. Unarmored limbs take FULL damage; overflow cascades
+    // leg→abdomen→chest / arm→chest / abdomen→chest, bypassing armor.
+    // Chest 0 = DOWN (dead if solo); head 0 = instant kill.
+    const chestArmor = selectedArmor && limbTarget === 'chest' ? {
+      level: Number(selectedArmor.stats?.armor_level ?? 0),
+      dur: Number(selectedArmor.durabilityMax ?? 0) / 10,
+      blockScale: 0,
+      ricochetAngle: 0, ricochetProbMin: 0, ricochetProbMax: 0,
+      penCoeff: Number(selectedArmor.stats?.armor_penetrate_coefficient ?? 1),
+      penConst: Number(selectedArmor.stats?.armor_penetrate_coefficient_constant ?? 0),
+      isHelmet: false,
+    } : undefined;
+    const headArmor = selectedHelmet && limbTarget === 'head' ? {
+      level: Number(selectedHelmet.stats?.armor_level ?? 0),
+      dur: Number(selectedHelmet.durabilityMax ?? 0) / 10,
+      blockScale: Number(selectedHelmet.stats?.armor_damagescaleforblock ?? 0.01),
+      ricochetAngle: Number(selectedHelmet.stats?.armor_ricochetangle ?? 0),
+      ricochetProbMin: Number(selectedHelmet.stats?.armor_ricochetprobabilitymin ?? 0),
+      ricochetProbMax: Number(selectedHelmet.stats?.armor_ricochetprobabilitymax ?? 0),
+      penCoeff: Number(selectedHelmet.stats?.armor_penetrate_coefficient ?? 1),
+      penConst: Number(selectedHelmet.stats?.armor_penetrate_coefficient_constant ?? 0),
+      isHelmet: true,
+    } : undefined;
 
-      const target = bodyParts[targetIdx];
-      const dmg = Math.round(baseDmg * target.mult * 1000) / 1000;
-      let remaining = Math.round((curHP[targetIdx] - dmg) * 1000) / 1000;
-
-      // Check for overflow to next body part
-      let overflow = 0;
-      let displayedDmg = dmg;
-      let displayedHP = remaining;
-      let displayedPart = target.name;
-
-      if (remaining < 0) {
-        overflow = -remaining; // excess damage in this body part's space
-        // Convert overflow back to base damage space, then apply to next part
-        const overflowBase = overflow / target.mult;
-        curHP[targetIdx] = 0;
-        // Push overflow through remaining body parts
-        let remOverflow = overflowBase;
-        for (let k = targetIdx + 1; k < curHP.length && remOverflow > 0; k++) {
-          const nextDmg = remOverflow * bodyParts[k].mult;
-          if (nextDmg >= curHP[k]) {
-            remOverflow -= curHP[k] / bodyParts[k].mult;
-            curHP[k] = 0;
-          } else {
-            curHP[k] = Math.round((curHP[k] - nextDmg) * 1000) / 1000;
-            remOverflow = 0;
-          }
-        }
-        displayedHP = 0;
-      } else {
-        curHP[targetIdx] = remaining;
-      }
-
-      // Count total remaining HP across all parts
-      const totalRem = curHP.reduce((a, b) => a + b, 0);
-      const isDown = curHP[3] <= 0; // chest down = enemy downed
-
-      legShots.push({
-        shot: i, penetrated: true, ricochet: false,
-        damage: displayedDmg,
-        durabilityLost: 0,
-        remainingHP: totalRem,
-        remainingDurability: 0,
-        kill: isDown,
-        penChance: 100, randomRoll: 0, effectiveProt: 0, effectivePen: bPen * distFactor,
-        durProtRate: 1, branchName: `leg_hit_${displayedPart}`,
-      });
-
-      if (isDown) break;
-    }
-    const legTtk = travelTime + Math.max(0, (legShots.findIndex(s => s.kill) + 1 || legShots.length) - 1) * fireInterval;
-    setLegResult({ shots: legShots, durabilityLeft: 0, distanceFactor: distFactor, effectiveRange, travelTime, fireInterval, ttk: legTtk, rpm });
-  }, [selectedWeapon, selectedBullet, selectedHelmet, selectedArmor, range, seed, impactAngle]);
+    const limbSim = simulateLimb({
+      bulletDmg: bDmg, weaponMod: wMod, barrelMod: 0,
+      bulletPen: bPen, bulletArmorDmg: bArmorDmg, bluntCoeff,
+      distanceFactor: distFactor, impactAngle,
+      target: limbTarget,
+      chestArmor, headArmor,
+      solo, seed: seed + 4242,
+    });
+    const limbTtk = travelTime + Math.max(0, limbSim.shots - 1) * fireInterval;
+    setLimbResult({ ...limbSim, ttk: limbTtk, distanceFactor: distFactor, effectiveRange, travelTime, fireInterval, rpm });
+  }, [selectedWeapon, selectedBullet, selectedHelmet, selectedArmor, range, seed, impactAngle, limbTarget, solo]);
 
   useEffect(() => { runSim(); }, [runSim]);
 
@@ -546,51 +512,104 @@ export default function SimulatorPage() {
             )}
           </div>
 
-          {/* Leg Meta Results */}
+          {/* Limb Sim Results (leg meta) */}
           <div className="glass rounded-xl p-4">
             <div className="flex items-center justify-between mb-2">
               <h2 className="text-sm font-bold text-purple-400">
-                Leg Meta (bleed-through)
-                <span className="text-[10px] text-[#6B7280] ml-1">L Leg → R Leg → Abdomen → Chest</span>
+                Limb Sim (leg meta)
+                <span className="text-[10px] text-[#6B7280] ml-1">leg → abdomen → chest · arm → chest · overflow bypasses armor</span>
               </h2>
-              {legResult && (
+              {limbResult && (
                 <span className="text-xs text-white font-mono">
-                  Down: {(legResult.ttk * 1000).toFixed(0)}ms
+                  {limbResult.outcome === 'survived' ? 'Survived'
+                    : limbResult.outcome === 'down' ? `DOWN ${(limbResult.ttk * 1000).toFixed(0)}ms`
+                    : `KILLED ${(limbResult.ttk * 1000).toFixed(0)}ms`}
                 </span>
               )}
             </div>
 
+            {/* Target selector */}
+            <div className="flex flex-wrap gap-1 mb-2">
+              {(Object.keys(LIMB_HP) as LimbName[]).map(l => (
+                <button key={l} onClick={() => setLimbTarget(l)}
+                  className={`px-2 py-1 rounded text-[10px] border transition-colors ${
+                    limbTarget === l
+                      ? 'bg-purple-500/20 border-purple-400 text-purple-300'
+                      : 'border-[#2A2A2A] text-[#9CA3AF] hover:border-purple-400/40'
+                  }`}>
+                  {LIMB_LABELS[l]} <span className="text-[#6B7280]">{LIMB_HP[l]}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Solo toggle */}
+            <label className="flex items-center gap-2 mb-2 cursor-pointer text-[10px] text-[#9CA3AF]">
+              <input type="checkbox" checked={solo} onChange={e => setSolo(e.target.checked)} className="accent-purple-500" />
+              Solo mode — chest 0 = death (no revive)
+            </label>
+
             {!selectedWeapon || !selectedBullet ? (
               <p className="text-xs text-[#6B7280] text-center py-4">Select weapon + ammo</p>
-            ) : !legResult || legResult.shots.length === 0 ? (
+            ) : !limbResult || limbResult.log.length === 0 ? (
               <p className="text-xs text-[#6B7280] text-center py-4">No shots</p>
             ) : (
               <>
-                {legResult.shots[0] && (
-                  <div className="text-[9px] text-[#6B7280] mb-2 flex gap-2 flex-wrap">
-                    <span>Dist: x{legResult.distanceFactor.toFixed(3)}</span>
-                    <span>Eff range: {legResult.effectiveRange.toFixed(0)}m</span>
-                    <span>Travel: {(legResult.travelTime * 1000).toFixed(0)}ms</span>
-                    <span>RPM: {legResult.rpm}</span>
-                  </div>
-                )}
+                {/* Outcome banner */}
+                <div className={`rounded-lg px-3 py-2 mb-2 text-[11px] font-bold ${
+                  limbResult.outcome === 'survived' ? 'bg-[#1F2937] text-[#9CA3AF]'
+                  : limbResult.outcome === 'down' ? 'bg-purple-500/15 text-purple-300'
+                  : 'bg-red-500/15 text-red-400'
+                }`}>
+                  {limbResult.outcome === 'survived' && 'SURVIVED — 30 shots, target not downed'}
+                  {limbResult.outcome === 'down' && `⬇ DOWN on shot #${limbResult.shots} — teammate can revive`}
+                  {limbResult.outcome === 'dead_solo' && `💀 KILLED on shot #${limbResult.shots} (solo — down = death)`}
+                  {limbResult.outcome === 'dead_head' && `💀 KILLED on shot #${limbResult.shots} — headshot (head 0)`}
+                </div>
+
+                {/* Limb HP bars */}
+                <div className="grid grid-cols-2 gap-1 mb-2">
+                  {(Object.keys(LIMB_HP) as LimbName[]).map(l => {
+                    const max = LIMB_HP[l];
+                    const cur = limbResult.finalHP[l];
+                    const pct = Math.max(0, Math.min(100, (cur / max) * 100));
+                    const dmgTaken = limbResult.damageByLimb[l];
+                    return (
+                      <div key={l} className="text-[9px]">
+                        <div className="flex justify-between text-[#9CA3AF]">
+                          <span>{LIMB_LABELS[l]}</span>
+                          <span>{cur.toFixed(0)}/{max}{dmgTaken > 0 ? ` (−${dmgTaken.toFixed(0)})` : ''}</span>
+                        </div>
+                        <div className="h-1.5 bg-[#1F2937] rounded-full overflow-hidden">
+                          <div className={`h-full rounded-full ${l === 'head' ? 'bg-red-500' : l === 'chest' ? 'bg-purple-500' : 'bg-emerald-500'}`}
+                            style={{ width: `${pct}%` }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="text-[9px] text-[#6B7280] mb-2 flex gap-2 flex-wrap">
+                  <span>Dist: x{limbResult.distanceFactor.toFixed(3)}</span>
+                  <span>Eff range: {limbResult.effectiveRange.toFixed(0)}m</span>
+                  <span>Travel: {(limbResult.travelTime * 1000).toFixed(0)}ms</span>
+                  <span>RPM: {limbResult.rpm}</span>
+                </div>
                 <div className="space-y-0.5 max-h-48 overflow-y-auto">
-                  {legResult.shots.map(s => (
-                    <div key={s.shot} className={`text-[11px] font-mono px-2 py-0.5 rounded ${s.kill ? 'bg-purple-500/10' : ''}`}>
-                      <div className="flex justify-between items-center">
+                  {limbResult.log.map(s => (
+                    <div key={s.shot} className={`text-[11px] font-mono px-2 py-0.5 rounded ${s.shot === limbResult.shots && limbResult.outcome !== 'survived' ? 'bg-purple-500/10' : ''}`}>
+                      <div className="flex justify-between items-center gap-2">
                         <span className="text-[#9CA3AF] w-5">#{s.shot}</span>
-                        <span className="text-purple-400">{getBranchLabel(s.branchName)}</span>
-                        <span className="text-white">{s.damage} dmg</span>
-                        <span className={s.kill ? 'text-purple-400 font-bold' : 'text-[#9CA3AF]'}>{s.remainingHP} HP</span>
+                        <span className="text-purple-400 flex-1 truncate">
+                          {s.applied.map(h => `${LIMB_LABELS[h.limb]} −${h.dmg.toFixed(0)}`).join(' · ')}
+                        </span>
+                        <span className="text-white">{s.entryDamage.toFixed(0)} dmg</span>
                       </div>
                     </div>
                   ))}
                 </div>
                 <div className="mt-2 flex justify-between text-[10px] text-[#6B7280] px-1">
-                  <span>{legResult.shots.filter(s => s.kill).length > 0
-                    ? `Down on shot #${legResult.shots.findIndex(s => s.kill) + 1}`
-                    : `${legResult.shots.length} shots`}</span>
-                  <span>Total HP: 290 / TTK {(legResult.ttk * 1000).toFixed(0)}ms</span>
+                  <span>{limbResult.outcome === 'survived' ? '30 shots (survived)' : `Ended shot #${limbResult.shots}`}</span>
+                  <span>Total HP: 445 / TTK {(limbResult.ttk * 1000).toFixed(0)}ms</span>
                 </div>
               </>
             )}
