@@ -1,0 +1,7 @@
+# runtime data / secrets
+node_modules/
+data/
+store_config.json
+*.log
+__pycache__/
+*.pyc

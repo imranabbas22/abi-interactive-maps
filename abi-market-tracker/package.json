@@ -1,0 +1,14 @@
+{
+  "name": "abi-market-tracker",
+  "version": "1.0.0",
+  "description": "ABI market price tracker — official game backend API + community market pages, with history and interactive graph",
+  "main": "src/scraper.js",
+  "type": "module",
+  "scripts": {
+    "scrape": "node src/scraper.js",
+    "serve": "node src/server.js"
+  },
+  "dependencies": {
+    "playwright": "^1.62.0"
+  }
+}

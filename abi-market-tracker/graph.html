@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABI Market Prices</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --panel: #141414;
+    --panel2: #1a1a1a;
+    --border: #2a2a2a;
+    --gold: #d4af37;
+    --gold-dim: #8a7222;
+    --text: #e5e5e5;
+    --muted: #9ca3af;
+    --faint: #6b7280;
+    --green: #4ade80;
+    --red: #f87171;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: sticky; top: 0; background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(8px); z-index: 10;
+  }
+  h1 { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+  h1 .gold { color: var(--gold); }
+  .updated { font-size: 12px; color: var(--muted); }
+  main { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+  /* Range filter pills */
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .pill {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+  .pill:hover { border-color: var(--gold-dim); color: var(--text); }
+  .pill.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #0a0a0a;
+  }
+
+  .search-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  .search-row input {
+    flex: 1;
+    min-width: 240px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 10px 14px;
+    font-size: 14px;
+    outline: none;
+  }
+  .search-row input:focus { border-color: var(--gold-dim); }
+  .search-row select {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 10px 12px;
+    font-size: 14px;
+    max-width: 340px;
+    outline: none;
+  }
+  .match-count { align-self: center; font-size: 12px; color: var(--faint); }
+
+  .stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .card .value { font-size: 21px; font-weight: 700; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .card .value.gold { color: var(--gold); }
+  .card .value.green { color: var(--green); }
+  .card .value.red { color: var(--red); }
+  .card .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .card .delta { font-size: 13px; font-weight: 600; margin-top: 3px; font-variant-numeric: tabular-nums; }
+
+  .chart-wrap {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .chart-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .chart-head h2 { font-size: 15px; font-weight: 600; }
+  .chart-head .item-meta { font-size: 12px; color: var(--muted); }
+  .chart-tools { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
+  .chart-tools .legend { display: flex; gap: 16px; font-size: 12px; color: var(--muted); }
+  .chart-tools .legend .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .qty-toggle {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--muted); cursor: pointer; user-select: none;
+  }
+  .qty-toggle input { accent-color: var(--gold); }
+  .chart-box { position: relative; height: 430px; }
+  .placeholder { text-align: center; padding: 80px 20px; color: var(--muted); font-size: 14px; }
+  .error-banner {
+    background: #2a1212;
+    border: 1px solid #7f1d1d;
+    color: #fca5a5;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    display: none;
+  }
+  footer { padding: 24px 20px; text-align: center; font-size: 11px; color: #4b5563; }
+  .spinner {
+    width: 28px; height: 28px;
+    border: 3px solid rgba(212,175,55,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 60px auto;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<header>
+  <h1><span class="gold">ABI</span> Market Prices</h1>
+  <div class="updated" id="updated">loading…</div>
+</header>
+<main>
+  <div class="error-banner" id="errorBanner"></div>
+
+  <div class="filters" id="filters">
+    <button class="pill" data-range="4h">4 hours</button>
+    <button class="pill" data-range="12h">12 hours</button>
+    <button class="pill active" data-range="1d">1 day</button>
+    <button class="pill" data-range="7d">7 days</button>
+    <button class="pill" data-range="30d">30 days</button>
+  </div>
+
+  <div class="search-row">
+    <input id="search" type="text" placeholder="Search item… (e.g. BS, IMTV, M995)" autocomplete="off">
+    <select id="itemSelect"></select>
+    <span class="match-count" id="matchCount"></span>
+  </div>
+
+  <div class="stat-cards">
+    <div class="card"><div class="label">Current Price</div><div class="value gold" id="statCurrent">—</div><div class="sub" id="statCurrentTime"></div></div>
+    <div class="card"><div class="label">Change (window)</div><div class="value" id="statChange">—</div><div class="sub" id="statChangeSub"></div></div>
+    <div class="card"><div class="label">Lowest (window)</div><div class="value green" id="statLow">—</div><div class="sub" id="statLowTime"></div></div>
+    <div class="card"><div class="label">Highest (window)</div><div class="value red" id="statHigh">—</div><div class="sub" id="statHighTime"></div></div>
+    <div class="card"><div class="label">Data Points</div><div class="value" id="statPoints">—</div><div class="sub" id="statWindow"></div></div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-head">
+      <h2 id="chartTitle">Select an item</h2>
+      <div class="item-meta" id="chartMeta"></div>
+    </div>
+    <div class="chart-tools">
+      <label class="qty-toggle">
+        <input type="checkbox" id="qtyToggle">
+        Show quantity (secondary axis)
+      </label>
+      <div class="legend">
+        <span><span class="sw" style="background:#d4af37"></span>Official store</span>
+        <span><span class="sw" style="background:#6b7280"></span>Tracker</span>
+        <span><span class="sw" style="background:rgba(148,163,184,0.5)"></span>Quantity</span>
+      </div>
+    </div>
+    <div class="chart-box">
+      <div class="spinner" id="spinner"></div>
+      <canvas id="priceChart" style="display:none"></canvas>
+    </div>
+  </div>
+</main>
+<footer>Prices scraped from abi-tracker public market page · refreshed every 10 minutes · history kept in series.json</footer>
+
+<script>
+const RANGES = {
+  '4h':  4 * 3600 * 1000,
+  '12h': 12 * 3600 * 1000,
+  '1d':  24 * 3600 * 1000,
+  '7d':  7 * 24 * 3600 * 1000,
+  '30d': 30 * 24 * 3600 * 1000,
+};
+
+const searchInput = document.getElementById('search');
+const itemSelect = document.getElementById('itemSelect');
+const matchCount = document.getElementById('matchCount');
+const errorBanner = document.getElementById('errorBanner');
+const updatedEl = document.getElementById('updated');
+const spinner = document.getElementById('spinner');
+const priceCanvas = document.getElementById('priceChart');
+
+let seriesData = null;
+let storeData = null;
+let itemsByName = [];
+let selectedItemId = null;
+let currentRange = '1d';
+let showQty = false;
+let chart = null;
+
+const fmt = (n) => n == null ? '—' : n.toLocaleString('en-US');
+const fmtTime = (ts) => {
+  if (!ts) return '—';
+  const d = new Date(ts);
+  const now = Date.now();
+  const mins = Math.floor((now - ts) / 60000);
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mm = String(d.getMinutes()).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mo = String(d.getMonth() + 1).padStart(2, '0');
+  const age = mins < 1 ? 'just now' : mins < 60 ? `${mins}m ago` : `${Math.floor(mins / 60)}h ${mins % 60}m ago`;
+  return `${dd}/${mo} ${hh}:${mm} · ${age}`;
+};
+
+async function loadSeries() {
+  showSpinner(true);
+  try {
+    const [res, storeRes, tokenRes] = await Promise.all([
+      fetch('series.json', { cache: 'no-store' }),
+      fetch('store_series.json', { cache: 'no-store' }).catch(() => null),
+      fetch('token_status.json', { cache: 'no-store' }).catch(() => null),
+    ]);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    seriesData = await res.json();
+    storeData = storeRes && storeRes.ok ? await storeRes.json() : null;
+    const storeCount = storeData ? Object.keys(storeData.items).length : 0;
+    const tok = tokenRes && tokenRes.ok ? await tokenRes.json() : null;
+    let tokNote = '';
+    if (tok) {
+      if (tok.state === 'dead') tokNote = ' · ⛔ TOKEN DEAD — store prices stopped';
+      else if (tok.state === 'expiring') tokNote = ` · ⚠️ Token expires in ${tok.daysLeft}d`;
+      else if (tok.daysLeft != null) tokNote = ` · Token ${tok.daysLeft}d`;
+    }
+    updatedEl.textContent = 'Updated ' + fmtTime(seriesData.updatedAt) + (storeCount ? ` · Store: ${storeCount} items` : ' · Store: offline') + tokNote;
+    buildIndex();
+    if (selectedItemId && seriesData.items[selectedItemId]) {
+      selectItem(selectedItemId);
+    } else if (itemsByName.length) {
+      selectItem(itemsByName[0].id);
+    }
+  } catch (err) {
+    showError('Failed to load series.json: ' + err.message);
+  } finally {
+    showSpinner(false);
+  }
+}
+
+function showSpinner(on) {
+  spinner.style.display = on ? 'block' : 'none';
+  priceCanvas.style.display = on ? 'none' : 'block';
+}
+
+function showError(msg) {
+  errorBanner.textContent = msg;
+  errorBanner.style.display = 'block';
+}
+
+function buildIndex() {
+  itemsByName = [];
+  for (const [id, entry] of Object.entries(seriesData.items)) {
+    if (entry && entry.series && entry.series.length) {
+      itemsByName.push({ id, name: entry.name || id, points: entry.series.length });
+    }
+  }
+  // include any store-only items (present in store series but not tracker series)
+  if (storeData) {
+    const seen = new Set(itemsByName.map((i) => i.id));
+    for (const [id, entry] of Object.entries(storeData.items)) {
+      if (!seen.has(id) && entry && entry.series && entry.series.length) {
+        itemsByName.push({ id, name: entry.name || id, points: entry.series.length });
+      }
+    }
+  }
+  itemsByName.sort((a, b) => a.name.localeCompare(b.name));
+  populateSelect();
+}
+
+function populateSelect() {
+  const cur = itemSelect.value;
+  itemSelect.innerHTML = '';
+  for (const it of itemsByName) {
+    const opt = document.createElement('option');
+    opt.value = it.id;
+    opt.textContent = it.name;
+    itemSelect.appendChild(opt);
+  }
+  if (cur && seriesData.items[cur]) itemSelect.value = cur;
+  matchCount.textContent = `${itemsByName.length} items`;
+}
+
+function applySearch() {
+  const q = searchInput.value.trim().toLowerCase();
+  if (!q) { populateSelect(); return; }
+  const matches = itemsByName.filter((it) => it.name.toLowerCase().includes(q));
+  itemSelect.innerHTML = '';
+  for (const it of matches.slice(0, 500)) {
+    const opt = document.createElement('option');
+    opt.value = it.id;
+    opt.textContent = it.name;
+    itemSelect.appendChild(opt);
+  }
+  matchCount.textContent = `${matches.length} matches`;
+  if (matches.length && !matches.some((m) => m.id === itemSelect.value)) {
+    itemSelect.value = matches[0].id;
+  }
+}
+
+// filter series points to the selected time window
+function windowPoints(entry) {
+  const cutoff = Date.now() - RANGES[currentRange];
+  return entry.series.filter((p) => p.t >= cutoff);
+}
+
+function selectItem(id) {
+  selectedItemId = id;
+  const entry = seriesData.items[id] || (storeData && storeData.items[id]);
+  if (!entry) return;
+  itemSelect.value = id;
+  const pts = windowPoints(entry);
+
+  if (!pts.length) {
+    document.getElementById('chartTitle').textContent = entry.name;
+    document.getElementById('chartMeta').textContent = 'No data in the selected window yet — try a shorter range.';
+    document.getElementById('statCurrent').textContent = '—';
+    document.getElementById('statChange').textContent = '—';
+    document.getElementById('statLow').textContent = '—';
+    document.getElementById('statHigh').textContent = '—';
+    document.getElementById('statPoints').textContent = '0';
+    document.getElementById('statWindow').textContent = currentRange;
+    if (chart) { chart.destroy(); chart = null; }
+    return;
+  }
+
+  const current = pts[pts.length - 1];
+  const lows = pts.map((p) => p.lowest);
+  const low = Math.min(...lows);
+  const high = Math.max(...lows);
+  const lowPt = pts.find((p) => p.lowest === low);
+  const highPt = pts.find((p) => p.lowest === high);
+  const first = pts[0].lowest;
+  const changeAbs = current.lowest - first;
+  const changePct = first ? (changeAbs / first) * 100 : 0;
+  const changeCls = changeAbs > 0 ? 'red' : changeAbs < 0 ? 'green' : '';
+
+  // official store price (if we have it for this item)
+  const storeEntry = storeData && storeData.items[id] ? storeData.items[id] : null;
+  const storePts = storeEntry ? windowPointsRaw(storeEntry.series) : [];
+  const storePrice = storePts.length ? storePts[storePts.length - 1].lowest : null;
+  const displayPrice = storePrice != null ? storePrice : current.lowest;
+  const displayTs = storePrice != null && storePts.length ? storePts[storePts.length - 1].t : current.t;
+
+  document.getElementById('statCurrent').textContent = fmt(displayPrice);
+  document.getElementById('statCurrentTime').textContent = fmtTime(displayTs) + (storePrice != null ? ' (official)' : ' (tracker)');
+  const changeEl = document.getElementById('statChange');
+  changeEl.textContent = (changeAbs >= 0 ? '+' : '') + fmt(changeAbs) + (changePct !== 0 ? ` (${changePct >= 0 ? '+' : ''}${changePct.toFixed(1)}%)` : '');
+  changeEl.className = 'value ' + changeCls;
+  document.getElementById('statChangeSub').textContent = `vs ${fmt(first)} at window start`;
+  document.getElementById('statLow').textContent = fmt(low);
+  document.getElementById('statLowTime').textContent = fmtTime(lowPt.t);
+  document.getElementById('statHigh').textContent = fmt(high);
+  document.getElementById('statHighTime').textContent = fmtTime(highPt.t);
+  document.getElementById('statPoints').textContent = pts.length;
+  document.getElementById('statWindow').textContent = currentRange + ' window';
+
+  document.getElementById('chartTitle').textContent = entry.name;
+  const allPts = entry.series.length;
+  const storeNote = storePrice != null ? ` · Store: ${fmt(storePrice)}` : ' · Store: n/a';
+  document.getElementById('chartMeta').textContent =
+    `Item ${id} · ${allPts} total points · ${pts.length} in window · current qty ${fmt(current.qty)}${storeNote}`;
+
+  renderChart(entry.name, pts, storePts);
+}
+
+// window filter for raw (store) series — store series has no qty field
+function windowPointsRaw(pts) {
+  const cutoff = Date.now() - RANGES[currentRange];
+  return pts.filter((p) => p.t >= cutoff);
+}
+
+function renderChart(name, pts, storePts) {
+  const labels = pts.map((p) => new Date(p.t));
+  const values = pts.map((p) => p.lowest);
+  const qty = pts.map((p) => p.qty);
+
+  if (chart) chart.destroy();
+
+  const singlePoint = pts.length === 1;
+  const datasets = [
+    {
+      type: 'line',
+      label: 'Tracker price',
+      data: values,
+      borderColor: '#6b7280',
+      backgroundColor: 'rgba(107, 114, 128, 0.08)',
+      borderWidth: 1.5,
+      borderDash: [4, 4],
+      pointRadius: singlePoint ? 4 : 1.5,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: '#6b7280',
+      pointBackgroundColor: '#6b7280',
+      fill: false,
+      stepped: !singlePoint,
+      tension: 0,
+      yAxisID: 'y',
+      order: 2,
+    },
+  ];
+  if (storePts && storePts.length) {
+    const storeSingle = storePts.length === 1;
+    datasets.push({
+      type: 'line',
+      label: 'Official store price',
+      data: storePts.map((p) => ({ x: new Date(p.t), y: p.lowest })),
+      borderColor: '#d4af37',
+      backgroundColor: 'rgba(212, 175, 55, 0.12)',
+      borderWidth: 2.5,
+      pointRadius: storeSingle ? 5 : 2,
+      pointHoverRadius: 6,
+      pointHoverBackgroundColor: '#d4af37',
+      pointBackgroundColor: '#d4af37',
+      fill: true,
+      stepped: !storeSingle,
+      tension: 0,
+      yAxisID: 'y',
+      order: 1,
+    });
+  }
+  if (showQty) {
+    datasets.push({
+      type: 'bar',
+      label: 'Quantity',
+      data: qty,
+      backgroundColor: 'rgba(148, 163, 184, 0.18)',
+      borderColor: 'rgba(148, 163, 184, 0.4)',
+      borderWidth: 1,
+      yAxisID: 'y1',
+      order: 3,
+    });
+  }
+
+  chart = new Chart(priceCanvas, {
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      animation: { duration: 250 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a1a1a',
+          borderColor: '#2a2a2a',
+          borderWidth: 1,
+          titleColor: '#e5e5e5',
+          bodyColor: '#d4af37',
+          callbacks: {
+            label: (ctx) => {
+              if (ctx.dataset.label === 'Official store price') return `Store: ${fmt(ctx.parsed.y)} Koen`;
+              if (ctx.dataset.label === 'Tracker price') return `Tracker: ${fmt(ctx.parsed.y)} Koen`;
+              return `Qty: ${fmt(ctx.parsed.y)}`;
+            },
+          },
+        },
+      },
+      scales: {
+        x: {
+          type: 'time',
+          time: {
+            tooltipFormat: 'dd/MM HH:mm',
+            displayFormats: {
+              hour: 'HH:mm',
+              day: 'dd/MM',
+              week: 'dd/MM',
+            },
+          },
+          ticks: { color: '#6b7280', maxTicksLimit: 10, maxRotation: 0, autoSkip: true },
+          grid: { color: 'rgba(255,255,255,0.04)' },
+        },
+        y: {
+          position: 'left',
+          ticks: {
+            color: '#d4af37',
+            callback: (v) => v >= 1000 ? (v / 1000).toFixed(v >= 100000 ? 0 : 1) + 'k' : v,
+          },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          title: { display: true, text: 'Price (Koen)', color: '#6b7280', font: { size: 11 } },
+        },
+        y1: {
+          position: 'right',
+          beginAtZero: true,
+          ticks: {
+            color: '#4b5563',
+            callback: (v) => v >= 1000000 ? (v / 1000000).toFixed(1) + 'M' : v >= 1000 ? (v / 1000) + 'k' : v,
+          },
+          grid: { drawOnChartArea: false },
+          title: { display: true, text: 'Quantity', color: '#4b5563', font: { size: 11 } },
+        },
+      },
+    },
+  });
+}
+
+// range filter pills
+document.getElementById('filters').addEventListener('click', (e) => {
+  const pill = e.target.closest('.pill');
+  if (!pill) return;
+  currentRange = pill.dataset.range;
+  document.querySelectorAll('.pill').forEach((p) => p.classList.toggle('active', p === pill));
+  if (selectedItemId) selectItem(selectedItemId);
+});
+
+searchInput.addEventListener('input', applySearch);
+itemSelect.addEventListener('change', () => selectItem(itemSelect.value));
+document.getElementById('qtyToggle').addEventListener('change', (e) => {
+  showQty = e.target.checked;
+  if (selectedItemId) selectItem(selectedItemId);
+});
+window.addEventListener('resize', () => { if (chart) chart.resize(); });
+
+// auto-refresh every 2 min so the graph stays live without reloading
+setInterval(() => {
+  const sel = selectedItemId;
+  loadSeries().then(() => { if (sel) selectItem(sel); });
+}, 120000);
+
+loadSeries();
+</script>
+</body>
+</html>

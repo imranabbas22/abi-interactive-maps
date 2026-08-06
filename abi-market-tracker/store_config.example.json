@@ -1,0 +1,6 @@
+{
+  "token": "REPLACE_WITH_FRESH_SESSION_TOKEN",
+  "openid": "15314206484085228867",
+  "token_expire_ts": 0,
+  "note": "Token comes from the ABI Helper Store login session (milo_intl_cookie in localStorage, field 'token', 40 hex chars). Expires ~30 days after login. Refresh procedure in README.md. Never commit the real token — this file is gitignored."
+}
