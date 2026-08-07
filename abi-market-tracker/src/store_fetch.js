@@ -32,6 +32,12 @@ const LOCK_FILE = path.join(OUT_DIR, ".store_fetch.lock");
 // ~5 days of 30-min sweeps (48/day) per item; older points are pruned so the
 // file stays bounded (1707 items × 240 pts ≈ 8-12 MB worst case)
 const MAX_POINTS = 240;
+// VERIFIED 2026-08-07 (in-game cross-check): chart 100011807 returns prices
+// with a built-in 10% markup over the real in-game market price (the store
+// shows buyer cost incl. fee; the game shows seller list price). Every price
+// fetched is divided by 1.1 so the graph shows the TRUE in-game price.
+// User-verified: Motel Main Guest Room Key API 4,867,474 ÷ 1.1 = 4,424,976 ✓
+const PRICE_CORRECTION = 1.1;
 
 // Simple lock — fast (watchlist) and full sweeps both write store_series.json,
 // so a second concurrent instance skips instead of corrupting the file.
@@ -220,8 +226,9 @@ function main() {
     const chunk = ids.slice(i, i + BATCH);
     try {
       const got = fetchPrices(cfg, chunk);
-      Object.assign(prices, got);
-      for (const [id, price] of Object.entries(got)) {
+      for (const [id, rawPrice] of Object.entries(got)) {
+        // strip the API's built-in 10% markup → true in-game price
+        const price = Math.round(rawPrice / PRICE_CORRECTION);
         let entry = series.items[id];
         if (!entry) {
           entry = { name: nameMap[id] || id, series: [] };
@@ -233,6 +240,7 @@ function main() {
         pts.push({ t: Date.now(), lowest: price });
         if (pts.length > MAX_POINTS) pts.splice(0, pts.length - MAX_POINTS);
         changed++;
+        prices[id] = price;
       }
       process.stdout.write(`  [${Math.min(i + BATCH, ids.length)}/${ids.length}] ${chunk.length} items -> ${Object.keys(got).length} prices\r`);
     } catch (err) {
