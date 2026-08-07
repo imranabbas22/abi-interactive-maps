@@ -74,7 +74,20 @@
   .token-msg.ok { color: var(--green); }
   .token-msg.err { color: var(--red); }
 
-  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .cat-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .cat-filters .pill {
+    font-size: 12px;
+    padding: 5px 13px;
+    border-radius: 6px;
+    background: var(--panel2);
+    border-color: var(--border);
+  }
+  .cat-filters .pill.active {
+    background: #1e3a5f;
+    border-color: #3b82f6;
+    color: #dbeafe;
+  }
   .pill {
     background: var(--panel);
     border: 1px solid var(--border);
@@ -198,6 +211,18 @@
     <button class="pill" data-range="30d">30 days</button>
   </div>
 
+  <div class="cat-filters" id="catFilters">
+    <button class="pill cat active" data-cat="all">All</button>
+    <button class="pill cat" data-cat="weapons">Weapons</button>
+    <button class="pill cat" data-cat="parts">Weapon Parts</button>
+    <button class="pill cat" data-cat="ammo">Ammo</button>
+    <button class="pill cat" data-cat="armor">Armor &amp; Rigs</button>
+    <button class="pill cat" data-cat="helmets">Helmets</button>
+    <button class="pill cat" data-cat="keys">Keys</button>
+    <button class="pill cat" data-cat="consumables">Medical &amp; Consumables</button>
+    <button class="pill cat" data-cat="other">Other</button>
+  </div>
+
   <div class="search-row">
     <input id="search" type="text" placeholder="Search item… (e.g. BS, IMTV, M995)" autocomplete="off">
     <select id="itemSelect"></select>
@@ -256,7 +281,27 @@ let seriesData = null;
 let itemsByName = [];
 let selectedItemId = null;
 let currentRange = '1d';
+let currentCat = 'all';
 let chart = null;
+
+// Item category rules — based on verified ID prefixes + name patterns
+// (see README: 101/102/191/194 weapons, 201/291 parts, 202 ammo,
+//  301 armor/helmets, 405 keys, 401/404/408/498 consumables, 104 grenades)
+function categorize(id, name) {
+  const p = id.slice(0, 3);
+  const n = name.toLowerCase();
+  if (p === '202') return 'ammo';
+  if (p === '101' || p === '102' || p === '191' || p === '194') return 'weapons';
+  if (p === '201' || p === '291') return 'parts';
+  if (p === '405') return 'keys';
+  if (p === '104') return 'consumables';
+  if (p === '301') {
+    if (n.includes('helmet') || n.includes('headset') || n.includes('face shield')) return 'helmets';
+    return 'armor';
+  }
+  if (p === '401' || p === '404' || p === '408' || p === '498') return 'consumables';
+  return 'other';
+}
 
 const fmt = (n) => n == null ? '—' : n.toLocaleString('en-US');
 const fmtTime = (ts) => {
@@ -382,30 +427,37 @@ function buildIndex() {
   itemsByName = [];
   for (const [id, entry] of Object.entries(seriesData.items || {})) {
     if (entry && entry.series && entry.series.length) {
-      itemsByName.push({ id, name: entry.name || id, points: entry.series.length });
+      itemsByName.push({ id, name: entry.name || id, points: entry.series.length, cat: categorize(id, entry.name || id) });
     }
   }
   itemsByName.sort((a, b) => a.name.localeCompare(b.name));
   populateSelect();
 }
 
+function visibleItems() {
+  return currentCat === 'all' ? itemsByName : itemsByName.filter((it) => it.cat === currentCat);
+}
+
 function populateSelect() {
   const cur = itemSelect.value;
+  const list = visibleItems();
   itemSelect.innerHTML = '';
-  for (const it of itemsByName) {
+  for (const it of list) {
     const opt = document.createElement('option');
     opt.value = it.id;
     opt.textContent = it.name;
     itemSelect.appendChild(opt);
   }
-  if (cur && seriesData.items[cur]) itemSelect.value = cur;
-  matchCount.textContent = `${itemsByName.length} items`;
+  if (cur && list.some((it) => it.id === cur)) itemSelect.value = cur;
+  else if (list.length) itemSelect.value = list[0].value;
+  matchCount.textContent = `${list.length} items`;
 }
 
 function applySearch() {
   const q = searchInput.value.trim().toLowerCase();
+  const list = visibleItems();
   if (!q) { populateSelect(); return; }
-  const matches = itemsByName.filter((it) => it.name.toLowerCase().includes(q));
+  const matches = list.filter((it) => it.name.toLowerCase().includes(q));
   itemSelect.innerHTML = '';
   for (const it of matches.slice(0, 500)) {
     const opt = document.createElement('option');
@@ -551,8 +603,19 @@ document.getElementById('filters').addEventListener('click', (e) => {
   const pill = e.target.closest('.pill');
   if (!pill) return;
   currentRange = pill.dataset.range;
-  document.querySelectorAll('.pill').forEach((p) => p.classList.toggle('active', p === pill));
+  document.querySelectorAll('#filters .pill').forEach((p) => p.classList.toggle('active', p === pill));
   if (selectedItemId) selectItem(selectedItemId);
+});
+
+document.getElementById('catFilters').addEventListener('click', (e) => {
+  const pill = e.target.closest('.pill');
+  if (!pill) return;
+  currentCat = pill.dataset.cat;
+  document.querySelectorAll('#catFilters .pill').forEach((p) => p.classList.toggle('active', p === pill));
+  searchInput.value = '';
+  populateSelect();
+  if (itemSelect.value) selectItem(itemSelect.value);
+  else if (visibleItems().length) selectItem(visibleItems()[0].id);
 });
 
 searchInput.addEventListener('input', applySearch);
