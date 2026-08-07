@@ -499,6 +499,8 @@ function selectItem(id) {
     document.getElementById('statPoints').textContent = '0';
     document.getElementById('statWindow').textContent = currentRange;
     if (chart) { chart.destroy(); chart = null; }
+    priceCanvas.style.display = 'block';
+    spinner.style.display = 'none';
     return;
   }
 
@@ -537,6 +539,13 @@ function renderChart(name, pts) {
   const values = pts.map((p) => p.lowest);
 
   if (chart) chart.destroy();
+
+  // Explicitly show the canvas — Chart.js v4 can leave it display:none when a
+  // chart is (re)created while the parent container is mid-layout (e.g. after
+  // a category-filter click), which makes the graph invisible even though the
+  // chart instance exists with data.
+  priceCanvas.style.display = 'block';
+  spinner.style.display = 'none';
 
   const singlePoint = pts.length === 1;
   chart = new Chart(priceCanvas, {
