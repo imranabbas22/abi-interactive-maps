@@ -15,7 +15,8 @@
 // Writes:
 //   data/store_prices.json  — latest snapshot {generatedAt, source, prices:{itemId:price}}
 //   data/store_series.json  — time series  {updatedAt, items:{itemId:{name, series:[{t,lowest}]}}}
-//   (series appends a point only when the price CHANGED vs the last point)
+//   (series appends a point on EVERY sweep — each 30-min update is a data
+//   point even if the price is unchanged — capped at MAX_POINTS per item)
 
 import fs from "fs";
 import path from "path";
@@ -27,6 +28,30 @@ const OUT_DIR = path.join(__dirname, "..", "data");
 const CONFIG_FILE = path.join(__dirname, "..", "store_config.json");
 const SERIES_FILE = path.join(OUT_DIR, "store_series.json");
 const PRICES_FILE = path.join(OUT_DIR, "store_prices.json");
+const LOCK_FILE = path.join(OUT_DIR, ".store_fetch.lock");
+// ~5 days of 30-min sweeps (48/day) per item; older points are pruned so the
+// file stays bounded (1707 items × 240 pts ≈ 8-12 MB worst case)
+const MAX_POINTS = 240;
+
+// Simple lock — fast (watchlist) and full sweeps both write store_series.json,
+// so a second concurrent instance skips instead of corrupting the file.
+function acquireLock() {
+  try {
+    const st = fs.statSync(LOCK_FILE);
+    // stale lock after 10 min (a sweep never runs longer than ~3 min)
+    if (Date.now() - st.mtimeMs < 10 * 60 * 1000) {
+      console.error("another store_fetch instance is running — skipping this run");
+      process.exit(0);
+    }
+  } catch {}
+  fs.writeFileSync(LOCK_FILE, String(process.pid));
+}
+function releaseLock() {
+  try { fs.unlinkSync(LOCK_FILE); } catch {}
+}
+process.on("exit", releaseLock);
+process.on("SIGINT", () => { releaseLock(); process.exit(130); });
+process.on("SIGTERM", () => { releaseLock(); process.exit(143); });
 
 const IDE_URL = "https://sg-apps.vasdgame.com/ide/";
 const CHART_ID = "100011807";
@@ -41,8 +66,15 @@ const argVal = (name) => {
 };
 const BATCH = Math.min(parseInt(argVal("--batch") || "20", 10), 20); // hard max 20
 const SPECIFIC = argVal("--items"); // comma-separated
+const WATCHLIST = argVal("--watchlist"); // "t5" or "keys" or "t5,keys" — fast-refresh subsets from watchlist.json
 const CALL_GAP_MS = 1500;
 const MAX_RETRIES = 3;
+
+function loadWatchlist() {
+  const p = path.join(__dirname, "..", "watchlist.json");
+  if (!fs.existsSync(p)) return null;
+  try { return JSON.parse(fs.readFileSync(p, "utf8")); } catch { return null; }
+}
 
 // ── config: token + openid (fresh from a store login session) ──
 function loadConfig() {
@@ -141,11 +173,24 @@ function main() {
     console.error("store_config.json missing token/openid");
     process.exit(1);
   }
+  acquireLock();
 
   // collect item IDs to query
   let ids;
   if (SPECIFIC) {
     ids = SPECIFIC.split(",").map((s) => s.trim()).filter(Boolean);
+  } else if (WATCHLIST) {
+    const wl = loadWatchlist() || {};
+    const want = WATCHLIST.split(",").map((s) => s.trim()).filter(Boolean);
+    ids = [];
+    for (const w of want) {
+      const list = wl[w];
+      if (Array.isArray(list)) ids.push(...list);
+    }
+    if (!ids.length) {
+      console.error(`--watchlist '${WATCHLIST}' matched nothing in watchlist.json (have: ${Object.keys(wl).join(", ")})`);
+      process.exit(1);
+    }
   } else {
     const series = loadSeries();
     ids = Object.keys(series.items);
@@ -183,9 +228,10 @@ function main() {
           series.items[id] = entry;
         }
         const pts = entry.series;
-        const last = pts.length ? pts[pts.length - 1] : null;
-        if (last && last.lowest === price) continue;
+        // Record EVERY sweep as a point (not just price changes) so the graph
+        // shows a continuous line at each 30-min update. Cap keeps the file bounded.
         pts.push({ t: Date.now(), lowest: price });
+        if (pts.length > MAX_POINTS) pts.splice(0, pts.length - MAX_POINTS);
         changed++;
       }
       process.stdout.write(`  [${Math.min(i + BATCH, ids.length)}/${ids.length}] ${chunk.length} items -> ${Object.keys(got).length} prices\r`);
@@ -198,7 +244,7 @@ function main() {
     }
   }
 
-  console.log(`\nsweep done in ${((Date.now() - started) / 1000).toFixed(1)}s — ${Object.keys(prices).length} prices, ${changed} changed points`);
+  console.log(`\nsweep done in ${((Date.now() - started) / 1000).toFixed(1)}s — ${Object.keys(prices).length} prices, ${changed} points recorded (every sweep appended)`);
   series.updatedAt = Date.now();
   fs.writeFileSync(SERIES_FILE, JSON.stringify(series));
   fs.writeFileSync(PRICES_FILE, JSON.stringify({

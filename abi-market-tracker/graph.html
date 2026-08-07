@@ -316,6 +316,12 @@ const fmtTime = (ts) => {
   const age = mins < 1 ? 'just now' : mins < 60 ? `${mins}m ago` : `${Math.floor(mins / 60)}h ${mins % 60}m ago`;
   return `${dd}/${mo} ${hh}:${mm} · ${age}`;
 };
+// exact UTC date+time for tooltips (e.g. "2026-08-07 14:09:32 UTC")
+const fmtUTC = (ts) => {
+  const d = new Date(ts);
+  const p = (n) => String(n).padStart(2, '0');
+  return `${d.getUTCFullYear()}-${p(d.getUTCMonth() + 1)}-${p(d.getUTCDate())} ${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())} UTC`;
+};
 
 async function loadSeries() {
   showSpinner(true);
@@ -567,6 +573,7 @@ function renderChart(name, pts) {
           titleColor: '#e5e5e5',
           bodyColor: '#d4af37',
           callbacks: {
+            title: (items) => items.length ? fmtUTC(items[0].parsed.x) : '',
             label: (ctx) => `Price: ${fmt(ctx.parsed.y)} Koen`,
           },
         },
@@ -575,14 +582,21 @@ function renderChart(name, pts) {
         x: {
           type: 'time',
           time: {
-            tooltipFormat: 'dd/MM HH:mm',
+            tooltipFormat: 'yyyy-MM-dd HH:mm:ss',
             displayFormats: {
               hour: 'HH:mm',
               day: 'dd/MM',
               week: 'dd/MM',
             },
           },
-          ticks: { color: '#6b7280', maxTicksLimit: 10, maxRotation: 0, autoSkip: true },
+          ticks: {
+            color: '#6b7280', maxTicksLimit: 10, maxRotation: 0, autoSkip: true,
+            callback: (val) => {
+              const d = new Date(val);
+              const p = (n) => String(n).padStart(2, '0');
+              return `${p(d.getUTCHours())}:${p(d.getUTCMinutes())}`;
+            },
+          },
           grid: { color: 'rgba(255,255,255,0.04)' },
         },
         y: {

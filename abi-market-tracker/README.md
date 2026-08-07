@@ -41,8 +41,9 @@ were deleted. No third-party site is touched.
 | IDE API batch size | **max 20 itemIds per call** (21+ → `ret=-5000 invalid vector`) |
 | IDE API rate limit | ~2 calls/token/2.5s; safe sustained pace = **1.5s gap** (86 calls, 0 rejections) |
 | Full sweep | 1,707 items in **~165s** (86 batched calls) |
-| Price history | Change-only points (flat windows don't bloat the series) |
-| Data freshness | Sweep every 30 min (cron `9,39 * * * *`) |
+| Fast sweep | **52 items (T5 ammo + keys) in ~4.5s** — every 2 min |
+| Price history | Point on **every** sweep (each 30-min/2-min update recorded, capped at 240 pts/item) |
+| Data freshness | Full catalog every 30 min (cron `9,39 * * * *`); T5 ammo + keys every 2 min (`*/2`) |
 | Quantity/count | NOT available from the official API (verified: `num` param is a pure price multiplier, no count in any response; no market-depth chart exists among the 16 IDE charts) |
 
 ---
@@ -86,9 +87,16 @@ node token_server.js    # then: curl http://127.0.0.1:3104/status
 ### Scheduled mode (VPS cron — matches production)
 
 ```cron
-9,39 * * * *   cd ~/abi-market-tracker && node src/store_fetch.js --batch 20
-0 6 * * *      cd ~/abi-market-tracker && python3 token_watchdog.py
+*/2 * * * *   cd ~/abi-market-tracker && node src/store_fetch.js --watchlist t5,keys
+9,39 * * * *  cd ~/abi-market-tracker && node src/store_fetch.js --batch 20
+0 6 * * *     cd ~/abi-market-tracker && python3 token_watchdog.py
 ```
+
+The `--watchlist t5,keys` fast sweep (52 items: 9 T5 ammo + 43 keys) runs every
+2 minutes for near-real-time prices on combat-relevant items; the full catalog
+sweep runs every 30 minutes. A lock file (`data/.store_fetch.lock`) prevents the
+two from colliding on the shared series file. The watchlist is editable in
+`watchlist.json` (T5 ammo = PenetrationFactor 50-59 per game data).
 
 ### Nginx
 
