@@ -41,9 +41,39 @@
   h1 { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
   h1 .gold { color: var(--gold); }
   .updated { font-size: 12px; color: var(--muted); }
+  .updated .dead { color: var(--red); font-weight: 700; }
+  .updated .warn { color: #fbbf24; font-weight: 600; }
   main { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-  /* Range filter pills */
+  /* Token input panel */
+  .token-panel {
+    background: #1c1414;
+    border: 1px solid #7f1d1d;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .token-panel.show { display: block; }
+  .token-panel h3 { font-size: 14px; color: #fca5a5; margin-bottom: 4px; }
+  .token-panel p { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .token-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .token-row input {
+    flex: 1; min-width: 200px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text); padding: 9px 12px; font-size: 13px; font-family: monospace; outline: none;
+  }
+  .token-row input:focus { border-color: var(--gold-dim); }
+  .token-row button {
+    background: var(--gold); border: none; border-radius: 6px; color: #0a0a0a;
+    padding: 9px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  .token-row button:hover { background: #e3c34f; }
+  .token-row button:disabled { opacity: 0.5; cursor: wait; }
+  .token-msg { font-size: 12px; margin-top: 8px; min-height: 16px; }
+  .token-msg.ok { color: var(--green); }
+  .token-msg.err { color: var(--red); }
+
   .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
   .pill {
     background: var(--panel);
@@ -116,11 +146,6 @@
   .chart-tools { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
   .chart-tools .legend { display: flex; gap: 16px; font-size: 12px; color: var(--muted); }
   .chart-tools .legend .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
-  .qty-toggle {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 12px; color: var(--muted); cursor: pointer; user-select: none;
-  }
-  .qty-toggle input { accent-color: var(--gold); }
   .chart-box { position: relative; height: 430px; }
   .placeholder { text-align: center; padding: 80px 20px; color: var(--muted); font-size: 14px; }
   .error-banner {
@@ -153,6 +178,18 @@
 <main>
   <div class="error-banner" id="errorBanner"></div>
 
+  <!-- Token input panel — shows when the token is dead/expiring -->
+  <div class="token-panel" id="tokenPanel">
+    <h3 id="tokenPanelTitle">Store token expired</h3>
+    <p id="tokenPanelHint">Paste a fresh token from the Helper Store login (F12 → Console → the milo_intl_cookie snippet). The market resumes automatically once saved.</p>
+    <div class="token-row">
+      <input id="tokenInput" type="text" placeholder="token (40 hex chars)" spellcheck="false" autocomplete="off">
+      <input id="expireInput" type="text" placeholder="token_expire_time (optional)" spellcheck="false" autocomplete="off">
+      <button id="tokenSaveBtn">Save &amp; resume</button>
+    </div>
+    <div class="token-msg" id="tokenMsg"></div>
+  </div>
+
   <div class="filters" id="filters">
     <button class="pill" data-range="4h">4 hours</button>
     <button class="pill" data-range="12h">12 hours</button>
@@ -181,14 +218,8 @@
       <div class="item-meta" id="chartMeta"></div>
     </div>
     <div class="chart-tools">
-      <label class="qty-toggle">
-        <input type="checkbox" id="qtyToggle">
-        Show quantity (secondary axis)
-      </label>
       <div class="legend">
-        <span><span class="sw" style="background:#d4af37"></span>Official store</span>
-        <span><span class="sw" style="background:#6b7280"></span>Tracker</span>
-        <span><span class="sw" style="background:rgba(148,163,184,0.5)"></span>Quantity</span>
+        <span><span class="sw" style="background:#d4af37"></span>Official price (game API)</span>
       </div>
     </div>
     <div class="chart-box">
@@ -197,7 +228,7 @@
     </div>
   </div>
 </main>
-<footer>Prices scraped from abi-tracker public market page · refreshed every 10 minutes · history kept in series.json</footer>
+<footer>Official prices from the game's own backend (sg-apps.vasdgame.com) · refreshed every 30 minutes · single-source tracker</footer>
 
 <script>
 const RANGES = {
@@ -215,13 +246,16 @@ const errorBanner = document.getElementById('errorBanner');
 const updatedEl = document.getElementById('updated');
 const spinner = document.getElementById('spinner');
 const priceCanvas = document.getElementById('priceChart');
+const tokenPanel = document.getElementById('tokenPanel');
+const tokenInput = document.getElementById('tokenInput');
+const expireInput = document.getElementById('expireInput');
+const tokenSaveBtn = document.getElementById('tokenSaveBtn');
+const tokenMsg = document.getElementById('tokenMsg');
 
 let seriesData = null;
-let storeData = null;
 let itemsByName = [];
 let selectedItemId = null;
 let currentRange = '1d';
-let showQty = false;
 let chart = null;
 
 const fmt = (n) => n == null ? '—' : n.toLocaleString('en-US');
@@ -241,23 +275,30 @@ const fmtTime = (ts) => {
 async function loadSeries() {
   showSpinner(true);
   try {
-    const [res, storeRes, tokenRes] = await Promise.all([
-      fetch('series.json', { cache: 'no-store' }),
-      fetch('store_series.json', { cache: 'no-store' }).catch(() => null),
+    const [res, tokenRes] = await Promise.all([
+      fetch('store_series.json', { cache: 'no-store' }),
       fetch('token_status.json', { cache: 'no-store' }).catch(() => null),
     ]);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     seriesData = await res.json();
-    storeData = storeRes && storeRes.ok ? await storeRes.json() : null;
-    const storeCount = storeData ? Object.keys(storeData.items).length : 0;
+    const storeCount = seriesData.items ? Object.keys(seriesData.items).length : 0;
     const tok = tokenRes && tokenRes.ok ? await tokenRes.json() : null;
+
     let tokNote = '';
-    if (tok) {
-      if (tok.state === 'dead') tokNote = ' · ⛔ TOKEN DEAD — store prices stopped';
-      else if (tok.state === 'expiring') tokNote = ` · ⚠️ Token expires in ${tok.daysLeft}d`;
-      else if (tok.daysLeft != null) tokNote = ` · Token ${tok.daysLeft}d`;
+    let tokState = tok ? tok.state : null;
+    if (tokState === 'dead') {
+      tokNote = ' · <span class="dead">⛔ TOKEN DEAD — paste a new token below</span>';
+      showTokenPanel('dead');
+    } else if (tokState === 'expiring') {
+      tokNote = ` · <span class="warn">⚠️ Token expires in ${tok.daysLeft}d — refresh soon</span>`;
+      showTokenPanel('expiring');
+    } else if (tok && tok.daysLeft != null) {
+      tokNote = ` · Token ${tok.daysLeft}d`;
+      hideTokenPanel();
+    } else {
+      hideTokenPanel();
     }
-    updatedEl.textContent = 'Updated ' + fmtTime(seriesData.updatedAt) + (storeCount ? ` · Store: ${storeCount} items` : ' · Store: offline') + tokNote;
+    updatedEl.innerHTML = 'Updated ' + fmtTime(seriesData.updatedAt) + (storeCount ? ` · Store: ${storeCount} items` : ' · Store: offline') + tokNote;
     buildIndex();
     if (selectedItemId && seriesData.items[selectedItemId]) {
       selectItem(selectedItemId);
@@ -265,7 +306,7 @@ async function loadSeries() {
       selectItem(itemsByName[0].id);
     }
   } catch (err) {
-    showError('Failed to load series.json: ' + err.message);
+    showError('Failed to load data: ' + err.message);
   } finally {
     showSpinner(false);
   }
@@ -281,20 +322,67 @@ function showError(msg) {
   errorBanner.style.display = 'block';
 }
 
+function showTokenPanel(mode) {
+  tokenPanel.classList.add('show');
+  if (mode === 'dead') {
+    document.getElementById('tokenPanelTitle').textContent = '⛔ Store token expired — market paused';
+    document.getElementById('tokenPanelHint').textContent =
+      'Paste a fresh token from the Helper Store login (F12 → Console → milo_intl_cookie snippet). The market resumes automatically once saved.';
+  } else {
+    document.getElementById('tokenPanelTitle').textContent = '⚠️ Store token expiring soon';
+    document.getElementById('tokenPanelHint').textContent =
+      'You can refresh it now so prices never pause. Paste a fresh token from the Helper Store login.';
+  }
+}
+
+function hideTokenPanel() {
+  tokenPanel.classList.remove('show');
+}
+
+// ── token save (posts to the token server, which validates + persists) ──
+async function saveToken() {
+  const token = tokenInput.value.trim();
+  const expire = expireInput.value.trim();
+  if (!/^[0-9a-fA-F]{40}$/.test(token)) {
+    setTokenMsg('Token must be 40 hex characters.', false);
+    return;
+  }
+  tokenSaveBtn.disabled = true;
+  setTokenMsg('Validating against the game API…', null);
+  try {
+    const body = { token };
+    if (expire) {
+      const ts = parseInt(expire, 10);
+      if (!isNaN(ts)) body.token_expire_ts = ts;
+    }
+    const r = await fetch('/abi-market-token/update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const data = await r.json();
+    if (data.ok) {
+      setTokenMsg('✅ Token saved and verified — market resumed!', true);
+      setTimeout(() => { hideTokenPanel(); location.reload(); }, 1200);
+    } else {
+      setTokenMsg('❌ ' + (data.error || 'save failed'), false);
+    }
+  } catch (e) {
+    setTokenMsg('❌ Could not reach the token server: ' + e.message, false);
+  } finally {
+    tokenSaveBtn.disabled = false;
+  }
+}
+
+function setTokenMsg(text, ok) {
+  tokenMsg.textContent = text;
+  tokenMsg.className = 'token-msg' + (ok === true ? ' ok' : ok === false ? ' err' : '');
+}
+
+tokenSaveBtn.addEventListener('click', saveToken);
+tokenInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') saveToken(); });
+
 function buildIndex() {
   itemsByName = [];
-  for (const [id, entry] of Object.entries(seriesData.items)) {
+  for (const [id, entry] of Object.entries(seriesData.items || {})) {
     if (entry && entry.series && entry.series.length) {
       itemsByName.push({ id, name: entry.name || id, points: entry.series.length });
-    }
-  }
-  // include any store-only items (present in store series but not tracker series)
-  if (storeData) {
-    const seen = new Set(itemsByName.map((i) => i.id));
-    for (const [id, entry] of Object.entries(storeData.items)) {
-      if (!seen.has(id) && entry && entry.series && entry.series.length) {
-        itemsByName.push({ id, name: entry.name || id, points: entry.series.length });
-      }
     }
   }
   itemsByName.sort((a, b) => a.name.localeCompare(b.name));
@@ -331,7 +419,6 @@ function applySearch() {
   }
 }
 
-// filter series points to the selected time window
 function windowPoints(entry) {
   const cutoff = Date.now() - RANGES[currentRange];
   return entry.series.filter((p) => p.t >= cutoff);
@@ -339,7 +426,7 @@ function windowPoints(entry) {
 
 function selectItem(id) {
   selectedItemId = id;
-  const entry = seriesData.items[id] || (storeData && storeData.items[id]);
+  const entry = seriesData.items[id];
   if (!entry) return;
   itemSelect.value = id;
   const pts = windowPoints(entry);
@@ -368,15 +455,8 @@ function selectItem(id) {
   const changePct = first ? (changeAbs / first) * 100 : 0;
   const changeCls = changeAbs > 0 ? 'red' : changeAbs < 0 ? 'green' : '';
 
-  // official store price (if we have it for this item)
-  const storeEntry = storeData && storeData.items[id] ? storeData.items[id] : null;
-  const storePts = storeEntry ? windowPointsRaw(storeEntry.series) : [];
-  const storePrice = storePts.length ? storePts[storePts.length - 1].lowest : null;
-  const displayPrice = storePrice != null ? storePrice : current.lowest;
-  const displayTs = storePrice != null && storePts.length ? storePts[storePts.length - 1].t : current.t;
-
-  document.getElementById('statCurrent').textContent = fmt(displayPrice);
-  document.getElementById('statCurrentTime').textContent = fmtTime(displayTs) + (storePrice != null ? ' (official)' : ' (tracker)');
+  document.getElementById('statCurrent').textContent = fmt(current.lowest);
+  document.getElementById('statCurrentTime').textContent = fmtTime(current.t);
   const changeEl = document.getElementById('statChange');
   changeEl.textContent = (changeAbs >= 0 ? '+' : '') + fmt(changeAbs) + (changePct !== 0 ? ` (${changePct >= 0 ? '+' : ''}${changePct.toFixed(1)}%)` : '');
   changeEl.className = 'value ' + changeCls;
@@ -389,83 +469,38 @@ function selectItem(id) {
   document.getElementById('statWindow').textContent = currentRange + ' window';
 
   document.getElementById('chartTitle').textContent = entry.name;
-  const allPts = entry.series.length;
-  const storeNote = storePrice != null ? ` · Store: ${fmt(storePrice)}` : ' · Store: n/a';
-  document.getElementById('chartMeta').textContent =
-    `Item ${id} · ${allPts} total points · ${pts.length} in window · current qty ${fmt(current.qty)}${storeNote}`;
+  document.getElementById('chartMeta').textContent = `Item ${id} · ${entry.series.length} total points · ${pts.length} in window`;
 
-  renderChart(entry.name, pts, storePts);
+  renderChart(entry.name, pts);
 }
 
-// window filter for raw (store) series — store series has no qty field
-function windowPointsRaw(pts) {
-  const cutoff = Date.now() - RANGES[currentRange];
-  return pts.filter((p) => p.t >= cutoff);
-}
-
-function renderChart(name, pts, storePts) {
+function renderChart(name, pts) {
   const labels = pts.map((p) => new Date(p.t));
   const values = pts.map((p) => p.lowest);
-  const qty = pts.map((p) => p.qty);
 
   if (chart) chart.destroy();
 
   const singlePoint = pts.length === 1;
-  const datasets = [
-    {
-      type: 'line',
-      label: 'Tracker price',
-      data: values,
-      borderColor: '#6b7280',
-      backgroundColor: 'rgba(107, 114, 128, 0.08)',
-      borderWidth: 1.5,
-      borderDash: [4, 4],
-      pointRadius: singlePoint ? 4 : 1.5,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: '#6b7280',
-      pointBackgroundColor: '#6b7280',
-      fill: false,
-      stepped: !singlePoint,
-      tension: 0,
-      yAxisID: 'y',
-      order: 2,
-    },
-  ];
-  if (storePts && storePts.length) {
-    const storeSingle = storePts.length === 1;
-    datasets.push({
-      type: 'line',
-      label: 'Official store price',
-      data: storePts.map((p) => ({ x: new Date(p.t), y: p.lowest })),
-      borderColor: '#d4af37',
-      backgroundColor: 'rgba(212, 175, 55, 0.12)',
-      borderWidth: 2.5,
-      pointRadius: storeSingle ? 5 : 2,
-      pointHoverRadius: 6,
-      pointHoverBackgroundColor: '#d4af37',
-      pointBackgroundColor: '#d4af37',
-      fill: true,
-      stepped: !storeSingle,
-      tension: 0,
-      yAxisID: 'y',
-      order: 1,
-    });
-  }
-  if (showQty) {
-    datasets.push({
-      type: 'bar',
-      label: 'Quantity',
-      data: qty,
-      backgroundColor: 'rgba(148, 163, 184, 0.18)',
-      borderColor: 'rgba(148, 163, 184, 0.4)',
-      borderWidth: 1,
-      yAxisID: 'y1',
-      order: 3,
-    });
-  }
-
   chart = new Chart(priceCanvas, {
-    data: { labels, datasets },
+    data: {
+      labels,
+      datasets: [{
+        type: 'line',
+        label: 'Official price',
+        data: values,
+        borderColor: '#d4af37',
+        backgroundColor: 'rgba(212, 175, 55, 0.12)',
+        borderWidth: 2.5,
+        pointRadius: singlePoint ? 5 : 2,
+        pointHoverRadius: 6,
+        pointHoverBackgroundColor: '#d4af37',
+        pointBackgroundColor: '#d4af37',
+        fill: true,
+        stepped: !singlePoint,
+        tension: 0,
+        yAxisID: 'y',
+      }],
+    },
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -480,11 +515,7 @@ function renderChart(name, pts, storePts) {
           titleColor: '#e5e5e5',
           bodyColor: '#d4af37',
           callbacks: {
-            label: (ctx) => {
-              if (ctx.dataset.label === 'Official store price') return `Store: ${fmt(ctx.parsed.y)} Koen`;
-              if (ctx.dataset.label === 'Tracker price') return `Tracker: ${fmt(ctx.parsed.y)} Koen`;
-              return `Qty: ${fmt(ctx.parsed.y)}`;
-            },
+            label: (ctx) => `Price: ${fmt(ctx.parsed.y)} Koen`,
           },
         },
       },
@@ -511,22 +542,11 @@ function renderChart(name, pts, storePts) {
           grid: { color: 'rgba(255,255,255,0.06)' },
           title: { display: true, text: 'Price (Koen)', color: '#6b7280', font: { size: 11 } },
         },
-        y1: {
-          position: 'right',
-          beginAtZero: true,
-          ticks: {
-            color: '#4b5563',
-            callback: (v) => v >= 1000000 ? (v / 1000000).toFixed(1) + 'M' : v >= 1000 ? (v / 1000) + 'k' : v,
-          },
-          grid: { drawOnChartArea: false },
-          title: { display: true, text: 'Quantity', color: '#4b5563', font: { size: 11 } },
-        },
       },
     },
   });
 }
 
-// range filter pills
 document.getElementById('filters').addEventListener('click', (e) => {
   const pill = e.target.closest('.pill');
   if (!pill) return;
@@ -537,13 +557,9 @@ document.getElementById('filters').addEventListener('click', (e) => {
 
 searchInput.addEventListener('input', applySearch);
 itemSelect.addEventListener('change', () => selectItem(itemSelect.value));
-document.getElementById('qtyToggle').addEventListener('change', (e) => {
-  showQty = e.target.checked;
-  if (selectedItemId) selectItem(selectedItemId);
-});
 window.addEventListener('resize', () => { if (chart) chart.resize(); });
 
-// auto-refresh every 2 min so the graph stays live without reloading
+// auto-refresh every 2 min
 setInterval(() => {
   const sel = selectedItemId;
   loadSeries().then(() => { if (sel) selectItem(sel); });

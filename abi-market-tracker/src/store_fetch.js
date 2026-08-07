@@ -88,7 +88,12 @@ function fetchPrices(cfg, itemIds) {
     const data = ideCall(body);
     const ret = data.ret;
     if (ret === 0) return data.jData?.item_price_datas || {};
-    if (ret === 101) throw new Error("token invalid/expired (ret=101) — refresh token in store_config.json");
+    if (ret === 101) {
+      // Token dead — flag it immediately so the graph asks for a new token.
+      // Don't retry; every call will fail the same way.
+      markTokenDead(data.sMsg || "please log in first");
+      throw new Error("token invalid/expired (ret=101) — refresh token in store_config.json");
+    }
     if (ret === 107 || ret === 190001 || ret === 110001) {
       const wait = 3000 * attempt;
       console.warn(`  ret=${ret} (${data.sMsg || "busy"}) — retry ${attempt} in ${wait / 1000}s`);
@@ -99,6 +104,26 @@ function fetchPrices(cfg, itemIds) {
     throw new Error(`IDE ret=${ret} ${data.sMsg || ""}`);
   }
   throw new Error("IDE busy after retries");
+}
+
+// Write data/token_status.json with state=dead so graph.html shows the
+// token-input form immediately (no waiting for the daily watchdog).
+function markTokenDead(reason) {
+  try {
+    const statusPath = path.join(OUT_DIR, "token_status.json");
+    const status = {
+      checkedAt: new Date().toISOString(),
+      tokenOk: false,
+      ret: 101,
+      reason: reason || "",
+      state: "dead",
+      message: "TOKEN DEAD — store prices stopped. Paste a new token in the graph to resume.",
+    };
+    fs.writeFileSync(statusPath, JSON.stringify(status, null, 2));
+    console.error("TOKEN DEAD — flagged token_status.json; graph will ask for a new token");
+  } catch (err) {
+    console.error("could not write token_status.json:", err.message);
+  }
 }
 
 function loadSeries() {
@@ -125,9 +150,13 @@ function main() {
     const series = loadSeries();
     ids = Object.keys(series.items);
     if (!ids.length) {
-      // first run: seed from the DOM tracker's series (item universe)
-      const domSeries = JSON.parse(fs.readFileSync(path.join(OUT_DIR, "series.json"), "utf8"));
-      ids = Object.keys(domSeries.items);
+      // first run: seed from the game localization name map (item universe)
+      const nameMap = (() => {
+        try {
+          return JSON.parse(fs.readFileSync(path.join(__dirname, "..", "item_names.json"), "utf8"));
+        } catch { return {}; }
+      })();
+      ids = Object.keys(nameMap);
     }
   }
   console.log(`querying ${ids.length} items in batches of ${BATCH} (${CALL_GAP_MS}ms gap)`);
